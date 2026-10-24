@@ -1,0 +1,42 @@
+WOCHENTELLER – Rezept- & Einkaufsplaner
+=======================================
+
+STARTEN (Windows)
+1. Einmalig Python 3 installieren: https://www.python.org/downloads/
+   Beim Installieren unbedingt "Add python.exe to PATH" anhaken.
+2. Ordner entpacken und start.bat doppelklicken.
+3. Der Browser öffnet sich mit http://localhost:5040
+   Fragt die Windows-Firewall nach, auf "Zulassen" klicken
+   (nur nötig, wenn du die App auch am Handy nutzen willst).
+
+Mac/Linux: start.sh ausführen.
+
+BEENDEN
+Das schwarze Fenster schließen.
+
+AM HANDY NUTZEN
+Handy und PC im selben WLAN. Im Fenster steht eine Adresse wie
+http://192.168.0.23:5040 – die am Handy im Browser öffnen.
+Jede Person wählt beim Start ihren Namen und hat ihren eigenen Bereich.
+
+DATENBANK
+Alles liegt in data\wochenteller.db (SQLite). Ansehen und bearbeiten
+z. B. mit "DB Browser for SQLite" (kostenlos, sqlitebrowser.org).
+
+  users                 Personen (Name, Farbe)
+  user_state            Plan, Einkaufsliste, Kühlschrank, Einstellungen je Person
+  recipes               Alle Rezepte (Zutaten und Schritte als JSON)
+  user_recipes          Gespeicherte Rezepte je Person: gemerkt, wie oft gekocht, zuletzt gekocht
+  gespeicherte_rezepte  Fertige Übersicht: Person, Rezept, gemerkt, mal gekocht
+
+EIGENE REZEPTE
+Neue Zeile in "recipes" anlegen. Zutaten müssen die bekannten Kürzel nutzen
+(z. B. nudeln, huhn, zwiebel, tomdose) – siehe data\recipes_seed.json als Vorlage.
+Geräte-Code: H=Herd, B=Backrohr, A=Airfryer, M=Mikrowelle, W=Wasserkocher,
+X=Mixer, R=Reiskocher, S=Slow Cooker, T=Toaster.
+"BA" heißt Backrohr ODER Airfryer, "B H" heißt Backrohr UND Herd.
+Nach dem Neuladen der Seite ist das Rezept da.
+
+SICHERUNG
+Einfach data\wochenteller.db kopieren.
+Wird die Datei gelöscht, startet die App mit allen Standard-Rezepten neu.

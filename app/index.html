@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wochenteller – Rezept- & Einkaufsplaner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Courier+Prime:wght@400;700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F2F5F0;--surface:#FFFFFF;--ink:#17201A;--muted:#5A685E;--line:#D5DDD2;
+  --green:#1F4D36;--green-soft:#E1EBE0;--on-green:#FFFFFF;
+  --beet:#A3245A;--beet-soft:#F5E1EA;--on-beet:#FFFFFF;
+  --paper:#FBFAF5;--paper-ink:#23211C;--paper-line:#CFC9B9;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#111613;--surface:#1A211C;--ink:#E7EDE6;--muted:#9AA89D;--line:#2E3A32;
+    --green:#86C9A1;--green-soft:#1F3328;--on-green:#0D1A12;
+    --beet:#EC86B1;--beet-soft:#3A1F2C;--on-beet:#2A0F1C;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#111613;--surface:#1A211C;--ink:#E7EDE6;--muted:#9AA89D;--line:#2E3A32;
+  --green:#86C9A1;--green-soft:#1F3328;--on-green:#0D1A12;
+  --beet:#EC86B1;--beet-soft:#3A1F2C;--on-beet:#2A0F1C;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 'Instrument Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:720px;margin:0 auto;padding:0 20px}
+.display{font-family:'Bricolage Grotesque','Instrument Sans',system-ui,sans-serif}
+.top{display:flex;align-items:center;justify-content:space-between;padding:18px 0 12px}
+.brand{display:flex;align-items:center;gap:8px;font-family:'Bricolage Grotesque',system-ui,sans-serif;font-weight:800;font-size:1.3rem;letter-spacing:-.02em;color:var(--green)}
+.brand svg{width:26px;height:26px}
+h1{font-family:'Bricolage Grotesque',system-ui,sans-serif;font-weight:700;font-size:clamp(1.9rem,6.5vw,2.7rem);line-height:1.06;letter-spacing:-.025em;margin:.15em 0 .3em}
+.sub{color:var(--muted);margin:0 0 22px;max-width:54ch}
+.progress{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.progress span{display:block;height:100%;background:var(--green);transition:width .3s ease}
+.stepno{font-size:.9rem;color:var(--muted);margin:22px 0 0}
+h2.group{font-size:1rem;font-weight:600;margin:26px 0 10px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px}
+.tile{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:14px 14px 12px;min-height:92px;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;color:var(--ink);font:inherit;text-align:left;cursor:pointer;transition:background .15s,border-color .15s}
+.tile .e{font-size:1.75rem;line-height:1}
+.tile .l{font-weight:600;line-height:1.25;padding-right:22px}
+.tile .s{font-size:.82rem;color:var(--muted);line-height:1.3}
+.tile[aria-pressed="true"]{border-color:var(--green);background:var(--green-soft);box-shadow:inset 0 0 0 1px var(--green)}
+.tile[aria-pressed="true"]::after{content:"✓";position:absolute;top:10px;right:10px;width:22px;height:22px;border-radius:50%;background:var(--green);color:var(--on-green);font-size:.78rem;font-weight:700;display:grid;place-items:center}
+.tile.no[aria-pressed="true"]{border-color:var(--beet);background:var(--beet-soft);box-shadow:inset 0 0 0 1px var(--beet)}
+.tile.no[aria-pressed="true"]::after{content:"✕";background:var(--beet);color:var(--on-beet)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:8px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:.95rem;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:var(--on-green)}
+.chip.no[aria-pressed="true"]{background:var(--beet);border-color:var(--beet);color:var(--on-beet)}
+.bar{position:sticky;bottom:0;display:flex;gap:12px;align-items:center;padding:16px 0 calc(16px + env(safe-area-inset-bottom,0px));margin-top:30px;background:linear-gradient(to top,var(--bg) 75%,transparent)}
+.btn{font:inherit;font-weight:600;padding:14px 22px;border-radius:12px;border:0;cursor:pointer}
+.primary{background:var(--green);color:var(--on-green);flex:1;max-width:340px;margin-left:auto}
+.primary:disabled{opacity:.4;cursor:not-allowed}
+.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.link{background:none;border:0;color:var(--green);font:inherit;font-weight:600;cursor:pointer;padding:8px 0}
+:focus-visible{outline:3px solid var(--beet);outline-offset:2px}
+.stepper{display:flex;align-items:center;gap:22px;margin:4px 0}
+.stepper button{width:54px;height:54px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font-size:1.6rem;line-height:1;cursor:pointer}
+.stepper output{font-family:'Bricolage Grotesque',system-ui,sans-serif;font-size:3.4rem;font-weight:700;min-width:2ch;text-align:center}
+.budget output{display:block;font-family:'Bricolage Grotesque',system-ui,sans-serif;font-size:clamp(3.5rem,14vw,5rem);font-weight:800;letter-spacing:-.03em;line-height:1}
+.budget .per{display:block;color:var(--muted);margin:6px 0 22px}
+.budget input{width:100%;accent-color:var(--green);height:32px}
+.range-ends{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem}
+.hint{font-size:.9rem;color:var(--muted);margin:14px 0 0}
+.warn{background:var(--beet-soft);border-radius:12px;padding:14px 16px;margin:16px 0}
+/* plan */
+.budgetcard{background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:16px 18px;margin:8px 0 14px}
+.bc-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.bc-total{font-family:'Bricolage Grotesque',system-ui,sans-serif;font-size:2rem;font-weight:800;letter-spacing:-.02em}
+.bc-of{color:var(--muted)}
+.meter{height:10px;border-radius:5px;background:var(--line);overflow:hidden;margin:10px 0 8px}
+.meter span{display:block;height:100%;background:var(--green)}
+.meter.over span{background:var(--beet)}
+.bc-msg{font-size:.92rem;margin:0}
+.stores{display:flex;gap:8px;overflow-x:auto;padding:2px 0 6px;margin:0 -2px}
+.store{flex:none;display:flex;flex-direction:column;align-items:flex-start;padding:8px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;cursor:pointer}
+.store small{color:var(--muted);font-size:.8rem}
+.store[aria-pressed="true"]{border-color:var(--green);box-shadow:inset 0 0 0 1px var(--green)}
+.tabs{display:flex;gap:4px;background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:4px;margin:16px 0 20px}
+.tab{flex:1;padding:10px;border:0;background:none;border-radius:9px;font:inherit;font-weight:600;color:var(--muted);cursor:pointer}
+.tab[aria-selected="true"]{background:var(--green);color:var(--on-green)}
+.day{margin:0 0 20px}
+.day h2{font-family:'Bricolage Grotesque',system-ui,sans-serif;font-size:1.35rem;font-weight:700;letter-spacing:-.01em;margin:0 0 8px}
+.meal{background:var(--surface);border:1.5px solid var(--line);border-radius:14px;margin-bottom:8px}
+.meal summary{display:flex;align-items:center;gap:12px;padding:12px 14px;cursor:pointer;list-style:none}
+.meal summary::-webkit-details-marker{display:none}
+.meal[open]{border-color:var(--green)}
+.em{width:46px;height:46px;border-radius:12px;background:var(--green-soft);display:grid;place-items:center;font-size:1.45rem;flex:none}
+.meal.left .em{background:var(--beet-soft)}
+.mt{flex:1;min-width:0;display:flex;flex-direction:column}
+.ml{font-size:.8rem;color:var(--muted)}
+.mn{font-weight:600;line-height:1.3}
+.tm{font-size:.85rem;color:var(--muted);white-space:nowrap}
+.md{padding:4px 16px 16px;border-top:1px solid var(--line)}
+.ings{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:12px 0}
+.ings dt{color:var(--muted);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.ings dd{margin:0}
+.md ol{padding-left:1.25em;margin:12px 0}
+.md li{margin-bottom:6px;max-width:62ch}
+.note{font-size:.9rem;color:var(--muted);margin:10px 0}
+.small-btn{font:inherit;font-size:.9rem;font-weight:600;padding:9px 14px;border-radius:10px;border:1.5px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.receipt{position:relative;background:var(--paper);color:var(--paper-ink);font-family:'Courier Prime',ui-monospace,Menlo,Consolas,monospace;padding:24px 20px 20px;border-radius:6px 6px 0 0;margin:0 0 34px;box-shadow:0 0 0 1px var(--line)}
+.receipt::after{content:"";position:absolute;left:0;right:0;bottom:-12px;height:12px;background:linear-gradient(135deg,var(--paper) 50%,transparent 50%) 0 0/12px 12px repeat-x,linear-gradient(225deg,var(--paper) 50%,transparent 50%) 0 0/12px 12px repeat-x}
+.rtitle{text-align:center;font-weight:700;font-size:1.15rem}
+.rsub{text-align:center;font-size:.85rem;opacity:.75;margin-bottom:8px}
+.receipt h3{font-size:.9rem;margin:16px 0 4px;padding-top:12px;border-top:1px dashed var(--paper-line);font-weight:700}
+.row{display:flex;align-items:flex-start;gap:10px;padding:6px 0;cursor:pointer}
+.row input{margin-top:3px;width:18px;height:18px;accent-color:#1F4D36;flex:none}
+.rn{flex:1;line-height:1.35}
+.rn small{display:block;font-size:.8rem;opacity:.7}
+.rp{white-space:nowrap;font-variant-numeric:tabular-nums}
+.row.done .rn,.row.done .rp{text-decoration:line-through;opacity:.45}
+.rtotal{display:flex;justify-content:space-between;font-weight:700;font-size:1.15rem;border-top:2px solid var(--paper-ink);margin-top:14px;padding-top:10px}
+.rline{display:flex;justify-content:space-between;font-size:.9rem;margin-top:4px}
+.have{font-size:.85rem;margin-top:16px;padding-top:12px;border-top:1px dashed var(--paper-line);opacity:.85}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 10px}
+.foot{font-size:.82rem;color:var(--muted);margin:10px 0 44px;max-width:62ch}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<style>
+.tabs .tab{padding:10px 6px;font-size:.95rem}
+.day-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:0 0 8px}
+.day-head h2{margin:0}
+.kcal{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.kcal.hi{color:var(--beet);font-weight:600}
+.day.off{opacity:.75}
+.offrow{display:flex;align-items:center;justify-content:space-between;gap:10px;background:transparent;border:1.5px dashed var(--line);border-radius:14px;padding:12px 14px;color:var(--muted)}
+.tm{display:flex;flex-direction:column;align-items:flex-end;line-height:1.3}
+.meal.done .mn{text-decoration:line-through;text-decoration-thickness:1.5px}
+.meal.done .em::after{content:"✓";position:absolute}
+.btnrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.small-btn.ok{background:var(--green);border-color:var(--green);color:var(--on-green)}
+.daysel{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.daysel .tile{min-height:64px;align-items:center;justify-content:center;padding:10px 4px}
+.daysel .tile .l{padding:0;font-size:1.05rem}
+.daysel .tile[aria-pressed="true"]::after{display:none}
+.toggle2{display:flex;gap:8px;margin-bottom:18px}
+.fform{display:grid;grid-template-columns:1fr 110px auto;gap:8px;align-items:end;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:14px;margin:0 0 18px}
+.fform label{display:flex;flex-direction:column;gap:4px;font-size:.85rem;color:var(--muted)}
+.fform select,.fform input{font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:10px;min-width:0;width:100%}
+@media (max-width:480px){.fform{grid-template-columns:1fr 1fr}.fform .full{grid-column:1/-1}.fform button{grid-column:1/-1}}
+.fcat{font-size:.95rem;font-weight:600;margin:20px 0 8px}
+.fitem{display:flex;align-items:center;gap:10px;background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:6px}
+.fitem .fn{flex:1;min-width:0;line-height:1.3}
+.fitem .fn small{display:block;font-size:.8rem;color:var(--muted)}
+.fitem .fn small.warn2{color:var(--beet)}
+.fitem .fq{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.ib{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);background:transparent;color:var(--ink);font:inherit;font-size:1.05rem;cursor:pointer;flex:none}
+.empty{border:1.5px dashed var(--line);border-radius:14px;padding:18px;color:var(--muted)}
+.cover{font-size:.8rem;color:var(--muted)}
+.finish{width:100%;margin:-14px 0 24px}
+.hright{display:flex;align-items:center;gap:14px;min-width:0}
+.av{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:#fff;font-family:'Bricolage Grotesque',system-ui,sans-serif;font-weight:700;font-size:1.1rem;flex:none}
+.who{display:flex;align-items:center;gap:7px;min-width:0;max-width:150px;background:var(--surface);border:1.5px solid var(--line);border-radius:999px;padding:3px 12px 3px 3px;font:inherit;font-size:.9rem;font-weight:600;color:var(--ink);cursor:pointer}
+.who .av{width:28px;height:28px;font-size:.8rem}
+.who .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.plist{display:grid;gap:8px;margin:0 0 18px}
+.pitem{display:flex;gap:8px;align-items:center}
+.pbtn{flex:1;display:flex;align-items:center;gap:14px;padding:12px 14px;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;font:inherit;font-size:1.1rem;font-weight:600;color:var(--ink);cursor:pointer;text-align:left}
+.fform.pform{grid-template-columns:1fr auto}
+.tabs .tab{padding:10px 4px;font-size:.88rem}
+.rsearch input{width:100%;font:inherit;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:12px}
+@media (max-width:480px){.fform.pform{grid-template-columns:1fr}}
+</style>
+
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+/* Zutaten: Name, Kategorie, Packung, Einheit, Preis, Tags, Kleinigkeit, Packungstext, kcal pro Einheit */
+const ING={
+ huhn:['Hühnerbrust','Fleisch & Fisch',500,'g',6.49,'huhn fleisch',0,'500 g',1.1],
+ huhnkeule:['Hühnerkeulen','Fleisch & Fisch',1000,'g',3.99,'huhn fleisch',0,'1 kg',1.6],
+ faschiert:['Faschiertes gemischt','Fleisch & Fisch',500,'g',4.99,'rind schwein fleisch',0,'500 g',2.5],
+ rindfasch:['Rindfaschiertes','Fleisch & Fisch',400,'g',4.99,'rind fleisch',0,'400 g',2.2],
+ gulasch:['Rindsgulasch-Fleisch','Fleisch & Fisch',500,'g',8.49,'rind fleisch',0,'500 g',1.6],
+ schnitzel:['Schweinsschnitzel','Fleisch & Fisch',500,'g',5.49,'schwein fleisch',0,'500 g',1.2],
+ speck:['Speckwürfel','Fleisch & Fisch',125,'g',1.79,'schwein fleisch',0,'125 g',3.0],
+ schinken:['Kochschinken','Kühlregal',150,'g',1.59,'schwein fleisch',0,'150 g',1.1],
+ wuerstel:['Frankfurter Würstel','Kühlregal',6,'Stk',2.29,'schwein fleisch',0,'6 Stk',150],
+ leberkaese:['Leberkäse','Kühlregal',400,'g',2.99,'schwein fleisch',0,'400 g',2.9],
+ lachs:['Lachsfilet (TK)','Tiefkühl',250,'g',4.99,'fisch',0,'250 g',2.0],
+ fischst:['Fischstäbchen (TK)','Tiefkühl',15,'Stk',2.99,'fisch gluten',0,'15 Stk',50],
+ thunfisch:['Thunfisch in Wasser','Konserven',150,'g',1.49,'fisch',0,'Dose',1.1],
+ garnelen:['Garnelen (TK)','Tiefkühl',200,'g',4.49,'schalentier',0,'200 g',0.8],
+ tofu:['Tofu natur','Kühlregal',400,'g',1.99,'soja tofu',0,'400 g',1.25],
+ kichererbsen:['Kichererbsen','Konserven',240,'g',0.89,'huelse',0,'Dose',1.2],
+ kidney:['Kidneybohnen','Konserven',240,'g',0.79,'huelse',0,'Dose',1.0],
+ bohnenw:['Weiße Bohnen','Konserven',240,'g',0.79,'huelse',0,'Dose',1.0],
+ linsen:['Rote Linsen','Trockenware',500,'g',1.79,'huelse',0,'500 g',3.4],
+ eier:['Eier','Kühlregal',10,'Stk',2.99,'ei',0,'10 Stk',75],
+ milch:['Milch','Kühlregal',1000,'ml',1.19,'milch laktose',0,'1 l',0.64],
+ hafermilch:['Haferdrink','Trockenware',1000,'ml',1.29,'gluten',0,'1 l',0.45],
+ butter:['Butter','Kühlregal',250,'g',2.79,'milch laktose',0,'250 g',7.4],
+ obers:['Schlagobers','Kühlregal',250,'ml',1.39,'milch laktose',0,'250 ml',3.4],
+ sauerrahm:['Sauerrahm','Kühlregal',250,'g',0.99,'milch laktose',0,'250 g',1.6],
+ joghurt:['Naturjoghurt','Kühlregal',500,'g',1.19,'milch laktose',0,'500 g',0.65],
+ skyr:['Skyr natur','Kühlregal',450,'g',1.49,'milch laktose',0,'450 g',0.63],
+ topfen:['Magertopfen','Kühlregal',250,'g',0.89,'milch laktose',0,'250 g',0.7],
+ feta:['Feta','Kühlregal',200,'g',1.79,'milch laktose',0,'200 g',2.6],
+ mozzarella:['Mozzarella','Kühlregal',125,'g',0.89,'milch laktose',0,'125 g',2.5],
+ reibkaese:['Reibkäse','Kühlregal',200,'g',1.99,'milch laktose',0,'200 g',3.6],
+ kaesesch:['Käse in Scheiben','Kühlregal',150,'g',1.49,'milch laktose',0,'150 g',3.5],
+ parmesan:['Parmesan','Kühlregal',100,'g',2.29,'milch laktose',0,'100 g',4.0],
+ pizzateig:['Pizzateig (Kühlregal)','Kühlregal',1,'Stk',1.49,'gluten',0,'400 g',1040],
+ gnocchi:['Gnocchi','Kühlregal',500,'g',1.49,'gluten',0,'500 g',1.6],
+ nudeln:['Nudeln','Trockenware',500,'g',0.99,'gluten',0,'500 g',3.55],
+ lasagne:['Lasagneblätter','Trockenware',500,'g',1.49,'gluten',0,'500 g',3.6],
+ reis:['Reis','Trockenware',1000,'g',1.79,'',0,'1 kg',3.5],
+ couscous:['Couscous','Trockenware',500,'g',1.49,'gluten',0,'500 g',3.6],
+ bulgur:['Bulgur','Trockenware',500,'g',1.49,'gluten',0,'500 g',3.5],
+ polenta:['Polenta','Trockenware',500,'g',1.29,'',0,'500 g',3.6],
+ reisnudeln:['Reisnudeln','Trockenware',250,'g',1.99,'',0,'250 g',3.6],
+ mehl:['Mehl','Trockenware',1000,'g',0.79,'gluten',0,'1 kg',3.5],
+ broesel:['Semmelbrösel','Trockenware',400,'g',0.99,'gluten',0,'400 g',3.6],
+ knoedelbrot:['Knödelbrot','Brot & Gebäck',250,'g',1.29,'gluten',0,'250 g',2.6],
+ hafer:['Haferflocken','Trockenware',500,'g',0.89,'gluten',0,'500 g',3.7],
+ tortilla:['Tortilla-Wraps','Brot & Gebäck',6,'Stk',1.69,'gluten',0,'6 Stk',180],
+ brot:['Vollkornbrot','Brot & Gebäck',500,'g',1.99,'gluten',0,'500 g',2.2],
+ toast:['Toastbrot','Brot & Gebäck',500,'g',1.29,'gluten',0,'500 g',2.6],
+ kartoffeln:['Erdäpfel','Obst & Gemüse',2000,'g',2.49,'',0,'2 kg',0.77],
+ suesskart:['Süßkartoffeln','Obst & Gemüse',1000,'g',2.49,'',0,'1 kg',0.86],
+ zwiebel:['Zwiebeln','Obst & Gemüse',10,'Stk',1.29,'',1,'1 kg',40],
+ knoblauch:['Knoblauch','Obst & Gemüse',30,'Zehe',1.29,'',1,'3 Knollen',4],
+ karotten:['Karotten','Obst & Gemüse',1000,'g',1.19,'',0,'1 kg',0.36],
+ paprika:['Paprika','Obst & Gemüse',3,'Stk',1.99,'',0,'3 Stk',40],
+ zucchini:['Zucchini','Obst & Gemüse',2,'Stk',1.49,'',0,'2 Stk',50],
+ melanzani:['Melanzani','Obst & Gemüse',1,'Stk',0.99,'',0,'1 Stk',70],
+ brokkoli:['Brokkoli','Obst & Gemüse',1,'Stk',1.49,'',0,'1 Stk',170],
+ karfiol:['Karfiol','Obst & Gemüse',1,'Stk',1.99,'',0,'1 Stk',250],
+ weisskraut:['Weißkraut','Obst & Gemüse',1000,'g',0.99,'',0,'1 Stk',0.25],
+ rotebete:['Rote Rüben (gekocht)','Obst & Gemüse',500,'g',1.29,'',0,'500 g',0.4],
+ tomaten:['Tomaten','Obst & Gemüse',500,'g',1.99,'',0,'500 g',0.18],
+ cherry:['Cherrytomaten','Obst & Gemüse',250,'g',1.49,'',0,'250 g',0.2],
+ gurke:['Gurke','Obst & Gemüse',1,'Stk',0.79,'',0,'1 Stk',50],
+ salat:['Blattsalat','Obst & Gemüse',1,'Stk',1.29,'',0,'1 Stk',40],
+ champignons:['Champignons','Obst & Gemüse',250,'g',1.69,'',0,'250 g',0.22],
+ lauch:['Lauch','Obst & Gemüse',1,'Stk',0.99,'',0,'1 Stk',60],
+ kuerbis:['Hokkaido-Kürbis','Obst & Gemüse',1,'Stk',1.99,'',0,'1 Stk',450],
+ avocado:['Avocados','Obst & Gemüse',2,'Stk',1.99,'',0,'2 Stk',240],
+ zitrone:['Zitronen','Obst & Gemüse',5,'Stk',1.29,'',1,'500 g',20],
+ ingwer:['Ingwer','Obst & Gemüse',150,'g',0.99,'',1,'150 g',0.8],
+ fzwiebel:['Frühlingszwiebeln','Obst & Gemüse',1,'Bund',0.79,'',1,'1 Bund',30],
+ kraeuter:['Petersilie','Obst & Gemüse',1,'Bund',0.99,'',1,'1 Bund',20],
+ banane:['Bananen','Obst & Gemüse',6,'Stk',1.49,'',0,'1 kg',105],
+ apfel:['Äpfel','Obst & Gemüse',6,'Stk',1.99,'',0,'1 kg',80],
+ spinat:['Blattspinat (TK)','Tiefkühl',450,'g',1.29,'',0,'450 g',0.25],
+ erbsen:['Erbsen (TK)','Tiefkühl',450,'g',1.29,'',0,'450 g',0.8],
+ beeren:['Beerenmix (TK)','Tiefkühl',500,'g',2.99,'',0,'500 g',0.5],
+ mais:['Mais','Konserven',140,'g',0.89,'',0,'Dose',0.85],
+ tomdose:['Gehackte Tomaten','Konserven',400,'g',0.69,'',0,'Dose',0.22],
+ passata:['Passierte Tomaten','Konserven',500,'g',0.79,'',0,'500 g',0.3],
+ tommark:['Tomatenmark','Konserven',200,'g',0.89,'',1,'200 g',0.8],
+ kokos:['Kokosmilch','Konserven',400,'ml',1.29,'',0,'Dose',1.8],
+ pesto:['Pesto Basilikum','Konserven',190,'g',1.69,'milch laktose nuss',0,'Glas',5.0],
+ erdnussb:['Erdnussbutter','Trockenware',350,'g',1.99,'erdnuss',0,'Glas',6.0],
+ nuesse:['Walnüsse','Trockenware',200,'g',2.99,'nuss',0,'200 g',6.5],
+ soja:['Sojasauce','Gewürze & Öle',16,'EL',1.49,'soja gluten',0,'250 ml',10],
+ bruehe:['Gemüsebrühe','Gewürze & Öle',40,'TL',1.49,'',1,'Glas',10],
+ curry:['Currypulver','Gewürze & Öle',25,'TL',1.29,'',1,'Dose',6],
+ paprikap:['Paprikapulver','Gewürze & Öle',25,'TL',0.99,'',1,'Dose',6],
+ kreuzk:['Kreuzkümmel','Gewürze & Öle',20,'TL',1.29,'',1,'Dose',8],
+ kuemmel:['Kümmel','Gewürze & Öle',20,'TL',0.99,'',1,'Dose',8],
+ oregano:['Oregano','Gewürze & Öle',25,'TL',0.99,'',1,'Dose',3],
+ oel:['Rapsöl','Gewürze & Öle',66,'EL',2.49,'',0,'1 l',120],
+ olivenoel:['Olivenöl','Gewürze & Öle',33,'EL',5.99,'',0,'500 ml',120]
+};
+const INGS={};
+for(const [id,a] of Object.entries(ING)) INGS[id]={id,name:a[0],cat:a[1],pack:a[2],unit:a[3],price:a[4],tags:a[5]?a[5].split(' '):[],minor:!!a[6],packLabel:a[7],kcal:a[8]};
+
+/* Geräte: Leerzeichen trennt Pflicht-Gruppen, Buchstaben in einer Gruppe sind Alternativen */
+const AP={H:'Herd',B:'Backrohr',A:'Airfryer',M:'Mikrowelle',W:'Wasserkocher',X:'Mixer',R:'Reiskocher',S:'Slow Cooker',T:'Toaster'};
+const RECIPES=[];let _rid=0;
+function R(n,e,s,t,need,i,st,type='m'){RECIPES.push({id:'r'+(_rid++),n,e,s:s?s.split(' '):[],t,need,i,st,type})}
+
+/* ---------- Hauptgerichte ---------- */
+R('Spaghetti Bolognese','🍝','ital familie',35,'H',{nudeln:125,faschiert:125,passata:125,zwiebel:.5,knoblauch:1,karotten:50,olivenoel:1,oregano:.5,parmesan:10},['Zwiebel, Knoblauch und Karotte fein hacken und in Olivenöl anschwitzen.','Faschiertes dazugeben, krümelig anbraten, mit Passata und Oregano 20 Minuten köcheln lassen.','Nudeln bissfest kochen und mit Sauce und Parmesan servieren.']);
+R('Linsen-Bolognese','🍝','ital familie',30,'H',{nudeln:125,linsen:60,passata:150,zwiebel:.5,knoblauch:1,karotten:60,olivenoel:1,oregano:.5},['Zwiebel, Knoblauch und Karotte fein hacken und in Olivenöl anschwitzen.','Linsen, Passata und 150 ml Wasser pro Person dazugeben und 15 Minuten köcheln, bis die Linsen weich sind.','Mit Oregano, Salz und Pfeffer abschmecken und zu den Nudeln servieren.']);
+R('Hühnercurry mit Reis','🍛','indisch asia protein',30,'H',{huhn:150,kokos:100,reis:80,paprika:.5,zwiebel:.5,knoblauch:1,ingwer:5,curry:1,oel:1},['Reis nach Packungsangabe kochen.','Huhn würfeln und in Öl anbraten, Zwiebel, Knoblauch, Ingwer und Paprika kurz mitbraten.','Currypulver einrühren, mit Kokosmilch ablöschen und 10 Minuten köcheln lassen.']);
+R('Kichererbsen-Spinat-Curry','🍛','indisch leicht',25,'H',{kichererbsen:120,spinat:100,kokos:100,tomdose:100,reis:80,zwiebel:.5,knoblauch:1,ingwer:5,curry:1,oel:1},['Reis kochen.','Zwiebel, Knoblauch und Ingwer in Öl anschwitzen, Curry kurz mitrösten.','Tomaten, Kokosmilch, abgespülte Kichererbsen und Spinat dazugeben und 10 Minuten köcheln lassen.']);
+R('Ofengemüse mit Feta','🫑','medi leicht',40,'BA',{kartoffeln:200,zucchini:.5,paprika:.5,zwiebel:.5,feta:75,olivenoel:1.5,oregano:.5},['Backrohr auf 200 °C vorheizen (Airfryer: 190 °C).','Erdäpfel, Zucchini, Paprika und Zwiebel in Stücke schneiden und mit Olivenöl, Oregano und Salz mischen.','30 Minuten garen, Feta darüberbröseln und weitere 5 Minuten garen.']);
+R('Knusper-Huhn mit Süßkartoffel-Pommes','🍟','protein familie',30,'AB',{huhn:150,suesskart:250,paprikap:1,oel:1,joghurt:50,knoblauch:.5},['Süßkartoffeln in Stifte schneiden, mit Öl und Salz mischen und im Airfryer 15 Minuten bei 200 °C garen (Backrohr: 25 Minuten).','Huhn mit Paprikapulver und etwas Öl würzen und 12 Minuten mitgaren.','Joghurt mit geriebenem Knoblauch und Salz verrühren und als Dip servieren.']);
+R('Lachs mit Ofenerdäpfeln & Brokkoli','🐟','protein leicht',35,'BA',{lachs:125,kartoffeln:200,brokkoli:.5,zitrone:.5,olivenoel:1,sauerrahm:50},['Erdäpfel vierteln, mit Olivenöl und Salz bei 200 °C 20 Minuten backen.','Brokkoli-Röschen und Lachs dazulegen, mit Zitronensaft beträufeln und weitere 12 Minuten garen.','Sauerrahm mit Zitronenschale, Salz und Pfeffer verrühren und dazu servieren.']);
+R('Gebratener Reis mit Ei','🍳','asia',20,'H',{reis:80,eier:2,erbsen:60,karotten:60,fzwiebel:.5,soja:1.5,oel:1},['Reis kochen und auskühlen lassen (am besten schon am Vortag).','Karotten würfeln und mit den Erbsen in Öl anbraten, Reis dazugeben und knusprig braten.','Eier an den Rand schlagen, verrühren und alles mit Sojasauce und Frühlingszwiebeln mischen.']);
+R('Tofu-Gemüsepfanne mit Reis','🥦','asia protein leicht',25,'H',{tofu:150,reis:80,brokkoli:.5,paprika:.5,soja:2,ingwer:5,knoblauch:1,oel:1},['Reis kochen.','Tofu würfeln, gut ausdrücken und in Öl rundum knusprig braten, herausnehmen.','Brokkoli, Paprika, Knoblauch und Ingwer anbraten, Tofu und Sojasauce dazugeben und durchschwenken.']);
+R('Schnitzel mit Erdäpfelsalat','🥩','oesterr familie',45,'H',{schnitzel:150,mehl:20,eier:1,broesel:40,oel:3,kartoffeln:200,zwiebel:.25,zitrone:.25},['Erdäpfel in der Schale kochen, schälen, in Scheiben schneiden und mit fein gehackter Zwiebel, einem Schuss Essig, Öl, Salz und etwas warmem Wasser marinieren.','Schnitzel dünn klopfen, salzen und in Mehl, verquirltem Ei und Bröseln panieren.','In reichlich Öl goldbraun herausbacken und mit Zitronenspalten servieren.']);
+R('Rindsgulasch mit Erdäpfeln','🍲','oesterr familie protein',100,'HS',{gulasch:150,zwiebel:1.5,paprikap:2,tommark:15,kartoffeln:150,oel:1,knoblauch:1,kuemmel:.25},['Zwiebeln fein schneiden und in Öl langsam goldbraun rösten.','Paprikapulver und Tomatenmark kurz einrühren, sofort mit Wasser ablöschen, Fleisch, Knoblauch und Kümmel dazugeben.','Zugedeckt ca. 90 Minuten schmoren (Slow Cooker: 6 Stunden). Erdäpfel kochen und dazu servieren.']);
+R('Eiernockerl mit grünem Salat','🥚','oesterr familie',25,'H',{mehl:100,eier:2,milch:100,butter:15,salat:.25,fzwiebel:.25},['Mehl, 1 Ei, Milch und eine Prise Salz zu einem zähen Teig verrühren.','Nockerl mit einem Löffel in kochendes Salzwasser stechen, einmal aufkochen und abseihen.','In Butter schwenken, das restliche Ei darüber stocken lassen und mit Frühlingszwiebeln und Salat servieren.']);
+R('Erdäpfelgulasch','🥔','oesterr familie',40,'H',{kartoffeln:300,zwiebel:1,paprikap:2,tommark:15,oel:1,sauerrahm:30,kuemmel:.25},['Zwiebeln in Öl goldbraun rösten, Paprikapulver und Tomatenmark kurz einrühren.','Erdäpfel würfeln, dazugeben, knapp mit Wasser bedecken und mit Kümmel würzen.','25 Minuten köcheln, bis die Erdäpfel weich und sämig sind, mit Sauerrahm servieren.']);
+R('Chili sin Carne','🌶️','mex leicht',35,'H',{kidney:120,mais:70,tomdose:200,zwiebel:.5,knoblauch:1,paprika:.5,kreuzk:.5,paprikap:1,reis:80,oel:1},['Reis kochen.','Zwiebel, Knoblauch und Paprika in Öl anbraten, Gewürze kurz mitrösten.','Tomaten, abgespülte Bohnen und Mais dazugeben und 20 Minuten köcheln lassen.']);
+R('Chili con Carne','🌶️','mex protein familie',40,'H',{rindfasch:125,kidney:100,mais:50,tomdose:200,zwiebel:.5,knoblauch:1,kreuzk:.5,paprikap:1,reis:70,oel:1},['Reis kochen.','Faschiertes in Öl krümelig anbraten, Zwiebel, Knoblauch und Gewürze dazugeben.','Tomaten, Bohnen und Mais einrühren und 25 Minuten köcheln lassen.']);
+R('Hühner-Wraps','🌯','mex protein',20,'HA',{tortilla:2,huhn:120,salat:.25,tomaten:80,mais:40,sauerrahm:40,paprikap:.5,oel:.5},['Huhn in Streifen schneiden, mit Paprikapulver würzen und in der Pfanne oder im Airfryer 10 Minuten garen.','Salat und Tomaten schneiden.','Wraps kurz erwärmen, mit Sauerrahm bestreichen, mit Huhn, Gemüse und Mais füllen und einrollen.']);
+R('Bohnen-Quesadillas','🫓','mex',20,'HA',{tortilla:2,kidney:80,mais:40,reibkaese:50,paprika:.5,kreuzk:.25},['Bohnen grob zerdrücken und mit Kreuzkümmel und Salz würzen.','Eine Wrap-Hälfte mit Bohnen, Mais, Paprikawürfeln und Käse belegen und zuklappen.','In der Pfanne ohne Fett oder im Airfryer je Seite 3 Minuten knusprig braten.']);
+R('Shakshuka mit Brot','🍳','orient leicht',25,'H',{eier:2,tomdose:200,paprika:.5,zwiebel:.5,knoblauch:1,kreuzk:.5,paprikap:.5,brot:80,olivenoel:1,kraeuter:.25},['Zwiebel, Paprika und Knoblauch in Olivenöl weich dünsten, Gewürze kurz mitrösten.','Tomaten dazugeben und 10 Minuten einkochen lassen.','Mulden formen, Eier hineinschlagen, zugedeckt 6 Minuten stocken lassen und mit Petersilie und Brot servieren.']);
+R('Rote-Linsen-Suppe','🥣','orient leicht',30,'H',{linsen:70,karotten:80,zwiebel:.5,kokos:50,tommark:10,kreuzk:.5,bruehe:1,zitrone:.25,oel:.5},['Zwiebel und Karotten würfeln und in Öl anschwitzen, Tomatenmark und Kreuzkümmel kurz mitrösten.','Linsen und 350 ml Brühe pro Person dazugeben und 20 Minuten köcheln lassen.','Kokosmilch einrühren, nach Wunsch pürieren und mit Zitronensaft abschmecken.']);
+R('Kürbiscremesuppe mit Brot','🎃','oesterr leicht',35,'H X',{kuerbis:.35,kartoffeln:80,zwiebel:.5,kokos:60,ingwer:5,bruehe:1,oel:.5,brot:60},['Hokkaido (mit Schale), Erdäpfel und Zwiebel würfeln und in Öl anschwitzen.','Ingwer dazugeben, mit 300 ml Brühe pro Person aufgießen und 20 Minuten weich kochen.','Kokosmilch dazugeben, fein pürieren und mit Brot servieren.']);
+R('Tomaten-Thunfisch-Pasta','🐟','ital protein',20,'H',{nudeln:125,thunfisch:75,tomdose:150,zwiebel:.5,knoblauch:1,oregano:.5,olivenoel:1},['Nudeln kochen.','Zwiebel und Knoblauch in Olivenöl anschwitzen, Tomaten und Oregano dazugeben und 8 Minuten köcheln.','Abgetropften Thunfisch unterrühren und mit den Nudeln mischen.']);
+R('Pesto-Pasta mit Cherrytomaten','🍝','ital',15,'H',{nudeln:125,pesto:45,cherry:100,mozzarella:60,olivenoel:.5},['Nudeln kochen.','Cherrytomaten halbieren und in Olivenöl kurz anbraten.','Nudeln mit Pesto und Tomaten mischen und Mozzarella zerzupft darauf verteilen.']);
+R('Gnocchi-Pfanne mit Spinat & Feta','🥟','ital medi',20,'HA',{gnocchi:250,spinat:100,cherry:80,feta:50,knoblauch:1,olivenoel:1},['Gnocchi in Olivenöl goldbraun braten (oder 12 Minuten im Airfryer).','Knoblauch, aufgetauten Spinat und halbierte Cherrytomaten dazugeben und kurz mitbraten.','Feta darüberbröseln und servieren.']);
+R('Champignon-Rahm-Nudeln','🍄','ital familie',20,'H',{nudeln:125,champignons:125,obers:60,zwiebel:.5,knoblauch:1,kraeuter:.25,butter:10,parmesan:15},['Nudeln kochen.','Champignons in Scheiben schneiden und mit Zwiebel und Knoblauch in Butter anbraten.','Mit Obers ablöschen, kurz einkochen und mit Parmesan, Petersilie und den Nudeln mischen.']);
+R('Knoblauch-Garnelen-Pasta','🦐','medi ital protein',20,'H',{nudeln:110,garnelen:100,knoblauch:2,cherry:80,zitrone:.25,olivenoel:1.5,kraeuter:.25},['Nudeln kochen, Garnelen auftauen und trocken tupfen.','Knoblauch in Olivenöl anschwitzen, Garnelen und halbierte Tomaten 3–4 Minuten braten.','Mit Nudeln, etwas Nudelwasser, Zitronensaft und Petersilie mischen.']);
+R('Pasta e Ceci','🍲','ital leicht',30,'H',{nudeln:90,kichererbsen:100,tomdose:150,zwiebel:.5,knoblauch:1,karotten:40,bruehe:1,olivenoel:1,oregano:.25},['Zwiebel, Karotte und Knoblauch fein hacken und in Olivenöl anschwitzen.','Tomaten, Kichererbsen und 250 ml Brühe pro Person dazugeben und 10 Minuten köcheln.','Nudeln direkt darin gar ziehen lassen, bis es sämig ist, mit Oregano abschmecken.']);
+R('Erdnuss-Nudeln mit Tofu','🥜','asia protein',25,'H',{reisnudeln:80,tofu:100,erdnussb:25,soja:1.5,karotten:50,fzwiebel:.5,zitrone:.25,knoblauch:.5,ingwer:5},['Reisnudeln nach Packungsangabe einweichen oder kochen.','Tofu würfeln und knusprig braten, Karotten in feine Streifen schneiden.','Erdnussbutter mit Sojasauce, Zitronensaft, Knoblauch, Ingwer und etwas warmem Wasser verrühren und alles vermengen.']);
+R('Ofenerdäpfel mit Kräuter-Sauerrahm','🥔','oesterr leicht',45,'BAM',{kartoffeln:350,sauerrahm:80,kraeuter:.25,knoblauch:.5,olivenoel:1,salat:.25},['Erdäpfel halbieren, mit Olivenöl und Salz bei 200 °C ca. 40 Minuten backen (Mikrowelle: einstechen, 8–10 Minuten auf voller Stufe).','Sauerrahm mit Petersilie, Knoblauch, Salz und Pfeffer verrühren.','Mit grünem Salat servieren.']);
+R('Gefüllte Paprika','🫑','oesterr familie',50,'B H',{paprika:1.5,faschiert:100,reis:40,passata:120,zwiebel:.5,reibkaese:25},['Reis halb gar kochen und mit Faschiertem, gehackter Zwiebel, Salz und Pfeffer vermengen.','Paprika aushöhlen, füllen und in eine Form mit Passata setzen.','Mit Käse bestreuen und bei 180 °C 35 Minuten backen.']);
+R('Couscous-Salat mit Kichererbsen','🥗','orient medi leicht',15,'WH',{couscous:70,kichererbsen:80,gurke:.3,cherry:80,feta:40,zitrone:.5,olivenoel:1.5,kraeuter:.25},['Couscous mit gleicher Menge kochendem Wasser übergießen und 5 Minuten quellen lassen.','Gurke und Tomaten würfeln, Kichererbsen abspülen, Petersilie hacken.','Alles mit Zitronensaft und Olivenöl mischen und Feta darüberbröseln.']);
+R('Griechischer Salat mit Brot','🥗','medi leicht',10,'',{gurke:.5,tomaten:150,feta:75,zwiebel:.25,olivenoel:1,oregano:.25,brot:70},['Gurke und Tomaten grob würfeln, Zwiebel in feine Ringe schneiden.','Mit Olivenöl, Oregano, Salz und Pfeffer marinieren.','Feta in Stücken darauflegen und mit Brot servieren.']);
+R('Huhn & Gemüse vom Blech','🍗','medi protein leicht familie',40,'BA',{huhn:140,zucchini:.5,paprika:.5,kartoffeln:150,olivenoel:1,paprikap:1,knoblauch:1},['Backrohr auf 200 °C vorheizen.','Erdäpfel, Zucchini, Paprika und Huhn in Stücke schneiden und mit Olivenöl, Knoblauch, Paprikapulver und Salz mischen.','Auf dem Blech 30 Minuten garen (Airfryer: 20 Minuten bei 190 °C, zwischendurch schütteln).']);
+R('Lachs-Bowl mit Reis','🍣','asia protein leicht',25,'H',{lachs:110,reis:70,avocado:.5,gurke:.3,karotten:40,soja:1,fzwiebel:.25,oel:.5},['Reis kochen.','Lachs in Öl je Seite 3–4 Minuten braten und mit Sojasauce beträufeln.','Avocado, Gurke und Karotte schneiden und mit Reis und Lachs in Schüsseln anrichten.']);
+R('Schinkenfleckerl','🧀','oesterr familie',40,'B H',{nudeln:120,schinken:60,eier:1,sauerrahm:60,reibkaese:30,butter:10},['Nudeln (am besten Fleckerl) kochen und abseihen.','Schinken würfeln, in Butter kurz anbraten und mit Nudeln, Ei und Sauerrahm vermengen.','In eine Form füllen, mit Käse bestreuen und bei 200 °C 20 Minuten überbacken.']);
+R('Erdäpfel-Lauch-Suppe','🥣','oesterr familie',30,'H X',{kartoffeln:200,lauch:.5,zwiebel:.25,bruehe:1,obers:30,butter:10,brot:60},['Lauch in Ringe, Erdäpfel in Würfel schneiden und mit der Zwiebel in Butter anschwitzen.','Mit 300 ml Brühe pro Person aufgießen und 20 Minuten köcheln.','Pürieren, Obers einrühren, abschmecken und mit Brot servieren.']);
+R('Süßkartoffel-Bowl mit Kichererbsen','🥙','orient leicht',35,'BA HR',{suesskart:200,kichererbsen:100,reis:60,avocado:.5,salat:.2,joghurt:40,oel:1,kreuzk:.5},['Süßkartoffel würfeln, mit Kichererbsen, Öl und Kreuzkümmel mischen und 25 Minuten bei 200 °C rösten.','Reis kochen.','Mit Salat, Avocado und einem Klecks Joghurt in Schüsseln anrichten.']);
+R('Gebratene Nudeln mit Huhn','🥡','asia protein',25,'H',{nudeln:100,huhn:120,karotten:50,paprika:.5,soja:2,ingwer:5,knoblauch:1,oel:1},['Nudeln kochen und abseihen.','Huhn in Streifen in Öl scharf anbraten, Karotten und Paprika in Streifen mitbraten.','Nudeln, Knoblauch, Ingwer und Sojasauce dazugeben und alles kräftig durchschwenken.']);
+R('Bauernomelett','🍳','oesterr protein',25,'H',{eier:3,kartoffeln:150,speck:30,zwiebel:.5,fzwiebel:.25,butter:10},['Erdäpfel kochen (oder Reste vom Vortag nehmen) und in Scheiben schneiden.','Speck und Zwiebel in Butter anbraten, Erdäpfel dazugeben und goldbraun braten.','Verquirlte, gesalzene Eier darübergießen, stocken lassen und mit Frühlingszwiebeln bestreuen.']);
+R('Hendlhaxerl mit Ofenerdäpfeln','🍗','oesterr familie protein',50,'BA',{huhnkeule:300,kartoffeln:200,paprikap:1,olivenoel:1,knoblauch:1,salat:.25},['Hühnerkeulen mit Paprikapulver, Knoblauch, Salz und Öl einreiben.','Mit geviertelten Erdäpfeln auf ein Blech legen und bei 200 °C ca. 45 Minuten knusprig braten (Airfryer: 25 Minuten).','Mit grünem Salat servieren.']);
+R('Karfiol-Kichererbsen-Curry','🍛','indisch leicht',30,'H',{karfiol:.3,kichererbsen:60,kokos:100,tomdose:100,reis:70,zwiebel:.5,curry:1,ingwer:5,oel:1},['Reis kochen.','Zwiebel und Ingwer in Öl anschwitzen, Curry einrühren, Karfiolröschen kurz mitbraten.','Tomaten, Kokosmilch und Kichererbsen dazugeben und 15 Minuten köcheln, bis der Karfiol weich ist.']);
+R('Ofenkarfiol mit Joghurt & Couscous','🥦','orient leicht',35,'BA WH',{karfiol:.4,couscous:60,joghurt:80,kreuzk:.5,olivenoel:1.5,zitrone:.25,knoblauch:.5},['Karfiol in Röschen teilen, mit Olivenöl, Kreuzkümmel und Salz mischen und bei 220 °C 25 Minuten rösten.','Couscous mit gleicher Menge kochendem Wasser übergießen und quellen lassen.','Joghurt mit Knoblauch und Zitronensaft verrühren und alles zusammen anrichten.']);
+R('Melanzani-Tomaten-Pasta','🍆','ital medi',30,'H',{nudeln:110,melanzani:.5,tomdose:150,knoblauch:1,mozzarella:50,olivenoel:1.5,oregano:.5},['Melanzani würfeln und in Olivenöl rundum goldbraun braten.','Knoblauch, Tomaten und Oregano dazugeben und 10 Minuten köcheln.','Mit den gekochten Nudeln mischen und Mozzarella darauf zerzupfen.']);
+R('Lasagne','🍝','ital familie',70,'B H',{lasagne:70,faschiert:110,passata:150,milch:120,butter:10,mehl:10,reibkaese:30,zwiebel:.5,karotten:30},['Zwiebel und Karotte anschwitzen, Faschiertes anbraten, mit Passata 15 Minuten köcheln.','Butter schmelzen, Mehl einrühren, mit Milch aufgießen und zu einer Béchamel köcheln, salzen.','Sauce, Lasagneblätter und Béchamel abwechselnd schichten, mit Käse bestreuen und bei 180 °C 35 Minuten backen.']);
+R('Spinat-Topfen-Lasagne','🥬','ital familie',60,'B H',{lasagne:70,spinat:150,topfen:100,passata:150,reibkaese:40,knoblauch:1,zwiebel:.5},['Zwiebel und Knoblauch anschwitzen, aufgetauten Spinat dazugeben und salzen.','Spinat mit Topfen verrühren.','Passata, Lasagneblätter und Spinatmasse schichten, mit Käse bestreuen und bei 180 °C 35 Minuten backen.']);
+R('Gemüse-Pizza','🍕','ital familie',25,'B',{pizzateig:.5,passata:80,mozzarella:80,paprika:.3,champignons:50,oregano:.5},['Backrohr auf 220 °C vorheizen, Pizzateig ausrollen.','Mit gewürzter Passata bestreichen und mit Paprika, Champignons und Mozzarella belegen.','12–15 Minuten backen, bis der Rand goldbraun ist.']);
+R('Schinken-Pizza','🍕','ital familie',25,'B',{pizzateig:.5,passata:80,mozzarella:80,schinken:50,champignons:50,oregano:.5},['Backrohr auf 220 °C vorheizen, Pizzateig ausrollen.','Mit gewürzter Passata bestreichen und mit Schinken, Champignons und Mozzarella belegen.','12–15 Minuten backen, bis der Rand goldbraun ist.']);
+R('Champignon-Risotto','🍄','ital',35,'H',{reis:90,champignons:120,zwiebel:.5,bruehe:2,parmesan:20,butter:10,olivenoel:.5},['Zwiebel und Champignons in Olivenöl anbraten, Reis kurz mitrösten.','Nach und nach 300 ml heiße Brühe pro Person unter Rühren dazugießen, 18 Minuten köcheln.','Butter und Parmesan unterrühren und kurz ziehen lassen.']);
+R('Risi-Bisi mit Speck','🫛','ital oesterr',30,'H',{reis:90,erbsen:80,speck:25,zwiebel:.5,bruehe:2,parmesan:15,butter:10},['Speck und Zwiebel in Butter anbraten, Reis kurz mitrösten.','Mit 300 ml Brühe pro Person aufgießen und 15 Minuten köcheln.','Erbsen dazugeben, 3 Minuten mitgaren und mit Parmesan servieren.']);
+R('Krautfleckerl','🥬','oesterr',35,'H',{nudeln:110,weisskraut:200,zwiebel:.5,oel:1.5,kuemmel:.5},['Kraut fein schneiden, Zwiebel in Öl anschwitzen.','Kraut dazugeben, mit Kümmel, Salz und Pfeffer würzen und 20 Minuten unter Rühren braun braten.','Gekochte Nudeln untermischen und kurz durchrösten.']);
+R('Grenadiermarsch','🥔','oesterr',30,'H',{kartoffeln:200,nudeln:60,speck:30,zwiebel:1,oel:1,kuemmel:.25,paprikap:.5,salat:.25},['Erdäpfel kochen und in Scheiben schneiden, Nudeln kochen.','Speck und Zwiebel in Öl anbraten, Erdäpfel dazugeben und knusprig rösten.','Nudeln untermischen, mit Kümmel und Paprikapulver würzen, mit Salat servieren.']);
+R('Kaspressknödel mit Salat','🧀','oesterr',35,'H',{knoedelbrot:80,reibkaese:50,eier:1,milch:60,zwiebel:.25,kraeuter:.25,oel:2,salat:.25},['Knödelbrot mit Milch, Ei, Käse, gehackter Zwiebel und Petersilie verkneten, 10 Minuten ziehen lassen.','Flache Laibchen formen.','In Öl beidseitig goldbraun braten und mit Salat servieren.']);
+R('Semmelknödel mit Schwammerlsauce','🍄','oesterr familie',45,'H',{knoedelbrot:90,eier:1,milch:80,champignons:150,obers:50,zwiebel:.5,kraeuter:.25,butter:15},['Knödelbrot mit warmer Milch, Ei, Salz und Petersilie vermengen, Knödel formen und 15 Minuten in Salzwasser ziehen lassen.','Zwiebel und Champignons in Butter anbraten.','Mit Obers aufgießen, kurz einkochen und über die Knödel geben.']);
+R('Würstel mit Püree & Erbsen','🌭','oesterr familie',25,'H',{wuerstel:2,kartoffeln:250,milch:60,butter:10,erbsen:80},['Erdäpfel schälen, weich kochen und mit warmer Milch, Butter und Salz zu Püree stampfen.','Erbsen in wenig Wasser 4 Minuten kochen.','Würstel in heißem Wasser 5 Minuten ziehen lassen und alles servieren.']);
+R('Leberkäse mit Spiegelei & Erdäpfeln','🍳','oesterr protein',30,'H',{leberkaese:120,eier:1,kartoffeln:200,oel:1,salat:.25},['Erdäpfel kochen, in Scheiben schneiden und in Öl goldbraun braten.','Leberkäse in Scheiben beidseitig anbraten.','Spiegelei braten und alles mit Salat servieren.']);
+R('Cremige Polenta mit Tomatengemüse','🌽','ital',30,'H',{polenta:70,tomdose:150,zucchini:.5,zwiebel:.5,knoblauch:1,parmesan:15,olivenoel:1,bruehe:1},['Zwiebel, Knoblauch und Zucchini in Olivenöl anbraten, Tomaten dazu und 15 Minuten köcheln.','Polenta in 300 ml Brühe pro Person einrühren und unter Rühren 5–10 Minuten köcheln.','Parmesan unter die Polenta rühren und mit dem Tomatengemüse servieren.']);
+R('Fischstäbchen mit Püree & Erbsen','🐟','familie',25,'BA H',{fischst:5,kartoffeln:250,milch:60,butter:10,erbsen:80},['Fischstäbchen im Backrohr oder Airfryer nach Packung knusprig backen.','Erdäpfel weich kochen und mit Milch, Butter und Salz zu Püree stampfen.','Erbsen 4 Minuten kochen und alles servieren.']);
+R('Bulgur-Gemüse-Pfanne mit Feta','🥘','orient',25,'H',{bulgur:70,zucchini:.5,paprika:.5,tomdose:100,feta:50,zwiebel:.5,olivenoel:1,kreuzk:.25},['Zwiebel, Zucchini und Paprika in Olivenöl anbraten.','Bulgur, Tomaten, Kreuzkümmel und 150 ml Wasser pro Person dazugeben und 12 Minuten zugedeckt quellen lassen.','Mit Feta bestreut servieren.']);
+R('Linsen-Dal mit Reis','🍛','indisch leicht',30,'H',{linsen:70,tomdose:100,kokos:60,zwiebel:.5,knoblauch:1,ingwer:5,curry:1,reis:70,oel:1},['Reis kochen.','Zwiebel, Knoblauch und Ingwer in Öl anschwitzen, Curry kurz mitrösten.','Linsen, Tomaten, Kokosmilch und 250 ml Wasser pro Person dazugeben und 20 Minuten sämig köcheln.']);
+R('Butter Chicken','🍗','indisch protein',35,'H',{huhn:140,tomdose:150,joghurt:60,obers:30,curry:1.5,zwiebel:.5,knoblauch:1,ingwer:5,reis:70,butter:10},['Huhn in Joghurt mit der Hälfte des Currys marinieren, Reis kochen.','Zwiebel, Knoblauch und Ingwer in Butter anschwitzen, restliches Curry und Tomaten dazu, 10 Minuten köcheln.','Huhn dazugeben, 10 Minuten garen und mit Obers verfeinern.']);
+R('Toskanischer Bohneneintopf','🫘','ital medi leicht',30,'H',{bohnenw:120,tomdose:150,karotten:60,zwiebel:.5,knoblauch:1,spinat:60,bruehe:1,olivenoel:1,brot:60},['Zwiebel, Karotte und Knoblauch in Olivenöl anschwitzen.','Bohnen, Tomaten und 250 ml Brühe pro Person dazugeben und 15 Minuten köcheln.','Spinat einrühren, kurz mitziehen lassen und mit Brot servieren.']);
+R('Minestrone','🥣','ital leicht',35,'H',{nudeln:40,bohnenw:60,karotten:60,zucchini:.3,tomdose:120,zwiebel:.5,bruehe:1.5,olivenoel:1,parmesan:10},['Zwiebel, Karotte und Zucchini würfeln und in Olivenöl anschwitzen.','Tomaten, Bohnen und 350 ml Brühe pro Person dazugeben und 15 Minuten köcheln.','Nudeln darin garen und mit Parmesan servieren.']);
+R('Hühnersuppe mit Nudeln','🍜','oesterr leicht protein',60,'H',{huhnkeule:200,karotten:80,lauch:.3,nudeln:40,bruehe:1,kraeuter:.25},['Hühnerkeulen mit Karotte, Lauch und 500 ml Wasser pro Person aufsetzen und 40 Minuten leise köcheln.','Fleisch auslösen, Gemüse klein schneiden, mit Brühe würzen.','Nudeln in der Suppe garen, Fleisch zurückgeben und mit Petersilie servieren.']);
+R('Rote-Rüben-Salat mit Feta','🥗','medi leicht',10,'',{rotebete:150,feta:50,nuesse:15,salat:.25,olivenoel:1,brot:60},['Rote Rüben in Scheiben schneiden, Salat zupfen.','Mit Olivenöl, Salz und Pfeffer marinieren.','Feta und Walnüsse darüberstreuen und mit Brot servieren.']);
+R('Taco-Bowl','🌮','mex protein',25,'H',{rindfasch:110,reis:60,kidney:60,mais:50,tomaten:80,salat:.25,sauerrahm:30,kreuzk:.5,paprikap:.5},['Reis kochen.','Faschiertes mit Kreuzkümmel und Paprikapulver krümelig anbraten, Bohnen kurz mitwärmen.','Mit Reis, Mais, Tomaten, Salat und Sauerrahm in Schüsseln anrichten.']);
+R('Bohnen-Burrito','🌯','mex',25,'H',{tortilla:2,reis:50,kidney:100,mais:50,paprika:.3,tomaten:60,avocado:.3,kreuzk:.5},['Reis kochen.','Bohnen mit Paprika und Kreuzkümmel in der Pfanne erwärmen und leicht zerdrücken.','Wraps mit Reis, Bohnen, Mais, Tomaten und Avocado füllen und fest einrollen.']);
+R('Überbackene Enchiladas','🌯','mex familie protein',40,'B H',{tortilla:2,huhn:100,kidney:60,passata:120,reibkaese:40,zwiebel:.3,kreuzk:.5},['Huhn klein schneiden und mit Zwiebel und Kreuzkümmel anbraten, Bohnen dazugeben.','Wraps füllen, einrollen und in eine Form mit etwas Passata legen.','Restliche Passata und Käse darauf verteilen und bei 200 °C 20 Minuten backen.']);
+R('Soja-Ingwer-Huhn mit Brokkoli','🥦','asia protein leicht',25,'H',{huhn:140,reis:70,brokkoli:.4,soja:2,knoblauch:1,ingwer:5,oel:1},['Reis kochen.','Huhn in Streifen in Öl scharf anbraten, Brokkoli dazugeben und mit einem Schuss Wasser zugedeckt 4 Minuten garen.','Knoblauch, Ingwer und Sojasauce einrühren und mit Reis servieren.']);
+R('Asiatische Nudelsuppe mit Huhn','🍜','asia leicht protein',25,'H',{reisnudeln:50,huhn:100,bruehe:2,karotten:40,fzwiebel:.5,soja:1,ingwer:5,spinat:50},['500 ml Brühe pro Person mit Ingwer und Sojasauce aufkochen.','Huhn in dünnen Streifen und Karotten 6 Minuten darin garen.','Reisnudeln und Spinat dazugeben, kurz ziehen lassen und mit Frühlingszwiebeln servieren.']);
+R('Kokos-Gemüse-Curry mit Tofu','🍛','asia indisch',30,'H',{tofu:100,kokos:100,karfiol:.2,paprika:.5,curry:1,reis:70,zwiebel:.5,oel:1},['Reis kochen, Tofu würfeln und knusprig braten.','Zwiebel, Karfiol und Paprika anbraten, Curry einrühren.','Mit Kokosmilch aufgießen, 10 Minuten köcheln und Tofu unterheben.']);
+R('Kraut-Huhn-Pfanne','🥬','asia leicht protein',20,'H',{weisskraut:200,huhn:120,karotten:50,soja:2,ingwer:5,knoblauch:1,oel:1},['Huhn in Streifen in Öl scharf anbraten und herausnehmen.','Kraut und Karotten in feinen Streifen 8 Minuten braten.','Huhn, Knoblauch, Ingwer und Sojasauce dazugeben und durchschwenken.']);
+R('Airfryer-Lachs mit Süßkartoffel','🐟','protein leicht',25,'AB',{lachs:125,suesskart:200,salat:.25,zitrone:.25,olivenoel:1},['Süßkartoffel würfeln, mit Öl und Salz 12 Minuten bei 200 °C garen.','Lachs salzen, dazulegen und 8–10 Minuten mitgaren.','Mit Salat und Zitronenspalten servieren.']);
+R('Falafel-Wraps','🧆','orient',35,'AB X',{kichererbsen:120,mehl:15,zwiebel:.25,knoblauch:1,kreuzk:.5,kraeuter:.25,oel:1,tortilla:2,joghurt:50,salat:.2,tomaten:60},['Kichererbsen mit Zwiebel, Knoblauch, Petersilie, Kreuzkümmel, Mehl und Salz grob pürieren.','Bällchen formen, mit Öl bepinseln und im Airfryer 12 Minuten bei 200 °C backen (Backrohr: 20 Minuten).','In Wraps mit Joghurt, Salat und Tomaten servieren.']);
+R('Spinat-Feta-Omelett','🍳','protein leicht',15,'H',{eier:3,spinat:80,feta:40,brot:50,oel:.5},['Spinat in Öl kurz andünsten.','Verquirlte, gesalzene Eier darübergießen und Feta darüberbröseln.','Zugedeckt stocken lassen und mit Brot servieren.']);
+R('Kaiserschmarrn mit Apfelkompott','🥞','oesterr familie',25,'H',{mehl:80,eier:2,milch:150,butter:15,apfel:1},['Mehl, Milch, Eigelb und eine Prise Salz glatt rühren, Eiklar steif schlagen und unterheben.','In Butter anbacken, wenden und mit zwei Gabeln in Stücke reißen.','Apfel würfeln und mit etwas Wasser 5 Minuten weich dünsten, dazu servieren.']);
+R('Gemüse-Frittata','🍳','ital protein leicht',30,'BA',{eier:3,zucchini:.3,paprika:.3,kartoffeln:100,reibkaese:20,oel:.5},['Erdäpfel in dünne Scheiben, Gemüse in Würfel schneiden.','In eine geölte Form geben, mit verquirlten, gesalzenen Eiern übergießen und Käse darüberstreuen.','Bei 180 °C 25 Minuten backen (Airfryer: 15 Minuten bei 170 °C).']);
+R('Schinken-Käse-Toast mit Salat','🥪','familie',10,'TBA',{toast:100,schinken:50,kaesesch:40,salat:.25,tomaten:80},['Toastscheiben mit Schinken und Käse belegen.','Im Toaster, Backrohr oder Airfryer goldbraun toasten.','Mit Salat und Tomaten servieren.']);
+R('Garnelen-Kokos-Curry','🦐','asia indisch protein',25,'H',{garnelen:100,kokos:100,paprika:.5,reis:70,curry:1,zwiebel:.5,oel:1,zitrone:.25},['Reis kochen.','Zwiebel und Paprika in Öl anbraten, Curry einrühren und mit Kokosmilch ablöschen.','Garnelen 4 Minuten darin garen und mit Zitronensaft abschmecken.']);
+R('Thunfisch-Bohnen-Salat','🥗','medi leicht protein',15,'H',{thunfisch:75,bohnenw:80,eier:1,tomaten:100,gurke:.3,zwiebel:.25,olivenoel:1,brot:50},['Ei 9 Minuten hart kochen.','Tomaten und Gurke würfeln, Zwiebel fein schneiden, mit Bohnen und Thunfisch mischen.','Mit Olivenöl, Salz und Pfeffer marinieren, Ei vierteln und mit Brot servieren.']);
+R('Ofenkartoffel mit Bohnen & Käse','🥔','mex',15,'MBA',{kartoffeln:300,kidney:80,reibkaese:30,sauerrahm:30},['Erdäpfel einstechen und in der Mikrowelle 8–10 Minuten garen (Backrohr: 45 Minuten bei 200 °C).','Aufschneiden, Bohnen und Käse darauf verteilen und 1–2 Minuten weitergaren, bis der Käse schmilzt.','Mit Sauerrahm servieren.']);
+/* ---------- Frühstück ---------- */
+R('Overnight Oats mit Beeren','🫐','leicht',5,'',{hafer:50,joghurt:100,beeren:60},['Haferflocken mit Joghurt und 50 ml Wasser oder Milch verrühren.','Über Nacht im Kühlschrank quellen lassen.','Mit aufgetauten Beeren toppen.'],'f');
+R('Vegane Overnight Oats','🫐','leicht',5,'',{hafer:50,hafermilch:200,beeren:60},['Haferflocken mit Haferdrink verrühren.','Über Nacht im Kühlschrank quellen lassen.','Mit Beeren toppen.'],'f');
+R('Rührei mit Brot','🍳','protein',10,'H',{eier:2,brot:70,butter:10,fzwiebel:.25},['Eier mit Salz verquirlen.','In Butter bei mittlerer Hitze cremig stocken lassen.','Mit Frühlingszwiebeln bestreuen und mit Brot servieren.'],'f');
+R('Porridge mit Banane','🥣','',10,'HM',{hafer:50,milch:200,banane:1},['Haferflocken mit Milch und einer Prise Salz aufkochen (oder 2 Minuten in die Mikrowelle).','Unter Rühren 3 Minuten quellen lassen.','Banane in Scheiben darauf verteilen.'],'f');
+R('Joghurt mit Apfel & Walnüssen','🍎','leicht',5,'',{joghurt:150,apfel:1,nuesse:15},['Apfel würfeln.','Joghurt in eine Schüssel geben.','Apfel und grob gehackte Walnüsse darüberstreuen.'],'f');
+R('Avocado-Brot','🥑','leicht',5,'',{brot:80,avocado:.5,zitrone:.15,tomaten:50},['Brot toasten oder frisch verwenden.','Avocado mit Zitronensaft, Salz und Pfeffer zerdrücken.','Aufs Brot streichen und mit Tomatenscheiben belegen.'],'f');
+R('Bananen-Hafer-Pancakes','🥞','',15,'H',{hafer:50,banane:1,eier:1,milch:50,oel:.5},['Banane zerdrücken und mit Haferflocken, Ei und Milch verrühren.','5 Minuten quellen lassen.','Kleine Pancakes in wenig Öl je Seite 2 Minuten braten.'],'f');
+R('Erdnuss-Bananen-Smoothie','🥤','protein',5,'X',{hafermilch:250,banane:1,hafer:30,erdnussb:15},['Alle Zutaten in den Mixer geben.','30 Sekunden fein mixen.','Sofort trinken.'],'f');
+R('Tofu-Rührei mit Brot','🍳','protein',10,'H',{tofu:100,brot:70,curry:.25,fzwiebel:.25,oel:.5},['Tofu mit einer Gabel zerbröseln.','In Öl anbraten, mit Curry und Salz würzen.','Mit Frühlingszwiebeln bestreuen und mit Brot servieren.'],'f');
+R('Topfen mit Beeren','🍓','protein leicht',5,'',{topfen:125,beeren:80,hafer:20},['Topfen mit einem Schuss Wasser cremig rühren.','Aufgetaute Beeren daraufgeben.','Mit Haferflocken bestreuen.'],'f');
+R('Skyr-Bowl mit Banane','🥣','protein leicht',5,'',{skyr:200,banane:.5,nuesse:10},['Skyr in eine Schüssel geben.','Banane in Scheiben darauf verteilen.','Mit gehackten Walnüssen bestreuen.'],'f');
+R('Käsetoast mit Tomate','🥪','',5,'TBA',{toast:60,kaesesch:30,tomaten:50},['Toast mit Käse belegen.','Im Toaster, Backrohr oder Airfryer toasten, bis der Käse schmilzt.','Mit Tomatenscheiben servieren.'],'f');
+R('Spiegelei auf Vollkornbrot','🍳','protein',10,'H',{eier:2,brot:70,oel:.5,tomaten:50},['Eier in wenig Öl braten, salzen.','Brot in Scheiben schneiden.','Spiegeleier auf das Brot legen und mit Tomaten servieren.'],'f');
+R('Bircher-Müsli','🍏','leicht',10,'',{hafer:50,milch:150,apfel:.5,nuesse:10},['Haferflocken mit Milch verrühren und mindestens 10 Minuten (oder über Nacht) quellen lassen.','Apfel grob reiben und unterrühren.','Mit gehackten Walnüssen bestreuen.'],'f');
+R('Beeren-Smoothie','🥤','leicht',5,'X',{joghurt:150,beeren:100,banane:.5},['Alle Zutaten mit einem Schuss Wasser in den Mixer geben.','Fein mixen.','Sofort trinken.'],'f');
+const RBY={};RECIPES.forEach(r=>RBY[r.id]=r);
+
+/* ---------- Optionen ---------- */
+const STORES=[['hofer','Hofer',1.00],['lidl','Lidl',0.99],['penny','Penny',1.01],['billa','Billa',1.14],['spar','Spar',1.12],['interspar','Interspar',1.09],['mpreis','MPreis',1.17],['unimarkt','Unimarkt',1.13]];
+const STORE_MULT=Object.fromEntries(STORES.map(s=>[s[0],s[2]]));
+const STORE_NAME=Object.fromEntries(STORES.map(s=>[s[0],s[1]]));
+const APPLIANCES=[['Herd','🍳','Herd / Kochfeld'],['Backrohr','🥧','Backrohr'],['Airfryer','🍟','Airfryer'],['Mikrowelle','⏲️','Mikrowelle'],['Wasserkocher','🫖','Wasserkocher'],['Mixer','🥤','Mixer / Pürierstab'],['Reiskocher','🍚','Reiskocher'],['Slow Cooker','🍲','Slow Cooker'],['Toaster','🍞','Toaster']];
+const DIETS=[['alles','🍽️','Ich esse alles'],['vegetarisch','🥕','Vegetarisch'],['pescetarisch','🐟','Pescetarisch'],['vegan','🥑','Vegan']];
+const EXTRAS=[['glutenfrei','🌾','Glutenfrei'],['laktosefrei','🥛','Laktosefrei']];
+const ALLERG=[['nuss','🌰','Nüsse'],['erdnuss','🥜','Erdnüsse'],['ei','🥚','Eier'],['fisch','🐟','Fisch'],['schalentier','🦐','Schalentiere'],['soja','🫘','Soja']];
+const PROT=[['rind','🥩','Rindfleisch'],['huhn','🍗','Huhn'],['schwein','🥓','Schweinefleisch'],['fisch','🐟','Fisch & Meeresfrüchte'],['huelse','🫘','Hülsenfrüchte'],['tofu','🥡','Tofu']];
+const STYLES=[['oesterr','🥨','Österreichisch'],['ital','🍝','Italienisch'],['medi','🫒','Mediterran'],['asia','🥢','Asiatisch'],['mex','🌮','Mexikanisch'],['orient','🧆','Orientalisch'],['indisch','🍛','Indisch'],['schnell','⏱️','Schnell & einfach','bis 25 Minuten'],['leicht','🥗','Kalorienarm'],['protein','💪','Proteinreich'],['familie','🏡','Familienlieblinge'],['guenstig','💶','Extra günstig'],['mealprep','📦','Meal-Prep','einmal kochen, zweimal essen']];
+const MEALS=[['abend','🌙','Nur Abendessen','1 Mahlzeit pro Tag'],['mittag_abend','☀️','Mittag & Abend','2 Mahlzeiten pro Tag'],['alle','🌅','Frühstück, Mittag & Abend','3 Mahlzeiten pro Tag']];
+const CAT_ORDER=['Obst & Gemüse','Brot & Gebäck','Kühlregal','Fleisch & Fisch','Tiefkühl','Trockenware','Konserven','Gewürze & Öle'];
+const PANTRY_ORDER=['Gewürze & Öle','Trockenware','Konserven','Kühlregal','Obst & Gemüse','Tiefkühl','Brot & Gebäck','Fleisch & Fisch'];
+const DAYS=['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag'];
+const DS=['Mo','Di','Mi','Do','Fr','Sa','So'];
+const MEAL_LABEL={frueh:'Frühstück',mittag:'Mittagessen',abend:'Abendessen'};
+const CUISINES=['oesterr','ital','medi','asia','mex','orient','indisch'];
+const KSHARE={alle:{frueh:.25,mittag:.35,abend:.4},mittag_abend:{mittag:.4,abend:.4},abend:{abend:.4}};
+
+/* ---------- Zustand ---------- */
+const KEY='wochenteller-v1';
+const DEFAULTS={v:2,stores:[],persons:1,meals:'abend',days:[0,1,2,3,4,5,6],budget:40,kcal:0,appliances:['Herd'],diet:'alles',extras:[],allergies:[],proteins:PROT.map(p=>p[0]),styles:[],pantry:['oel','olivenoel','paprikap','oregano','kreuzk','kuemmel','curry','bruehe'],fridge:{},blocked:[],plan:null,checked:{},cooked:{},store:null,saved:[],cookLog:{}};
+/* Profile: jede Person hat ihren eigenen Speicherbereich */
+const PKEY='wochenteller-profiles';
+const AV=['#1F4D36','#A3245A','#2F5D8A','#8A5A12','#5B3F8C','#2E7D6F'];
+let API=false; /* true, wenn die App über den lokalen Server (server.py) läuft */
+let PR=null;
+try{PR=JSON.parse(localStorage.getItem(PKEY)||'null')}catch(e){}
+if(!PR||!Array.isArray(PR.list)){PR={list:[],current:null};try{const old=localStorage.getItem(KEY);if(old){PR.list.push({id:'p1',name:'Profil 1',color:0});localStorage.setItem('wochenteller-p-p1',old)}}catch(e){}}
+function saveProfiles(){try{localStorage.setItem(PKEY,JSON.stringify(PR))}catch(e){}}
+let S=null,view='profiles',step=0,tab='plan',genError='',profileEdit=false,rFilter=null,rQuery='';
+const api=(path,opt)=>fetch('/api/'+path,opt).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()});
+function applyState(id,d){
+  S=Object.assign(JSON.parse(JSON.stringify(DEFAULTS)),d||{});
+  if(!S.v||S.v<2){S.plan=null;S.v=2;S.days=[0,1,2,3,4,5,6];S.fridge={};S.cooked={};if(!S.pantry.includes('kuemmel'))S.pantry.push('kuemmel')}
+  if(S.plan&&(S.plan.units.some(u=>!RBY[u.rid])||(S.plan.bf&&Object.values(S.plan.bf).some(x=>!RBY[x]))))S.plan=null;
+  S.saved=S.saved.filter(x=>RBY[x]);
+  PR.current=id;saveProfiles();
+  view=S.plan?'plan':'wizard';step=0;tab='plan';genError='';rFilter=null;rQuery='';
+}
+async function loadProfile(id){
+  flush();let d={};
+  if(API){try{d=(await api('state/'+id)).state||{}}catch(e){}}
+  else{try{d=JSON.parse(localStorage.getItem('wochenteller-p-'+id)||'{}')}catch(e){}}
+  applyState(id,d);
+}
+let pending=null,saveTimer=null;
+function flush(){clearTimeout(saveTimer);if(!pending)return;const {id,body}=pending;pending=null;
+  fetch('/api/state/'+id,{method:'PUT',headers:{'Content-Type':'application/json'},body,keepalive:true}).catch(()=>{})}
+function save(){
+  if(!PR.current||!S)return;
+  if(API){pending={id:PR.current,body:JSON.stringify(S)};clearTimeout(saveTimer);saveTimer=setTimeout(flush,400)}
+  else{try{localStorage.setItem('wochenteller-p-'+PR.current,JSON.stringify(S))}catch(e){}}
+}
+window.addEventListener('pagehide',flush);
+function loadRecipes(rs){
+  const ok=(rs||[]).filter(r=>r&&r.id&&r.n&&r.i&&Object.keys(r.i).length&&Object.keys(r.i).every(id=>INGS[id])&&Array.isArray(r.st));
+  if(!ok.length)return;
+  RECIPES.length=0;
+  ok.forEach(r=>RECIPES.push({id:String(r.id),n:r.n,e:r.e||'🍽️',s:Array.isArray(r.s)?r.s:String(r.s||'').split(' ').filter(Boolean),t:+r.t||30,need:r.need||'',i:r.i,st:r.st,type:r.type==='f'?'f':'m'}));
+  for(const k in RBY)delete RBY[k];RECIPES.forEach(r=>RBY[r.id]=r);
+}
+const curProfile=()=>PR.list.find(p=>p.id===PR.current);
+const initial=n=>(n.trim()[0]||'?').toUpperCase();
+function who(){const p=curProfile();if(!p)return '';return `<button class="who" data-act="profiles" aria-label="Person wechseln, aktuell ${esc(p.name)}"><span class="av" style="background:${AV[p.color%AV.length]}">${esc(initial(p.name))}</span><span class="nm">${esc(p.name)}</span></button>`}
+
+/* ---------- Logik ---------- */
+function exTags(){
+  const t=new Set();
+  const D={vegetarisch:['fleisch','fisch','schalentier'],pescetarisch:['fleisch'],vegan:['fleisch','fisch','schalentier','milch','ei']};
+  (D[S.diet]||[]).forEach(x=>t.add(x));
+  if(S.extras.includes('glutenfrei'))t.add('gluten');
+  if(S.extras.includes('laktosefrei'))t.add('laktose');
+  S.allergies.forEach(a=>t.add(a));
+  PROT.forEach(([k])=>{if(!S.proteins.includes(k)){if(k==='fisch'){t.add('fisch');t.add('schalentier')}else t.add(k)}});
+  return t;
+}
+function canCook(r){return r.need.split(' ').filter(Boolean).every(g=>[...g].some(c=>S.appliances.includes(AP[c])))}
+function eligible(r,ex){
+  if(!canCook(r))return false;
+  for(const id of Object.keys(r.i)){const g=INGS[id];if(g.tags.some(t=>ex.has(t)))return false;if(S.blocked.includes(id)&&!g.minor)return false}
+  return true;
+}
+function effIng(r){return Object.entries(r.i).filter(([id])=>!S.blocked.includes(id))}
+function kcalOf(r){let k=0;for(const [id,q] of effIng(r))k+=q*INGS[id].kcal;return Math.round(k/10)*10}
+function currentStore(){if(S.store&&S.stores.includes(S.store))return S.store;return [...S.stores].sort((a,b)=>STORE_MULT[a]-STORE_MULT[b])[0]||'hofer'}
+function servingCost(r,mult){let c=0;for(const [id,q] of effIng(r)){if(S.pantry.includes(id))continue;const g=INGS[id];c+=q*g.price/g.pack*mult}return c}
+function styleMatch(r,mult){let m=0;for(const s of S.styles){if(s==='mealprep')continue;if(s==='schnell'){if(r.t<=25)m++}else if(s==='guenstig'){if(servingCost(r,mult)<=1.6)m++}else if(r.s.includes(s))m++}return m}
+function overlapCount(r,set){let n=0;for(const [id] of effIng(r)){const g=INGS[id];if(!g.minor&&!S.pantry.includes(id)&&set.has(id))n++}return n}
+function fridgeUse(r){let n=0;for(const [id] of effIng(r)){if(!INGS[id].minor&&!S.pantry.includes(id)&&(S.fridge[id]||0)>0)n++}return n}
+function kcalFit(r,m){if(!S.kcal)return 1;const tg=S.kcal*(KSHARE[S.meals][m]||.35);const d=(kcalOf(r)-tg)/(0.3*tg);return 0.12+Math.exp(-d*d)}
+function wpick(arr,fn){const ws=arr.map(fn);const tot=ws.reduce((a,b)=>a+b,0);let x=Math.random()*tot;for(let i=0;i<arr.length;i++){x-=ws[i];if(x<=0)return arr[i]}return arr[arr.length-1]}
+function mealTypes(){return {abend:['abend'],mittag_abend:['mittag','abend'],alle:['frueh','mittag','abend']}[S.meals]}
+const skey=(d,m)=>d+'-'+m;
+function planNeeds(plan){
+  const needs={};const p=S.persons;
+  const add=(r,f)=>effIng(r).forEach(([id,q])=>needs[id]=(needs[id]||0)+q*f);
+  plan.units.forEach(u=>{if(!S.cooked[skey(u.slots[0].d,u.slots[0].m)])add(RBY[u.rid],u.slots.length*p)});
+  if(plan.bf)Object.entries(plan.bf).forEach(([d,id])=>{if(!S.cooked[skey(d,'frueh')])add(RBY[id],p)});
+  return needs;
+}
+function shopping(needs,mult){
+  const items=[],have=[],fromFridge=[];let total=0;
+  for(const [id,q] of Object.entries(needs)){
+    const g=INGS[id];
+    if(S.pantry.includes(id)){have.push(g);continue}
+    const rem=q-(S.fridge[id]||0);
+    if(rem<=1e-6){fromFridge.push(g);continue}
+    const packs=Math.max(1,Math.ceil(rem/g.pack-1e-6));
+    const price=packs*g.price*mult;total+=price;
+    items.push({g,need:rem,packs,price,rest:packs*g.pack-rem});
+  }
+  return {items,have,fromFridge,total};
+}
+function slotCount(){return S.days.length*mealTypes().filter(m=>m!=='frueh').length}
+function targetPerServing(n){const bf=mealTypes().includes('frueh')?S.days.length*0.45:0;return S.budget/Math.max(1,n+bf)/S.persons}
+function weight(r,sl,used,set,per,mult,keep){
+  let w=1+1.6*styleMatch(r,mult);
+  if(used[r.id])w*=0.02;
+  if(keep&&keep.has(r.id))w*=2.5;
+  if(S.saved.includes(r.id))w*=2;
+  w*=1+0.35*overlapCount(r,set);
+  w*=1+0.6*fridgeUse(r);
+  const wk=sl[0].d<5;
+  if(wk&&r.t>45)w*=0.35;
+  if(!wk&&r.t>=35)w*=1.3;
+  const c=servingCost(r,mult);
+  if(c>per)w*=Math.pow(per/c,S.styles.includes('guenstig')?3:2);
+  w*=kcalFit(r,sl[0].m);
+  return w;
+}
+function scorePlan(plan,mult){
+  const {total}=shopping(planNeeds(plan),mult);
+  const over=Math.max(0,total-S.budget);
+  let st=0,kd=0;const ids=new Set(),cz=new Set();
+  plan.units.forEach(u=>{const r=RBY[u.rid];st+=styleMatch(r,mult);ids.add(u.rid);r.s.forEach(s=>{if(CUISINES.includes(s))cz.add(s)});
+    if(S.kcal){const tg=S.kcal*(KSHARE[S.meals][u.slots[0].m]||.35);kd+=Math.abs(kcalOf(r)-tg)/tg*u.slots.length}});
+  return st+ids.size*1.0+cz.size*0.6-over*5-total*0.06-kd*3;
+}
+function buildUnits(slots,mp){
+  if(!mp)return slots.map(s=>[s]);
+  const u=[];let i=0;
+  while(i<slots.length){const a=slots[i],b=slots[i+1];if(b&&b.d-a.d===1){u.push([a,b]);i+=2}else{u.push([a]);i++}}
+  return u;
+}
+function generate(keepPrev){
+  genError='';
+  const ex=exTags();
+  const mains=RECIPES.filter(r=>r.type==='m'&&eligible(r,ex));
+  const bfs=RECIPES.filter(r=>r.type==='f'&&eligible(r,ex));
+  if(!mains.length){genError='Mit diesen Einstellungen passt leider kein Gericht. Wähle mehr Küchengeräte oder Proteinquellen aus, oder entferne ein paar blockierte Zutaten.';return false}
+  const keep=keepPrev&&S.plan?new Set(S.plan.units.map(u=>u.rid)):null;
+  const mt=mealTypes(),days=[...S.days].sort((a,b)=>a-b);
+  const slots=[];for(const d of days)for(const m of ['mittag','abend'])if(mt.includes(m))slots.push({d,m});
+  const units=buildUnits(slots,S.styles.includes('mealprep'));
+  const mult=STORE_MULT[currentStore()];
+  const per=targetPerServing(slots.length);
+  let best=null,bestScore=-Infinity;
+  for(let k=0;k<240;k++){
+    const used={},set=new Set(),us=[];
+    for(const sl of units){
+      const r=wpick(mains,r=>weight(r,sl,used,set,per,mult,keep));
+      used[r.id]=1;effIng(r).forEach(([id])=>{if(!INGS[id].minor)set.add(id)});
+      us.push({slots:sl,rid:r.id});
+    }
+    let bf=null;
+    if(mt.includes('frueh')&&bfs.length){
+      const fw=r=>(1+styleMatch(r,mult)+0.3*overlapCount(r,set)+0.4*fridgeUse(r))*kcalFit(r,'frueh');
+      const a=wpick(bfs,fw);const rest=bfs.filter(x=>x!==a);const b=rest.length?wpick(rest,fw):a;
+      bf={};days.forEach((d,i)=>bf[d]=(i%2?b:a).id);
+    }
+    const plan={units:us,bf,noBf:mt.includes('frueh')&&!bfs.length};
+    const sc=scorePlan(plan,mult);
+    if(sc>bestScore){bestScore=sc;best=plan}
+  }
+  best.fewRecipes=mains.length<units.length;
+  S.plan=best;S.checked={};S.cooked={};save();return true;
+}
+function swapUnit(i){
+  const ex=exTags(),mult=STORE_MULT[currentStore()];
+  const cur=S.plan.units[i];const used=new Set(S.plan.units.map(u=>u.rid));
+  const others=RECIPES.filter(r=>r.type==='m'&&r.id!==cur.rid&&eligible(r,ex));
+  if(!others.length)return;
+  const per=targetPerServing(slotCount());
+  const r=wpick(others,r=>(used.has(r.id)?0.08:1)*(1+1.6*styleMatch(r,mult))*(1+0.6*fridgeUse(r))*kcalFit(r,cur.slots[0].m)*Math.min(1,Math.pow(per/Math.max(servingCost(r,mult),.01),2)));
+  cur.rid=r.id;S.checked={};save();
+}
+function swapBf(d){
+  const ex=exTags(),cur=S.plan.bf[d];
+  const others=RECIPES.filter(r=>r.type==='f'&&r.id!==cur&&eligible(r,ex));
+  if(!others.length)return;
+  S.plan.bf[d]=wpick(others,r=>(1+styleMatch(r,STORE_MULT[currentStore()]))*kcalFit(r,'frueh')).id;S.checked={};save();
+}
+function cook(key){
+  const [d,m]=key.split('-');let r,f;
+  if(m==='frueh'){r=RBY[S.plan.bf[d]];f=S.persons}
+  else{const u=S.plan.units.find(u=>skey(u.slots[0].d,u.slots[0].m)===key);if(!u)return;r=RBY[u.rid];f=u.slots.length*S.persons}
+  const undo=!!S.cooked[key];
+  for(const [id,q] of effIng(r)){
+    if(S.pantry.includes(id))continue;
+    const cur=S.fridge[id]||0;
+    const nv=undo?cur+q*f:Math.max(0,cur-q*f);
+    if(nv<=1e-6)delete S.fridge[id];else S.fridge[id]=nv;
+  }
+  if(undo)delete S.cooked[key];else S.cooked[key]=true;
+  const lg=S.cookLog[r.id]||{n:0,last:null};
+  if(undo){lg.n=Math.max(0,lg.n-1);if(!lg.n){delete S.cookLog[r.id]}else S.cookLog[r.id]=lg}
+  else{lg.n++;lg.last=new Date().toISOString().slice(0,10);S.cookLog[r.id]=lg}
+}
+function finishShopping(){
+  const shop=shopping(planNeeds(S.plan),1);
+  shop.items.forEach(it=>{if(S.checked[it.g.id])S.fridge[it.g.id]=(S.fridge[it.g.id]||0)+it.packs*it.g.pack});
+  S.checked={};
+}
+function fstep(g){return g.unit==='g'||g.unit==='ml'?(g.pack>=500?50:25):1}
+
+/* ---------- Formatierung ---------- */
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const eur=n=>n.toFixed(2).replace('.',',')+' €';
+const num=n=>Math.round(n).toLocaleString('de-AT');
+function frac(q){const r=Math.round(q*4)/4;if(r===0)return '¼';const w=Math.floor(r),f=r-w;const fs={0:'',0.25:'¼',0.5:'½',0.75:'¾'}[f];return ((w?w:'')+fs)||'0'}
+function fmtQty(q,u){
+  if(u==='g'||u==='ml'){if(q>=1000)return String(Math.round(q/100)/10).replace('.',',')+(u==='g'?' kg':' l');const v=q<20?Math.round(q):Math.round(q/5)*5;return v+' '+u}
+  const lab={Stk:'Stk',Zehe:(q>1?'Zehen':'Zehe'),EL:'EL',TL:'TL',Bund:'Bund'}[u]||u;
+  return frac(q)+' '+lab;
+}
+
+/* ---------- Wizard ---------- */
+function tile(key,val,emoji,label,sub,multi,cls=''){
+  const on=multi?S[key].includes(val):S[key]===val;
+  return `<button class="tile ${cls}" aria-pressed="${on}" data-act="${multi?'toggle':'set'}" data-key="${key}" data-val="${esc(val)}">${emoji?`<span class="e" aria-hidden="true">${emoji}</span>`:''}<span class="l">${esc(label)}</span>${sub?`<span class="s">${esc(sub)}</span>`:''}</button>`;
+}
+function chip(key,val,label,cls=''){return `<button class="chip ${cls}" aria-pressed="${S[key].includes(val)}" data-act="toggle" data-key="${key}" data-val="${esc(val)}">${esc(label)}</button>`}
+function perServingText(){const n=S.days.length*mealTypes().length*S.persons;return n?`rund ${eur(S.budget/n)} pro Portion bei ${n} Portionen`:'Wähle mindestens einen Tag'}
+function kcalHint(){
+  if(!S.kcal)return '';
+  const sh=KSHARE[S.meals];const parts=Object.entries(sh).map(([m,f])=>`${MEAL_LABEL[m]} ca. ${num(S.kcal*f)} kcal`);
+  return parts.join(', ')+'. Der Rest bleibt für Snacks und ungeplante Mahlzeiten.';
+}
+const STEPS=[
+  {q:'Wo kaufst du ein?',sub:'Wähle alle Geschäfte in deiner Nähe. Wir rechnen mit dem günstigsten und zeigen dir den Vergleich.',ok:()=>S.stores.length>0,
+   body:()=>`<div class="tiles">${STORES.map(([k,n])=>tile('stores',k,'🛒',n,'',true)).join('')}</div>`},
+  {q:'Für wen und wann kochst du?',sub:'Tippe Tage weg, an denen du nicht zuhause bist.',ok:()=>S.days.length>0,
+   body:()=>`<div class="stepper"><button data-act="dec" aria-label="Eine Person weniger">−</button><output aria-live="polite">${S.persons}</output><button data-act="inc" aria-label="Eine Person mehr">+</button><span class="sub" style="margin:0">${S.persons===1?'Person':'Personen'}</span></div>
+   <h2 class="group">An welchen Tagen bist du zuhause?</h2><div class="daysel">${DS.map((n,d)=>`<button class="tile" aria-pressed="${S.days.includes(d)}" data-act="day" data-val="${d}" aria-label="${DAYS[d]}"><span class="l">${n}</span></button>`).join('')}</div>
+   <h2 class="group">Welche Mahlzeiten sollen wir planen?</h2><div class="tiles">${MEALS.map(([k,e,l,s])=>tile('meals',k,e,l,s,false)).join('')}</div>`},
+  {q:'Wie hoch ist dein Wochenbudget?',sub:'Der Betrag, den du pro Woche für diesen Einkauf ausgeben möchtest.',
+   body:()=>`<div class="budget"><output id="bval">${S.budget} €</output><span class="per" id="bper">${perServingText()}</span>
+   <input type="range" min="20" max="200" step="5" value="${S.budget}" data-act="budget" aria-label="Wochenbudget in Euro"><div class="range-ends"><span>20 €</span><span>200 €</span></div></div>`},
+  {q:'Hast du ein Kalorienziel?',sub:'Wir wählen Rezepte, die zu deinem Tagesziel passen, und zeigen dir die Kalorien pro Mahlzeit und Tag.',
+   body:()=>`<div class="toggle2"><button class="chip" aria-pressed="${!S.kcal}" data-act="kcaloff">Kein Ziel</button><button class="chip" aria-pressed="${!!S.kcal}" data-act="kcalon">Ja, ich habe ein Ziel</button></div>
+   ${S.kcal?`<div class="budget"><output id="kval">${num(S.kcal)} kcal</output><span class="per">pro Tag, für deine Portion</span>
+   <input type="range" min="1200" max="3500" step="50" value="${S.kcal}" data-act="kcal" aria-label="Kalorienziel pro Tag"><div class="range-ends"><span>1.200</span><span>3.500</span></div><p class="hint" id="khint">${kcalHint()}</p></div>`:''}`},
+  {q:'Was hast du in der Küche?',sub:'Wähle alle Geräte aus, die du hast. Wir schlagen nur Rezepte vor, die du damit kochen kannst.',ok:()=>S.appliances.length>0,
+   body:()=>`<div class="tiles">${APPLIANCES.map(([k,e,l])=>tile('appliances',k,e,l,'',true)).join('')}</div>`},
+  {q:'Wie isst du?',
+   body:()=>`<div class="tiles">${DIETS.map(([k,e,l])=>tile('diet',k,e,l,'',false)).join('')}</div>
+   <h2 class="group">Außerdem</h2><div class="tiles">${EXTRAS.map(([k,e,l])=>tile('extras',k,e,l,'',true)).join('')}</div>
+   <h2 class="group">Allergien und Unverträglichkeiten</h2><div class="tiles">${ALLERG.map(([k,e,l])=>tile('allergies',k,e,l,'',true,'no')).join('')}</div>`},
+  {q:'Welche Proteinquellen magst du?',sub:'Tippe weg, was du nicht essen möchtest.',
+   body:()=>`<div class="tiles">${PROT.map(([k,e,l])=>tile('proteins',k,e,l,'',true)).join('')}</div>`},
+  {q:'Worauf hast du Lust?',sub:'Wähle so viele Richtungen, wie du magst. Passende Rezepte kommen öfter dran.',
+   body:()=>`<div class="tiles">${STYLES.map(([k,e,l,s])=>tile('styles',k,e,l,s||'',true)).join('')}</div>`},
+  {q:'Was hast du immer zuhause?',sub:'Grundvorrat wie Öl und Gewürze. Das kommt nie auf die Einkaufsliste.',
+   body:()=>PANTRY_ORDER.slice(0,3).map(c=>`<h2 class="group">${c}</h2><div class="chips">${Object.values(INGS).filter(g=>g.cat===c).map(g=>chip('pantry',g.id,g.name)).join('')}</div>`).join('')},
+  {q:'Was ist gerade im Kühlschrank?',sub:'Tippe an, was du da hast. Wir planen es bevorzugt ein. Mengen kannst du später im Kühlschrank-Tab genau einstellen.',
+   body:()=>['Obst & Gemüse','Kühlregal','Fleisch & Fisch','Tiefkühl','Brot & Gebäck'].map(c=>`<h2 class="group">${c}</h2><div class="chips">${Object.values(INGS).filter(g=>g.cat===c).map(g=>`<button class="chip" aria-pressed="${(S.fridge[g.id]||0)>0}" data-act="ftoggle" data-val="${g.id}">${esc(g.name)}</button>`).join('')}</div>`).join('')},
+  {q:'Gibt es etwas, das du nicht magst?',sub:'Kleinigkeiten wie Zwiebeln, Knoblauch oder Kräuter lassen wir im Rezept weg. Bei Hauptzutaten bekommst du ein anderes Gericht.',
+   body:()=>`<div class="chips">${Object.values(INGS).filter(g=>g.cat!=='Gewürze & Öle').sort((a,b)=>a.name.localeCompare(b.name,'de')).map(g=>chip('blocked',g.id,g.name,'no')).join('')}</div>`+(genError?`<p class="warn" role="alert">${esc(genError)}</p>`:'')}
+];
+const BRAND=`<span class="brand"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="16" cy="16" r="8" fill="none" stroke="currentColor" stroke-width="2"/>${[0,1,2,3,4,5,6].map(i=>{const a=i/7*Math.PI*2-Math.PI/2;return `<circle cx="${(16+11*Math.cos(a)).toFixed(2)}" cy="${(16+11*Math.sin(a)).toFixed(2)}" r="1.4" fill="currentColor"/>`}).join('')}</svg>Wochenteller</span>`;
+function renderWizard(){
+  const st=STEPS[step],last=step===STEPS.length-1;
+  return `<header class="top">${BRAND}<span class="hright">${S.plan?'<button class="link" data-act="toplan">Zum Plan</button>':''}${who()}</span></header>
+  <div class="progress" role="progressbar" aria-label="Fortschritt" aria-valuemin="1" aria-valuemax="${STEPS.length}" aria-valuenow="${step+1}"><span style="width:${(step+1)/STEPS.length*100}%"></span></div>
+  <main><p class="stepno">Schritt ${step+1} von ${STEPS.length}</p><h1>${st.q}</h1>${st.sub?`<p class="sub">${st.sub}</p>`:''}${st.body()}</main>
+  <footer class="bar">${step>0?'<button class="btn ghost" data-act="back">Zurück</button>':''}<button class="btn primary" data-act="next" ${st.ok&&!st.ok()?'disabled':''}>${last?'Wochenplan erstellen':'Weiter'}</button></footer>`;
+}
+
+/* ---------- Plan ---------- */
+function recipeBody(r,f){
+  const ings=effIng(r).map(([id,q])=>{const g=INGS[id];const has=(S.fridge[id]||0)>0||S.pantry.includes(id);return `<dt>${fmtQty(q*f,g.unit)}</dt><dd>${esc(g.name)}${has?' <span class="cover">(da)</span>':''}</dd>`}).join('');
+  return `<dl class="ings">${ings}</dl><p class="note">Für ${f} ${f===1?'Portion':'Portionen'}, ca. ${num(kcalOf(r))} kcal pro Portion. Salz und Pfeffer nach Geschmack.</p><ol>${r.st.map(s=>`<li>${esc(s)}</li>`).join('')}</ol>${favBtn(r)}`;
+}
+function favBtn(r){const f=S.saved.includes(r.id);return `<div class="btnrow"><button class="small-btn ${f?'ok':''}" data-act="fav" data-val="${r.id}" aria-pressed="${f}">${f?'♥ Gemerkt':'♡ Merken'}</button></div>`}
+function cookInfo(r){const l=S.cookLog[r.id];if(!l)return '';const d=l.last?l.last.split('-').reverse().slice(0,2).join('.')+'.':'';return `${l.n}× gekocht${d?', zuletzt '+d:''}`}
+function recipeListHTML(){
+  const ex=exTags();const q=rQuery.trim().toLowerCase();
+  let list=RECIPES.slice();
+  if(rFilter==='saved')list=list.filter(r=>S.saved.includes(r.id));
+  else if(rFilter==='fit')list=list.filter(r=>eligible(r,ex));
+  else if(rFilter==='cooked')list=list.filter(r=>S.cookLog[r.id]).sort((a,b)=>S.cookLog[b.id].n-S.cookLog[a.id].n);
+  if(q)list=list.filter(r=>r.n.toLowerCase().includes(q)||effIng(r).some(([id])=>INGS[id].name.toLowerCase().includes(q)));
+  if(!list.length)return `<div class="empty">${rFilter==='saved'&&!q?'Noch nichts gemerkt. Tippe bei einem Rezept auf „Merken“, dann landet es hier und kommt öfter in deinen Plan.':rFilter==='cooked'&&!q?'Sobald du ein Gericht als gekocht markierst, erscheint es hier.':'Kein Rezept gefunden.'}</div>`;
+  return `<p class="note">${list.length} ${list.length===1?'Rezept':'Rezepte'}</p>`+list.map(r=>{const ci=cookInfo(r),fav=S.saved.includes(r.id);
+    return `<details class="meal"><summary><span class="em" aria-hidden="true">${r.e}</span><span class="mt"><span class="ml">${fav?'♥ ':''}${r.type==='f'?'Frühstück':'Hauptgericht'}${ci?', '+ci:''}</span><span class="mn">${esc(r.n)}</span></span><span class="tm"><span>${r.t} Min</span><span>${num(kcalOf(r))} kcal</span></span></summary><div class="md">${recipeBody(r,S.persons)}</div></details>`}).join('');
+}
+function renderRecipes(){
+  if(!rFilter)rFilter=S.saved.length?'saved':'fit';
+  const F=[['saved','Gemerkt ('+S.saved.length+')'],['cooked','Schon gekocht'],['fit','Passt zu mir'],['all','Alle']];
+  return `<div class="rsearch"><input id="rsearch" type="search" placeholder="Rezept oder Zutat suchen" value="${esc(rQuery)}" aria-label="Rezepte durchsuchen"></div>
+  <div class="chips" style="margin-bottom:14px">${F.map(([k,l])=>`<button class="chip" aria-pressed="${rFilter===k}" data-act="rfilter" data-val="${k}">${l}</button>`).join('')}</div>
+  <div id="rlist">${recipeListHTML()}</div>`;
+}
+function mealCard(r,label,o){
+  const kc=`${num(kcalOf(r))} kcal`;
+  if(o.leftover){
+    return `<details class="meal left ${o.done?'done':''}"><summary><span class="em" aria-hidden="true">${r.e}</span><span class="mt"><span class="ml">${label}, Reste vom Vortag</span><span class="mn">${esc(r.n)}</span></span><span class="tm"><span>aufwärmen</span><span>${kc}</span></span></summary>
+    <div class="md"><p class="note">Das kochst du am Vortag in doppelter Menge. Einfach aufwärmen.</p></div></details>`;
+  }
+  const f=S.persons*(o.double?2:1);
+  return `<details class="meal ${o.done?'done':''}"><summary><span class="em" aria-hidden="true">${r.e}</span><span class="mt"><span class="ml">${label}</span><span class="mn">${esc(r.n)}</span></span><span class="tm"><span>${r.t} Min</span><span>${kc}</span></span></summary>
+  <div class="md">${o.double?'<p class="note">Doppelte Menge kochen: Die Hälfte ist für die nächste Mahlzeit.</p>':''}${recipeBody(r,f)}
+  <div class="btnrow"><button class="small-btn ${o.done?'ok':''}" data-act="cook" data-val="${o.key}">${o.done?'Gekocht, rückgängig machen':'Als gekocht markieren'}</button>${o.done?'':`<button class="small-btn" data-act="${o.bfDay!=null?'swapbf':'swap'}" data-val="${o.bfDay!=null?o.bfDay:o.unit}">Anderes Gericht</button>`}</div>
+  ${o.done?'':'<p class="note">„Gekocht“ zieht die Zutaten aus deinem Kühlschrank ab.</p>'}</div></details>`;
+}
+function renderWeek(){
+  const P=S.plan,mt=mealTypes();
+  let html='';
+  if(P.fewRecipes)html+=`<p class="warn">Mit deinen Einstellungen passen nur wenige Rezepte, deshalb wiederholen sich manche Gerichte.</p>`;
+  if(P.noBf)html+=`<p class="warn">Für deine Einstellungen gibt es kein passendes Frühstück.</p>`;
+  for(let d=0;d<7;d++){
+    if(!S.days.includes(d)){
+      html+=`<section class="day off"><div class="day-head"><h2>${DAYS[d]}</h2></div><div class="offrow"><span>Nicht zuhause</span><button class="small-btn" data-act="dayon" data-val="${d}">Doch zuhause</button></div></section>`;continue;
+    }
+    let meals='',kc=0;
+    if(mt.includes('frueh')&&P.bf&&P.bf[d]){const r=RBY[P.bf[d]];kc+=kcalOf(r);const key=skey(d,'frueh');meals+=mealCard(r,'Frühstück',{bfDay:d,key,done:!!S.cooked[key]})}
+    for(const m of ['mittag','abend']){
+      if(!mt.includes(m))continue;
+      P.units.forEach((u,ui)=>{const k=u.slots.findIndex(s=>s.d===d&&s.m===m);if(k<0)return;
+        const r=RBY[u.rid];kc+=kcalOf(r);const key=skey(u.slots[0].d,u.slots[0].m);
+        meals+=mealCard(r,MEAL_LABEL[m],{unit:ui,key,leftover:k===1,double:u.slots.length===2&&k===0,done:!!S.cooked[key]});});
+    }
+    const hi=S.kcal&&kc>S.kcal*1.05;
+    html+=`<section class="day"><div class="day-head"><h2>${DAYS[d]}</h2><span class="kcal ${hi?'hi':''}">${num(kc)}${S.kcal?` von ${num(S.kcal)}`:''} kcal</span></div>${meals}
+    <button class="link" data-act="dayoff" data-val="${d}">An diesem Tag nicht zuhause</button></section>`;
+  }
+  return html;
+}
+function renderList(shop,store){
+  const groups=CAT_ORDER.map(c=>[c,shop.items.filter(it=>it.g.cat===c).sort((a,b)=>a.g.name.localeCompare(b.g.name,'de'))]).filter(([,a])=>a.length);
+  const done=shop.items.filter(it=>S.checked[it.g.id]).length;
+  if(!shop.items.length)return `<div class="empty">Alles da. Für deinen Plan musst du gerade nichts einkaufen.</div>`;
+  return `<div class="receipt"><div class="rtitle">Einkaufsliste ${esc(STORE_NAME[store])}</div><div class="rsub">${done} von ${shop.items.length} im Wagen</div>
+  ${groups.map(([c,a])=>`<h3>${c}</h3>${a.map(it=>{
+    const g=it.g,chk=!!S.checked[g.id];
+    const rest=it.rest>0.05*g.pack&&!(g.unit==='EL'||g.unit==='TL')?`, Rest ca. ${fmtQty(it.rest,g.unit)}`:'';
+    return `<label class="row ${chk?'done':''}"><input type="checkbox" data-check="${g.id}" ${chk?'checked':''}><span class="rn">${esc(g.name)}<small>${it.packs}× ${esc(g.packLabel)}, du brauchst ${fmtQty(it.need,g.unit)}${rest}</small></span><span class="rp">${eur(it.price)}</span></label>`;}).join('')}`).join('')}
+  <div class="rtotal"><span>Summe</span><span>${eur(shop.total)}</span></div>
+  <div class="rline"><span>Budget</span><span>${eur(S.budget)}</span></div>
+  <div class="rline"><span>${shop.total<=S.budget?'Bleibt übrig':'Darüber'}</span><span>${eur(Math.abs(S.budget-shop.total))}</span></div>
+  ${shop.fromFridge.length?`<div class="have">Schon im Kühlschrank: ${shop.fromFridge.map(g=>esc(g.name)).join(', ')}</div>`:''}
+  ${shop.have.length?`<div class="have">Immer zuhause: ${shop.have.map(g=>esc(g.name)).join(', ')}</div>`:''}</div>
+  <button class="btn primary finish" data-act="finish" ${done?'':'disabled'}>Abgehakte Sachen in den Kühlschrank legen</button>`;
+}
+function renderFridge(needs){
+  const ids=Object.keys(S.fridge).filter(id=>S.fridge[id]>0);
+  const opts=CAT_ORDER.filter(c=>c!=='Gewürze & Öle').map(c=>`<optgroup label="${c}">${Object.values(INGS).filter(g=>g.cat===c).map(g=>`<option value="${g.id}">${esc(g.name)}</option>`).join('')}</optgroup>`).join('');
+  const first=INGS[Object.values(INGS).find(g=>g.cat==='Obst & Gemüse').id];
+  let html=`<form class="fform" data-form="fadd"><label class="full">Lebensmittel<select id="fsel">${opts}</select></label><label>Menge (<span id="funit">${first.unit}</span>)<input id="famt" type="number" min="0" step="any" value="${first.pack}" inputmode="decimal"></label><button class="btn primary" type="submit" style="margin:0">Hinzufügen</button></form>`;
+  if(!ids.length)html+=`<div class="empty">Dein Kühlschrank ist leer. Füge oben hinzu, was du da hast, oder hake beim Einkauf ab und lege die Sachen mit einem Tipp hierher.</div>`;
+  for(const c of CAT_ORDER){
+    const list=ids.filter(id=>INGS[id].cat===c).sort((a,b)=>INGS[a].name.localeCompare(INGS[b].name,'de'));
+    if(!list.length)continue;
+    html+=`<h3 class="fcat">${c}</h3>`+list.map(id=>{
+      const g=INGS[id],have=S.fridge[id],need=needs[id]||0;
+      let st;
+      if(!need)st='<small class="warn2">Nicht im Plan, bald verbrauchen</small>';
+      else if(have>=need-1e-6)st=`<small>Reicht für den Plan (${fmtQty(need,g.unit)} gebraucht)</small>`;
+      else st=`<small>Für den Plan fehlen ${fmtQty(need-have,g.unit)}</small>`;
+      return `<div class="fitem"><span class="fn">${esc(g.name)}${st}</span><button class="ib" data-act="fminus" data-val="${id}" aria-label="${esc(g.name)} weniger">−</button><span class="fq">${fmtQty(have,g.unit)}</span><button class="ib" data-act="fplus" data-val="${id}" aria-label="${esc(g.name)} mehr">+</button><button class="ib" data-act="fdel" data-val="${id}" aria-label="${esc(g.name)} entfernen">✕</button></div>`;
+    }).join('');
+  }
+  // Rezepte mit dem, was da ist
+  const ex=exTags();
+  const sug=RECIPES.filter(r=>eligible(r,ex)).map(r=>{
+    const main=effIng(r).filter(([id])=>!INGS[id].minor&&!S.pantry.includes(id));
+    const hasN=main.filter(([id])=>(S.fridge[id]||0)>0).length;
+    return {r,hasN,tot:main.length,miss:main.filter(([id])=>!(S.fridge[id]>0)).map(([id])=>INGS[id].name)};
+  }).filter(x=>x.hasN>0).sort((a,b)=>(b.hasN/b.tot)-(a.hasN/a.tot)||a.miss.length-b.miss.length).slice(0,6);
+  if(sug.length){
+    html+=`<h2 class="group" style="font-size:1.15rem">Das kannst du daraus kochen</h2>`+sug.map(x=>`<details class="meal"><summary><span class="em" aria-hidden="true">${x.r.e}</span><span class="mt"><span class="ml">${x.hasN} von ${x.tot} Zutaten da</span><span class="mn">${esc(x.r.n)}</span></span><span class="tm"><span>${x.r.t} Min</span><span>${num(kcalOf(x.r))} kcal</span></span></summary><div class="md">${x.miss.length?`<p class="note">Fehlt noch: ${x.miss.map(esc).join(', ')}</p>`:'<p class="note">Alles da.</p>'}${recipeBody(x.r,S.persons)}</div></details>`).join('');
+  }
+  html+=`<h2 class="group" style="font-size:1.15rem">Immer zuhause</h2><div class="chips">${PANTRY_ORDER.slice(0,3).flatMap(c=>Object.values(INGS).filter(g=>g.cat===c)).map(g=>chip('pantry',g.id,g.name)).join('')}</div>`;
+  return html;
+}
+function renderPlan(){
+  const store=currentStore(),mult=STORE_MULT[store];
+  const needs=planNeeds(S.plan),shop=shopping(needs,mult);
+  const over=shop.total>S.budget,pct=Math.min(100,shop.total/S.budget*100);
+  const msg=over?`${eur(shop.total-S.budget)} über deinem Budget. Tausche ein teures Gericht oder probiere ein anderes Geschäft.`:`Du bleibst ${eur(S.budget-shop.total)} unter deinem Budget.`;
+  const cmp=S.stores.map(s=>[s,shopping(needs,STORE_MULT[s]).total]).sort((a,b)=>a[1]-b[1]);
+  const mealsTxt=MEALS.find(m=>m[0]===S.meals)[2];
+  const nFridge=Object.values(S.fridge).filter(v=>v>0).length;
+  let kTxt='';
+  if(S.kcal){let sum=0;S.days.forEach(d=>{if(S.plan.bf&&S.plan.bf[d])sum+=kcalOf(RBY[S.plan.bf[d]]);S.plan.units.forEach(u=>u.slots.forEach(s=>{if(s.d===d)sum+=kcalOf(RBY[u.rid])}))});
+    kTxt=`<p class="bc-msg" style="margin-top:6px">Geplant im Schnitt ${num(sum/Math.max(1,S.days.length))} kcal pro Tag, dein Ziel sind ${num(S.kcal)} kcal.</p>`;}
+  return `<header class="top">${BRAND}<span class="hright"><button class="link" data-act="edit">Einstellungen</button>${who()}</span></header>
+  <main><h1>Deine Woche</h1><p class="sub">${S.persons} ${S.persons===1?'Person':'Personen'}, ${mealsTxt.toLowerCase()}, ${S.days.length} ${S.days.length===1?'Tag':'Tage'} zuhause</p>
+  <section class="budgetcard" aria-label="Kosten"><div class="bc-top"><span class="bc-total">${eur(shop.total)}</span><span class="bc-of">noch einzukaufen bei ${esc(STORE_NAME[store])}, Budget ${eur(S.budget)}</span></div>
+  <div class="meter ${over?'over':''}"><span style="width:${pct}%"></span></div><p class="bc-msg">${msg}</p>${kTxt}</section>
+  ${cmp.length>1?`<div class="stores" role="group" aria-label="Geschäft wählen">${cmp.map(([s,t])=>`<button class="store" aria-pressed="${s===store}" data-act="store" data-val="${s}"><strong>${esc(STORE_NAME[s])}</strong><small>${eur(t)}</small></button>`).join('')}</div>`:''}
+  <div class="tabs" role="tablist"><button class="tab" role="tab" aria-selected="${tab==='plan'}" data-act="tab" data-val="plan">Plan</button><button class="tab" role="tab" aria-selected="${tab==='list'}" data-act="tab" data-val="list">Einkauf (${shop.items.length})</button><button class="tab" role="tab" aria-selected="${tab==='fridge'}" data-act="tab" data-val="fridge">Kühlschrank (${nFridge})</button><button class="tab" role="tab" aria-selected="${tab==='recipes'}" data-act="tab" data-val="recipes">Rezepte</button></div>
+  ${tab==='plan'?renderWeek():tab==='list'?renderList(shop,store):tab==='fridge'?renderFridge(needs):renderRecipes()}
+  ${tab==='plan'?'<div class="actions"><button class="btn ghost" data-act="shuffle">Neu mischen</button></div>':''}
+  <p class="foot">Preise und Kalorien sind Schätzwerte und können je nach Produkt, Filiale und Aktion abweichen. Salz, Pfeffer und Wasser setzen wir voraus. Deine Daten werden nur auf diesem Gerät gespeichert.</p></main>`;
+}
+const app=document.getElementById('app');
+function renderProfiles(){
+  const has=PR.list.length>0;
+  return `<header class="top">${BRAND}</header><main><h1>${has?'Wer plant gerade?':'Willkommen'}</h1><p class="sub">Jede Person hat ihren eigenen Bereich mit Wochenplan, Einkaufsliste, Kühlschrank und Einstellungen.</p>
+  ${has?`<div class="plist">${PR.list.map(p=>`<div class="pitem"><button class="pbtn" data-act="pick" data-val="${p.id}"><span class="av" style="background:${AV[p.color%AV.length]}">${esc(initial(p.name))}</span><span>${esc(p.name)}</span></button>${profileEdit?`<button class="ib" data-act="pdel" data-val="${p.id}" aria-label="Bereich von ${esc(p.name)} löschen">✕</button>`:''}</div>`).join('')}</div>`:''}
+  <form class="fform pform" data-form="padd"><label class="full">${has?'Neue Person anlegen':'Wie heißt du?'}<input id="pname" type="text" maxlength="30" placeholder="Name eingeben" autocomplete="off"></label><button class="btn primary" type="submit" style="margin:0">${has?'Anlegen':'Los geht’s'}</button></form>
+  ${has?`<button class="link" data-act="pedit">${profileEdit?'Fertig':'Personen bearbeiten'}</button>`:''}
+  <p class="foot">Die Bereiche werden auf diesem Gerät gespeichert.</p></main>`;
+}
+function render(){app.innerHTML=view==='profiles'?renderProfiles():view==='wizard'?renderWizard():renderPlan()}
+
+app.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]');if(!b)return;
+  const {act,key,val}=b.dataset;
+  switch(act){
+    case 'toggle':{const a=S[key];const i=a.indexOf(val);i<0?a.push(val):a.splice(i,1);break}
+    case 'set':S[key]=val;break;
+    case 'inc':S.persons=Math.min(8,S.persons+1);break;
+    case 'dec':S.persons=Math.max(1,S.persons-1);break;
+    case 'day':{const d=+val,i=S.days.indexOf(d);i<0?S.days.push(d):S.days.splice(i,1);break}
+    case 'dayoff':{if(S.days.length<=1)return;S.days=S.days.filter(x=>x!==+val);generate(true);break}
+    case 'dayon':{S.days.push(+val);generate(true);break}
+    case 'kcaloff':S.kcal=0;break;
+    case 'kcalon':if(!S.kcal)S.kcal=2000;break;
+    case 'ftoggle':{const g=INGS[val];if((S.fridge[val]||0)>0)delete S.fridge[val];else S.fridge[val]=g.pack;break}
+    case 'fplus':{const g=INGS[val];S.fridge[val]=(S.fridge[val]||0)+fstep(g);break}
+    case 'fminus':{const g=INGS[val];const nv=(S.fridge[val]||0)-fstep(g);if(nv<=1e-6)delete S.fridge[val];else S.fridge[val]=nv;break}
+    case 'fdel':delete S.fridge[val];break;
+    case 'finish':finishShopping();tab='fridge';break;
+    case 'cook':cook(val);break;
+    case 'profiles':flush();view='profiles';profileEdit=false;window.scrollTo(0,0);break;
+    case 'pick':loadProfile(val).then(()=>{window.scrollTo(0,0);render()});return;
+    case 'fav':{const i=S.saved.indexOf(val);i<0?S.saved.push(val):S.saved.splice(i,1);break}
+    case 'rfilter':rFilter=val;break;
+    case 'pedit':profileEdit=!profileEdit;break;
+    case 'pdel':{const p=PR.list.find(x=>x.id===val);if(!p||!confirm(`Bereich von ${p.name} löschen? Plan, Kühlschrank und Einstellungen gehen verloren.`))return;
+      PR.list=PR.list.filter(x=>x.id!==val);try{localStorage.removeItem('wochenteller-p-'+val)}catch(e){}
+      if(API)api('profiles/'+val,{method:'DELETE'}).catch(()=>{});
+      if(PR.current===val){PR.current=null;S=null}if(!PR.list.length)profileEdit=false;saveProfiles();break}
+    case 'next':
+      if(step<STEPS.length-1){step++;window.scrollTo(0,0)}
+      else{if(generate()){view='plan';tab='plan';window.scrollTo(0,0)}}
+      break;
+    case 'back':step=Math.max(0,step-1);window.scrollTo(0,0);break;
+    case 'edit':view='wizard';step=0;genError='';window.scrollTo(0,0);break;
+    case 'toplan':view='plan';window.scrollTo(0,0);break;
+    case 'tab':tab=val;break;
+    case 'store':S.store=val;break;
+    case 'shuffle':generate();break;
+    case 'swap':swapUnit(+val);break;
+    case 'swapbf':swapBf(+val);break;
+    default:return;
+  }
+  save();render();
+});
+app.addEventListener('input',e=>{
+  if(e.target.id==='rsearch'){rQuery=e.target.value;const l=document.getElementById('rlist');if(l)l.innerHTML=recipeListHTML();return}
+  const a=e.target.dataset.act;
+  if(a==='budget'){S.budget=+e.target.value;save();document.getElementById('bval').textContent=S.budget+' €';document.getElementById('bper').textContent=perServingText()}
+  if(a==='kcal'){S.kcal=+e.target.value;save();document.getElementById('kval').textContent=num(S.kcal)+' kcal';document.getElementById('khint').textContent=kcalHint()}
+});
+app.addEventListener('change',e=>{
+  if(e.target.id==='fsel'){const g=INGS[e.target.value];document.getElementById('funit').textContent=g.unit;document.getElementById('famt').value=g.pack;return}
+  const id=e.target.dataset.check;if(!id)return;
+  S.checked[id]=e.target.checked;save();
+  e.target.closest('.row').classList.toggle('done',e.target.checked);
+  const all=[...app.querySelectorAll('[data-check]')],n=all.filter(x=>x.checked).length;
+  const rs=app.querySelector('.rsub');if(rs)rs.textContent=`${n} von ${all.length} im Wagen`;
+  const fb=app.querySelector('.finish');if(fb)fb.disabled=!n;
+});
+app.addEventListener('submit',e=>{
+  if(e.target.dataset.form==='padd'){e.preventDefault();const n=document.getElementById('pname').value.trim();if(!n)return;
+    (async()=>{let p={id:'p'+Date.now().toString(36),name:n,color:PR.list.length};
+      if(API){try{p=await api('profiles',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:n})})}catch(err){alert('Die Person konnte nicht gespeichert werden. Läuft server.py noch?');return}}
+      PR.list.push(p);await loadProfile(p.id);save();window.scrollTo(0,0);render()})();return}
+  if(e.target.dataset.form!=='fadd')return;e.preventDefault();
+  const id=document.getElementById('fsel').value,amt=parseFloat(String(document.getElementById('famt').value).replace(',','.'));
+  if(!(amt>0))return;S.fridge[id]=(S.fridge[id]||0)+amt;save();render();
+});
+async function init(){
+  if(location.protocol==='http:'){try{await api('ping');API=true}catch(e){}}
+  if(API){
+    try{loadRecipes(await api('recipes'))}catch(e){}
+    try{PR.list=await api('profiles');saveProfiles()}catch(e){}
+  }
+  render();
+}
+init();
+
+</script>
+</body>
+</html>

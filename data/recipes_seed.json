@@ -1,0 +1,2407 @@
+[
+ {
+  "id": "r0",
+  "n": "Spaghetti Bolognese",
+  "e": "🍝",
+  "s": [
+   "ital",
+   "familie"
+  ],
+  "t": 35,
+  "need": "H",
+  "i": {
+   "nudeln": 125,
+   "faschiert": 125,
+   "passata": 125,
+   "zwiebel": 0.5,
+   "knoblauch": 1,
+   "karotten": 50,
+   "olivenoel": 1,
+   "oregano": 0.5,
+   "parmesan": 10
+  },
+  "st": [
+   "Zwiebel, Knoblauch und Karotte fein hacken und in Olivenöl anschwitzen.",
+   "Faschiertes dazugeben, krümelig anbraten, mit Passata und Oregano 20 Minuten köcheln lassen.",
+   "Nudeln bissfest kochen und mit Sauce und Parmesan servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r1",
+  "n": "Linsen-Bolognese",
+  "e": "🍝",
+  "s": [
+   "ital",
+   "familie"
+  ],
+  "t": 30,
+  "need": "H",
+  "i": {
+   "nudeln": 125,
+   "linsen": 60,
+   "passata": 150,
+   "zwiebel": 0.5,
+   "knoblauch": 1,
+   "karotten": 60,
+   "olivenoel": 1,
+   "oregano": 0.5
+  },
+  "st": [
+   "Zwiebel, Knoblauch und Karotte fein hacken und in Olivenöl anschwitzen.",
+   "Linsen, Passata und 150 ml Wasser pro Person dazugeben und 15 Minuten köcheln, bis die Linsen weich sind.",
+   "Mit Oregano, Salz und Pfeffer abschmecken und zu den Nudeln servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r2",
+  "n": "Hühnercurry mit Reis",
+  "e": "🍛",
+  "s": [
+   "indisch",
+   "asia",
+   "protein"
+  ],
+  "t": 30,
+  "need": "H",
+  "i": {
+   "huhn": 150,
+   "kokos": 100,
+   "reis": 80,
+   "paprika": 0.5,
+   "zwiebel": 0.5,
+   "knoblauch": 1,
+   "ingwer": 5,
+   "curry": 1,
+   "oel": 1
+  },
+  "st": [
+   "Reis nach Packungsangabe kochen.",
+   "Huhn würfeln und in Öl anbraten, Zwiebel, Knoblauch, Ingwer und Paprika kurz mitbraten.",
+   "Currypulver einrühren, mit Kokosmilch ablöschen und 10 Minuten köcheln lassen."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r3",
+  "n": "Kichererbsen-Spinat-Curry",
+  "e": "🍛",
+  "s": [
+   "indisch",
+   "leicht"
+  ],
+  "t": 25,
+  "need": "H",
+  "i": {
+   "kichererbsen": 120,
+   "spinat": 100,
+   "kokos": 100,
+   "tomdose": 100,
+   "reis": 80,
+   "zwiebel": 0.5,
+   "knoblauch": 1,
+   "ingwer": 5,
+   "curry": 1,
+   "oel": 1
+  },
+  "st": [
+   "Reis kochen.",
+   "Zwiebel, Knoblauch und Ingwer in Öl anschwitzen, Curry kurz mitrösten.",
+   "Tomaten, Kokosmilch, abgespülte Kichererbsen und Spinat dazugeben und 10 Minuten köcheln lassen."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r4",
+  "n": "Ofengemüse mit Feta",
+  "e": "🫑",
+  "s": [
+   "medi",
+   "leicht"
+  ],
+  "t": 40,
+  "need": "BA",
+  "i": {
+   "kartoffeln": 200,
+   "zucchini": 0.5,
+   "paprika": 0.5,
+   "zwiebel": 0.5,
+   "feta": 75,
+   "olivenoel": 1.5,
+   "oregano": 0.5
+  },
+  "st": [
+   "Backrohr auf 200 °C vorheizen (Airfryer: 190 °C).",
+   "Erdäpfel, Zucchini, Paprika und Zwiebel in Stücke schneiden und mit Olivenöl, Oregano und Salz mischen.",
+   "30 Minuten garen, Feta darüberbröseln und weitere 5 Minuten garen."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r5",
+  "n": "Knusper-Huhn mit Süßkartoffel-Pommes",
+  "e": "🍟",
+  "s": [
+   "protein",
+   "familie"
+  ],
+  "t": 30,
+  "need": "AB",
+  "i": {
+   "huhn": 150,
+   "suesskart": 250,
+   "paprikap": 1,
+   "oel": 1,
+   "joghurt": 50,
+   "knoblauch": 0.5
+  },
+  "st": [
+   "Süßkartoffeln in Stifte schneiden, mit Öl und Salz mischen und im Airfryer 15 Minuten bei 200 °C garen (Backrohr: 25 Minuten).",
+   "Huhn mit Paprikapulver und etwas Öl würzen und 12 Minuten mitgaren.",
+   "Joghurt mit geriebenem Knoblauch und Salz verrühren und als Dip servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r6",
+  "n": "Lachs mit Ofenerdäpfeln & Brokkoli",
+  "e": "🐟",
+  "s": [
+   "protein",
+   "leicht"
+  ],
+  "t": 35,
+  "need": "BA",
+  "i": {
+   "lachs": 125,
+   "kartoffeln": 200,
+   "brokkoli": 0.5,
+   "zitrone": 0.5,
+   "olivenoel": 1,
+   "sauerrahm": 50
+  },
+  "st": [
+   "Erdäpfel vierteln, mit Olivenöl und Salz bei 200 °C 20 Minuten backen.",
+   "Brokkoli-Röschen und Lachs dazulegen, mit Zitronensaft beträufeln und weitere 12 Minuten garen.",
+   "Sauerrahm mit Zitronenschale, Salz und Pfeffer verrühren und dazu servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r7",
+  "n": "Gebratener Reis mit Ei",
+  "e": "🍳",
+  "s": [
+   "asia"
+  ],
+  "t": 20,
+  "need": "H",
+  "i": {
+   "reis": 80,
+   "eier": 2,
+   "erbsen": 60,
+   "karotten": 60,
+   "fzwiebel": 0.5,
+   "soja": 1.5,
+   "oel": 1
+  },
+  "st": [
+   "Reis kochen und auskühlen lassen (am besten schon am Vortag).",
+   "Karotten würfeln und mit den Erbsen in Öl anbraten, Reis dazugeben und knusprig braten.",
+   "Eier an den Rand schlagen, verrühren und alles mit Sojasauce und Frühlingszwiebeln mischen."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r8",
+  "n": "Tofu-Gemüsepfanne mit Reis",
+  "e": "🥦",
+  "s": [
+   "asia",
+   "protein",
+   "leicht"
+  ],
+  "t": 25,
+  "need": "H",
+  "i": {
+   "tofu": 150,
+   "reis": 80,
+   "brokkoli": 0.5,
+   "paprika": 0.5,
+   "soja": 2,
+   "ingwer": 5,
+   "knoblauch": 1,
+   "oel": 1
+  },
+  "st": [
+   "Reis kochen.",
+   "Tofu würfeln, gut ausdrücken und in Öl rundum knusprig braten, herausnehmen.",
+   "Brokkoli, Paprika, Knoblauch und Ingwer anbraten, Tofu und Sojasauce dazugeben und durchschwenken."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r9",
+  "n": "Schnitzel mit Erdäpfelsalat",
+  "e": "🥩",
+  "s": [
+   "oesterr",
+   "familie"
+  ],
+  "t": 45,
+  "need": "H",
+  "i": {
+   "schnitzel": 150,
+   "mehl": 20,
+   "eier": 1,
+   "broesel": 40,
+   "oel": 3,
+   "kartoffeln": 200,
+   "zwiebel": 0.25,
+   "zitrone": 0.25
+  },
+  "st": [
+   "Erdäpfel in der Schale kochen, schälen, in Scheiben schneiden und mit fein gehackter Zwiebel, einem Schuss Essig, Öl, Salz und etwas warmem Wasser marinieren.",
+   "Schnitzel dünn klopfen, salzen und in Mehl, verquirltem Ei und Bröseln panieren.",
+   "In reichlich Öl goldbraun herausbacken und mit Zitronenspalten servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r10",
+  "n": "Rindsgulasch mit Erdäpfeln",
+  "e": "🍲",
+  "s": [
+   "oesterr",
+   "familie",
+   "protein"
+  ],
+  "t": 100,
+  "need": "HS",
+  "i": {
+   "gulasch": 150,
+   "zwiebel": 1.5,
+   "paprikap": 2,
+   "tommark": 15,
+   "kartoffeln": 150,
+   "oel": 1,
+   "knoblauch": 1,
+   "kuemmel": 0.25
+  },
+  "st": [
+   "Zwiebeln fein schneiden und in Öl langsam goldbraun rösten.",
+   "Paprikapulver und Tomatenmark kurz einrühren, sofort mit Wasser ablöschen, Fleisch, Knoblauch und Kümmel dazugeben.",
+   "Zugedeckt ca. 90 Minuten schmoren (Slow Cooker: 6 Stunden). Erdäpfel kochen und dazu servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r11",
+  "n": "Eiernockerl mit grünem Salat",
+  "e": "🥚",
+  "s": [
+   "oesterr",
+   "familie"
+  ],
+  "t": 25,
+  "need": "H",
+  "i": {
+   "mehl": 100,
+   "eier": 2,
+   "milch": 100,
+   "butter": 15,
+   "salat": 0.25,
+   "fzwiebel": 0.25
+  },
+  "st": [
+   "Mehl, 1 Ei, Milch und eine Prise Salz zu einem zähen Teig verrühren.",
+   "Nockerl mit einem Löffel in kochendes Salzwasser stechen, einmal aufkochen und abseihen.",
+   "In Butter schwenken, das restliche Ei darüber stocken lassen und mit Frühlingszwiebeln und Salat servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r12",
+  "n": "Erdäpfelgulasch",
+  "e": "🥔",
+  "s": [
+   "oesterr",
+   "familie"
+  ],
+  "t": 40,
+  "need": "H",
+  "i": {
+   "kartoffeln": 300,
+   "zwiebel": 1,
+   "paprikap": 2,
+   "tommark": 15,
+   "oel": 1,
+   "sauerrahm": 30,
+   "kuemmel": 0.25
+  },
+  "st": [
+   "Zwiebeln in Öl goldbraun rösten, Paprikapulver und Tomatenmark kurz einrühren.",
+   "Erdäpfel würfeln, dazugeben, knapp mit Wasser bedecken und mit Kümmel würzen.",
+   "25 Minuten köcheln, bis die Erdäpfel weich und sämig sind, mit Sauerrahm servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r13",
+  "n": "Chili sin Carne",
+  "e": "🌶️",
+  "s": [
+   "mex",
+   "leicht"
+  ],
+  "t": 35,
+  "need": "H",
+  "i": {
+   "kidney": 120,
+   "mais": 70,
+   "tomdose": 200,
+   "zwiebel": 0.5,
+   "knoblauch": 1,
+   "paprika": 0.5,
+   "kreuzk": 0.5,
+   "paprikap": 1,
+   "reis": 80,
+   "oel": 1
+  },
+  "st": [
+   "Reis kochen.",
+   "Zwiebel, Knoblauch und Paprika in Öl anbraten, Gewürze kurz mitrösten.",
+   "Tomaten, abgespülte Bohnen und Mais dazugeben und 20 Minuten köcheln lassen."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r14",
+  "n": "Chili con Carne",
+  "e": "🌶️",
+  "s": [
+   "mex",
+   "protein",
+   "familie"
+  ],
+  "t": 40,
+  "need": "H",
+  "i": {
+   "rindfasch": 125,
+   "kidney": 100,
+   "mais": 50,
+   "tomdose": 200,
+   "zwiebel": 0.5,
+   "knoblauch": 1,
+   "kreuzk": 0.5,
+   "paprikap": 1,
+   "reis": 70,
+   "oel": 1
+  },
+  "st": [
+   "Reis kochen.",
+   "Faschiertes in Öl krümelig anbraten, Zwiebel, Knoblauch und Gewürze dazugeben.",
+   "Tomaten, Bohnen und Mais einrühren und 25 Minuten köcheln lassen."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r15",
+  "n": "Hühner-Wraps",
+  "e": "🌯",
+  "s": [
+   "mex",
+   "protein"
+  ],
+  "t": 20,
+  "need": "HA",
+  "i": {
+   "tortilla": 2,
+   "huhn": 120,
+   "salat": 0.25,
+   "tomaten": 80,
+   "mais": 40,
+   "sauerrahm": 40,
+   "paprikap": 0.5,
+   "oel": 0.5
+  },
+  "st": [
+   "Huhn in Streifen schneiden, mit Paprikapulver würzen und in der Pfanne oder im Airfryer 10 Minuten garen.",
+   "Salat und Tomaten schneiden.",
+   "Wraps kurz erwärmen, mit Sauerrahm bestreichen, mit Huhn, Gemüse und Mais füllen und einrollen."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r16",
+  "n": "Bohnen-Quesadillas",
+  "e": "🫓",
+  "s": [
+   "mex"
+  ],
+  "t": 20,
+  "need": "HA",
+  "i": {
+   "tortilla": 2,
+   "kidney": 80,
+   "mais": 40,
+   "reibkaese": 50,
+   "paprika": 0.5,
+   "kreuzk": 0.25
+  },
+  "st": [
+   "Bohnen grob zerdrücken und mit Kreuzkümmel und Salz würzen.",
+   "Eine Wrap-Hälfte mit Bohnen, Mais, Paprikawürfeln und Käse belegen und zuklappen.",
+   "In der Pfanne ohne Fett oder im Airfryer je Seite 3 Minuten knusprig braten."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r17",
+  "n": "Shakshuka mit Brot",
+  "e": "🍳",
+  "s": [
+   "orient",
+   "leicht"
+  ],
+  "t": 25,
+  "need": "H",
+  "i": {
+   "eier": 2,
+   "tomdose": 200,
+   "paprika": 0.5,
+   "zwiebel": 0.5,
+   "knoblauch": 1,
+   "kreuzk": 0.5,
+   "paprikap": 0.5,
+   "brot": 80,
+   "olivenoel": 1,
+   "kraeuter": 0.25
+  },
+  "st": [
+   "Zwiebel, Paprika und Knoblauch in Olivenöl weich dünsten, Gewürze kurz mitrösten.",
+   "Tomaten dazugeben und 10 Minuten einkochen lassen.",
+   "Mulden formen, Eier hineinschlagen, zugedeckt 6 Minuten stocken lassen und mit Petersilie und Brot servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r18",
+  "n": "Rote-Linsen-Suppe",
+  "e": "🥣",
+  "s": [
+   "orient",
+   "leicht"
+  ],
+  "t": 30,
+  "need": "H",
+  "i": {
+   "linsen": 70,
+   "karotten": 80,
+   "zwiebel": 0.5,
+   "kokos": 50,
+   "tommark": 10,
+   "kreuzk": 0.5,
+   "bruehe": 1,
+   "zitrone": 0.25,
+   "oel": 0.5
+  },
+  "st": [
+   "Zwiebel und Karotten würfeln und in Öl anschwitzen, Tomatenmark und Kreuzkümmel kurz mitrösten.",
+   "Linsen und 350 ml Brühe pro Person dazugeben und 20 Minuten köcheln lassen.",
+   "Kokosmilch einrühren, nach Wunsch pürieren und mit Zitronensaft abschmecken."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r19",
+  "n": "Kürbiscremesuppe mit Brot",
+  "e": "🎃",
+  "s": [
+   "oesterr",
+   "leicht"
+  ],
+  "t": 35,
+  "need": "H X",
+  "i": {
+   "kuerbis": 0.35,
+   "kartoffeln": 80,
+   "zwiebel": 0.5,
+   "kokos": 60,
+   "ingwer": 5,
+   "bruehe": 1,
+   "oel": 0.5,
+   "brot": 60
+  },
+  "st": [
+   "Hokkaido (mit Schale), Erdäpfel und Zwiebel würfeln und in Öl anschwitzen.",
+   "Ingwer dazugeben, mit 300 ml Brühe pro Person aufgießen und 20 Minuten weich kochen.",
+   "Kokosmilch dazugeben, fein pürieren und mit Brot servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r20",
+  "n": "Tomaten-Thunfisch-Pasta",
+  "e": "🐟",
+  "s": [
+   "ital",
+   "protein"
+  ],
+  "t": 20,
+  "need": "H",
+  "i": {
+   "nudeln": 125,
+   "thunfisch": 75,
+   "tomdose": 150,
+   "zwiebel": 0.5,
+   "knoblauch": 1,
+   "oregano": 0.5,
+   "olivenoel": 1
+  },
+  "st": [
+   "Nudeln kochen.",
+   "Zwiebel und Knoblauch in Olivenöl anschwitzen, Tomaten und Oregano dazugeben und 8 Minuten köcheln.",
+   "Abgetropften Thunfisch unterrühren und mit den Nudeln mischen."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r21",
+  "n": "Pesto-Pasta mit Cherrytomaten",
+  "e": "🍝",
+  "s": [
+   "ital"
+  ],
+  "t": 15,
+  "need": "H",
+  "i": {
+   "nudeln": 125,
+   "pesto": 45,
+   "cherry": 100,
+   "mozzarella": 60,
+   "olivenoel": 0.5
+  },
+  "st": [
+   "Nudeln kochen.",
+   "Cherrytomaten halbieren und in Olivenöl kurz anbraten.",
+   "Nudeln mit Pesto und Tomaten mischen und Mozzarella zerzupft darauf verteilen."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r22",
+  "n": "Gnocchi-Pfanne mit Spinat & Feta",
+  "e": "🥟",
+  "s": [
+   "ital",
+   "medi"
+  ],
+  "t": 20,
+  "need": "HA",
+  "i": {
+   "gnocchi": 250,
+   "spinat": 100,
+   "cherry": 80,
+   "feta": 50,
+   "knoblauch": 1,
+   "olivenoel": 1
+  },
+  "st": [
+   "Gnocchi in Olivenöl goldbraun braten (oder 12 Minuten im Airfryer).",
+   "Knoblauch, aufgetauten Spinat und halbierte Cherrytomaten dazugeben und kurz mitbraten.",
+   "Feta darüberbröseln und servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r23",
+  "n": "Champignon-Rahm-Nudeln",
+  "e": "🍄",
+  "s": [
+   "ital",
+   "familie"
+  ],
+  "t": 20,
+  "need": "H",
+  "i": {
+   "nudeln": 125,
+   "champignons": 125,
+   "obers": 60,
+   "zwiebel": 0.5,
+   "knoblauch": 1,
+   "kraeuter": 0.25,
+   "butter": 10,
+   "parmesan": 15
+  },
+  "st": [
+   "Nudeln kochen.",
+   "Champignons in Scheiben schneiden und mit Zwiebel und Knoblauch in Butter anbraten.",
+   "Mit Obers ablöschen, kurz einkochen und mit Parmesan, Petersilie und den Nudeln mischen."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r24",
+  "n": "Knoblauch-Garnelen-Pasta",
+  "e": "🦐",
+  "s": [
+   "medi",
+   "ital",
+   "protein"
+  ],
+  "t": 20,
+  "need": "H",
+  "i": {
+   "nudeln": 110,
+   "garnelen": 100,
+   "knoblauch": 2,
+   "cherry": 80,
+   "zitrone": 0.25,
+   "olivenoel": 1.5,
+   "kraeuter": 0.25
+  },
+  "st": [
+   "Nudeln kochen, Garnelen auftauen und trocken tupfen.",
+   "Knoblauch in Olivenöl anschwitzen, Garnelen und halbierte Tomaten 3–4 Minuten braten.",
+   "Mit Nudeln, etwas Nudelwasser, Zitronensaft und Petersilie mischen."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r25",
+  "n": "Pasta e Ceci",
+  "e": "🍲",
+  "s": [
+   "ital",
+   "leicht"
+  ],
+  "t": 30,
+  "need": "H",
+  "i": {
+   "nudeln": 90,
+   "kichererbsen": 100,
+   "tomdose": 150,
+   "zwiebel": 0.5,
+   "knoblauch": 1,
+   "karotten": 40,
+   "bruehe": 1,
+   "olivenoel": 1,
+   "oregano": 0.25
+  },
+  "st": [
+   "Zwiebel, Karotte und Knoblauch fein hacken und in Olivenöl anschwitzen.",
+   "Tomaten, Kichererbsen und 250 ml Brühe pro Person dazugeben und 10 Minuten köcheln.",
+   "Nudeln direkt darin gar ziehen lassen, bis es sämig ist, mit Oregano abschmecken."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r26",
+  "n": "Erdnuss-Nudeln mit Tofu",
+  "e": "🥜",
+  "s": [
+   "asia",
+   "protein"
+  ],
+  "t": 25,
+  "need": "H",
+  "i": {
+   "reisnudeln": 80,
+   "tofu": 100,
+   "erdnussb": 25,
+   "soja": 1.5,
+   "karotten": 50,
+   "fzwiebel": 0.5,
+   "zitrone": 0.25,
+   "knoblauch": 0.5,
+   "ingwer": 5
+  },
+  "st": [
+   "Reisnudeln nach Packungsangabe einweichen oder kochen.",
+   "Tofu würfeln und knusprig braten, Karotten in feine Streifen schneiden.",
+   "Erdnussbutter mit Sojasauce, Zitronensaft, Knoblauch, Ingwer und etwas warmem Wasser verrühren und alles vermengen."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r27",
+  "n": "Ofenerdäpfel mit Kräuter-Sauerrahm",
+  "e": "🥔",
+  "s": [
+   "oesterr",
+   "leicht"
+  ],
+  "t": 45,
+  "need": "BAM",
+  "i": {
+   "kartoffeln": 350,
+   "sauerrahm": 80,
+   "kraeuter": 0.25,
+   "knoblauch": 0.5,
+   "olivenoel": 1,
+   "salat": 0.25
+  },
+  "st": [
+   "Erdäpfel halbieren, mit Olivenöl und Salz bei 200 °C ca. 40 Minuten backen (Mikrowelle: einstechen, 8–10 Minuten auf voller Stufe).",
+   "Sauerrahm mit Petersilie, Knoblauch, Salz und Pfeffer verrühren.",
+   "Mit grünem Salat servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r28",
+  "n": "Gefüllte Paprika",
+  "e": "🫑",
+  "s": [
+   "oesterr",
+   "familie"
+  ],
+  "t": 50,
+  "need": "B H",
+  "i": {
+   "paprika": 1.5,
+   "faschiert": 100,
+   "reis": 40,
+   "passata": 120,
+   "zwiebel": 0.5,
+   "reibkaese": 25
+  },
+  "st": [
+   "Reis halb gar kochen und mit Faschiertem, gehackter Zwiebel, Salz und Pfeffer vermengen.",
+   "Paprika aushöhlen, füllen und in eine Form mit Passata setzen.",
+   "Mit Käse bestreuen und bei 180 °C 35 Minuten backen."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r29",
+  "n": "Couscous-Salat mit Kichererbsen",
+  "e": "🥗",
+  "s": [
+   "orient",
+   "medi",
+   "leicht"
+  ],
+  "t": 15,
+  "need": "WH",
+  "i": {
+   "couscous": 70,
+   "kichererbsen": 80,
+   "gurke": 0.3,
+   "cherry": 80,
+   "feta": 40,
+   "zitrone": 0.5,
+   "olivenoel": 1.5,
+   "kraeuter": 0.25
+  },
+  "st": [
+   "Couscous mit gleicher Menge kochendem Wasser übergießen und 5 Minuten quellen lassen.",
+   "Gurke und Tomaten würfeln, Kichererbsen abspülen, Petersilie hacken.",
+   "Alles mit Zitronensaft und Olivenöl mischen und Feta darüberbröseln."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r30",
+  "n": "Griechischer Salat mit Brot",
+  "e": "🥗",
+  "s": [
+   "medi",
+   "leicht"
+  ],
+  "t": 10,
+  "need": "",
+  "i": {
+   "gurke": 0.5,
+   "tomaten": 150,
+   "feta": 75,
+   "zwiebel": 0.25,
+   "olivenoel": 1,
+   "oregano": 0.25,
+   "brot": 70
+  },
+  "st": [
+   "Gurke und Tomaten grob würfeln, Zwiebel in feine Ringe schneiden.",
+   "Mit Olivenöl, Oregano, Salz und Pfeffer marinieren.",
+   "Feta in Stücken darauflegen und mit Brot servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r31",
+  "n": "Huhn & Gemüse vom Blech",
+  "e": "🍗",
+  "s": [
+   "medi",
+   "protein",
+   "leicht",
+   "familie"
+  ],
+  "t": 40,
+  "need": "BA",
+  "i": {
+   "huhn": 140,
+   "zucchini": 0.5,
+   "paprika": 0.5,
+   "kartoffeln": 150,
+   "olivenoel": 1,
+   "paprikap": 1,
+   "knoblauch": 1
+  },
+  "st": [
+   "Backrohr auf 200 °C vorheizen.",
+   "Erdäpfel, Zucchini, Paprika und Huhn in Stücke schneiden und mit Olivenöl, Knoblauch, Paprikapulver und Salz mischen.",
+   "Auf dem Blech 30 Minuten garen (Airfryer: 20 Minuten bei 190 °C, zwischendurch schütteln)."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r32",
+  "n": "Lachs-Bowl mit Reis",
+  "e": "🍣",
+  "s": [
+   "asia",
+   "protein",
+   "leicht"
+  ],
+  "t": 25,
+  "need": "H",
+  "i": {
+   "lachs": 110,
+   "reis": 70,
+   "avocado": 0.5,
+   "gurke": 0.3,
+   "karotten": 40,
+   "soja": 1,
+   "fzwiebel": 0.25,
+   "oel": 0.5
+  },
+  "st": [
+   "Reis kochen.",
+   "Lachs in Öl je Seite 3–4 Minuten braten und mit Sojasauce beträufeln.",
+   "Avocado, Gurke und Karotte schneiden und mit Reis und Lachs in Schüsseln anrichten."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r33",
+  "n": "Schinkenfleckerl",
+  "e": "🧀",
+  "s": [
+   "oesterr",
+   "familie"
+  ],
+  "t": 40,
+  "need": "B H",
+  "i": {
+   "nudeln": 120,
+   "schinken": 60,
+   "eier": 1,
+   "sauerrahm": 60,
+   "reibkaese": 30,
+   "butter": 10
+  },
+  "st": [
+   "Nudeln (am besten Fleckerl) kochen und abseihen.",
+   "Schinken würfeln, in Butter kurz anbraten und mit Nudeln, Ei und Sauerrahm vermengen.",
+   "In eine Form füllen, mit Käse bestreuen und bei 200 °C 20 Minuten überbacken."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r34",
+  "n": "Erdäpfel-Lauch-Suppe",
+  "e": "🥣",
+  "s": [
+   "oesterr",
+   "familie"
+  ],
+  "t": 30,
+  "need": "H X",
+  "i": {
+   "kartoffeln": 200,
+   "lauch": 0.5,
+   "zwiebel": 0.25,
+   "bruehe": 1,
+   "obers": 30,
+   "butter": 10,
+   "brot": 60
+  },
+  "st": [
+   "Lauch in Ringe, Erdäpfel in Würfel schneiden und mit der Zwiebel in Butter anschwitzen.",
+   "Mit 300 ml Brühe pro Person aufgießen und 20 Minuten köcheln.",
+   "Pürieren, Obers einrühren, abschmecken und mit Brot servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r35",
+  "n": "Süßkartoffel-Bowl mit Kichererbsen",
+  "e": "🥙",
+  "s": [
+   "orient",
+   "leicht"
+  ],
+  "t": 35,
+  "need": "BA HR",
+  "i": {
+   "suesskart": 200,
+   "kichererbsen": 100,
+   "reis": 60,
+   "avocado": 0.5,
+   "salat": 0.2,
+   "joghurt": 40,
+   "oel": 1,
+   "kreuzk": 0.5
+  },
+  "st": [
+   "Süßkartoffel würfeln, mit Kichererbsen, Öl und Kreuzkümmel mischen und 25 Minuten bei 200 °C rösten.",
+   "Reis kochen.",
+   "Mit Salat, Avocado und einem Klecks Joghurt in Schüsseln anrichten."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r36",
+  "n": "Gebratene Nudeln mit Huhn",
+  "e": "🥡",
+  "s": [
+   "asia",
+   "protein"
+  ],
+  "t": 25,
+  "need": "H",
+  "i": {
+   "nudeln": 100,
+   "huhn": 120,
+   "karotten": 50,
+   "paprika": 0.5,
+   "soja": 2,
+   "ingwer": 5,
+   "knoblauch": 1,
+   "oel": 1
+  },
+  "st": [
+   "Nudeln kochen und abseihen.",
+   "Huhn in Streifen in Öl scharf anbraten, Karotten und Paprika in Streifen mitbraten.",
+   "Nudeln, Knoblauch, Ingwer und Sojasauce dazugeben und alles kräftig durchschwenken."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r37",
+  "n": "Bauernomelett",
+  "e": "🍳",
+  "s": [
+   "oesterr",
+   "protein"
+  ],
+  "t": 25,
+  "need": "H",
+  "i": {
+   "eier": 3,
+   "kartoffeln": 150,
+   "speck": 30,
+   "zwiebel": 0.5,
+   "fzwiebel": 0.25,
+   "butter": 10
+  },
+  "st": [
+   "Erdäpfel kochen (oder Reste vom Vortag nehmen) und in Scheiben schneiden.",
+   "Speck und Zwiebel in Butter anbraten, Erdäpfel dazugeben und goldbraun braten.",
+   "Verquirlte, gesalzene Eier darübergießen, stocken lassen und mit Frühlingszwiebeln bestreuen."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r38",
+  "n": "Hendlhaxerl mit Ofenerdäpfeln",
+  "e": "🍗",
+  "s": [
+   "oesterr",
+   "familie",
+   "protein"
+  ],
+  "t": 50,
+  "need": "BA",
+  "i": {
+   "huhnkeule": 300,
+   "kartoffeln": 200,
+   "paprikap": 1,
+   "olivenoel": 1,
+   "knoblauch": 1,
+   "salat": 0.25
+  },
+  "st": [
+   "Hühnerkeulen mit Paprikapulver, Knoblauch, Salz und Öl einreiben.",
+   "Mit geviertelten Erdäpfeln auf ein Blech legen und bei 200 °C ca. 45 Minuten knusprig braten (Airfryer: 25 Minuten).",
+   "Mit grünem Salat servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r39",
+  "n": "Karfiol-Kichererbsen-Curry",
+  "e": "🍛",
+  "s": [
+   "indisch",
+   "leicht"
+  ],
+  "t": 30,
+  "need": "H",
+  "i": {
+   "karfiol": 0.3,
+   "kichererbsen": 60,
+   "kokos": 100,
+   "tomdose": 100,
+   "reis": 70,
+   "zwiebel": 0.5,
+   "curry": 1,
+   "ingwer": 5,
+   "oel": 1
+  },
+  "st": [
+   "Reis kochen.",
+   "Zwiebel und Ingwer in Öl anschwitzen, Curry einrühren, Karfiolröschen kurz mitbraten.",
+   "Tomaten, Kokosmilch und Kichererbsen dazugeben und 15 Minuten köcheln, bis der Karfiol weich ist."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r40",
+  "n": "Ofenkarfiol mit Joghurt & Couscous",
+  "e": "🥦",
+  "s": [
+   "orient",
+   "leicht"
+  ],
+  "t": 35,
+  "need": "BA WH",
+  "i": {
+   "karfiol": 0.4,
+   "couscous": 60,
+   "joghurt": 80,
+   "kreuzk": 0.5,
+   "olivenoel": 1.5,
+   "zitrone": 0.25,
+   "knoblauch": 0.5
+  },
+  "st": [
+   "Karfiol in Röschen teilen, mit Olivenöl, Kreuzkümmel und Salz mischen und bei 220 °C 25 Minuten rösten.",
+   "Couscous mit gleicher Menge kochendem Wasser übergießen und quellen lassen.",
+   "Joghurt mit Knoblauch und Zitronensaft verrühren und alles zusammen anrichten."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r41",
+  "n": "Melanzani-Tomaten-Pasta",
+  "e": "🍆",
+  "s": [
+   "ital",
+   "medi"
+  ],
+  "t": 30,
+  "need": "H",
+  "i": {
+   "nudeln": 110,
+   "melanzani": 0.5,
+   "tomdose": 150,
+   "knoblauch": 1,
+   "mozzarella": 50,
+   "olivenoel": 1.5,
+   "oregano": 0.5
+  },
+  "st": [
+   "Melanzani würfeln und in Olivenöl rundum goldbraun braten.",
+   "Knoblauch, Tomaten und Oregano dazugeben und 10 Minuten köcheln.",
+   "Mit den gekochten Nudeln mischen und Mozzarella darauf zerzupfen."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r42",
+  "n": "Lasagne",
+  "e": "🍝",
+  "s": [
+   "ital",
+   "familie"
+  ],
+  "t": 70,
+  "need": "B H",
+  "i": {
+   "lasagne": 70,
+   "faschiert": 110,
+   "passata": 150,
+   "milch": 120,
+   "butter": 10,
+   "mehl": 10,
+   "reibkaese": 30,
+   "zwiebel": 0.5,
+   "karotten": 30
+  },
+  "st": [
+   "Zwiebel und Karotte anschwitzen, Faschiertes anbraten, mit Passata 15 Minuten köcheln.",
+   "Butter schmelzen, Mehl einrühren, mit Milch aufgießen und zu einer Béchamel köcheln, salzen.",
+   "Sauce, Lasagneblätter und Béchamel abwechselnd schichten, mit Käse bestreuen und bei 180 °C 35 Minuten backen."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r43",
+  "n": "Spinat-Topfen-Lasagne",
+  "e": "🥬",
+  "s": [
+   "ital",
+   "familie"
+  ],
+  "t": 60,
+  "need": "B H",
+  "i": {
+   "lasagne": 70,
+   "spinat": 150,
+   "topfen": 100,
+   "passata": 150,
+   "reibkaese": 40,
+   "knoblauch": 1,
+   "zwiebel": 0.5
+  },
+  "st": [
+   "Zwiebel und Knoblauch anschwitzen, aufgetauten Spinat dazugeben und salzen.",
+   "Spinat mit Topfen verrühren.",
+   "Passata, Lasagneblätter und Spinatmasse schichten, mit Käse bestreuen und bei 180 °C 35 Minuten backen."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r44",
+  "n": "Gemüse-Pizza",
+  "e": "🍕",
+  "s": [
+   "ital",
+   "familie"
+  ],
+  "t": 25,
+  "need": "B",
+  "i": {
+   "pizzateig": 0.5,
+   "passata": 80,
+   "mozzarella": 80,
+   "paprika": 0.3,
+   "champignons": 50,
+   "oregano": 0.5
+  },
+  "st": [
+   "Backrohr auf 220 °C vorheizen, Pizzateig ausrollen.",
+   "Mit gewürzter Passata bestreichen und mit Paprika, Champignons und Mozzarella belegen.",
+   "12–15 Minuten backen, bis der Rand goldbraun ist."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r45",
+  "n": "Schinken-Pizza",
+  "e": "🍕",
+  "s": [
+   "ital",
+   "familie"
+  ],
+  "t": 25,
+  "need": "B",
+  "i": {
+   "pizzateig": 0.5,
+   "passata": 80,
+   "mozzarella": 80,
+   "schinken": 50,
+   "champignons": 50,
+   "oregano": 0.5
+  },
+  "st": [
+   "Backrohr auf 220 °C vorheizen, Pizzateig ausrollen.",
+   "Mit gewürzter Passata bestreichen und mit Schinken, Champignons und Mozzarella belegen.",
+   "12–15 Minuten backen, bis der Rand goldbraun ist."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r46",
+  "n": "Champignon-Risotto",
+  "e": "🍄",
+  "s": [
+   "ital"
+  ],
+  "t": 35,
+  "need": "H",
+  "i": {
+   "reis": 90,
+   "champignons": 120,
+   "zwiebel": 0.5,
+   "bruehe": 2,
+   "parmesan": 20,
+   "butter": 10,
+   "olivenoel": 0.5
+  },
+  "st": [
+   "Zwiebel und Champignons in Olivenöl anbraten, Reis kurz mitrösten.",
+   "Nach und nach 300 ml heiße Brühe pro Person unter Rühren dazugießen, 18 Minuten köcheln.",
+   "Butter und Parmesan unterrühren und kurz ziehen lassen."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r47",
+  "n": "Risi-Bisi mit Speck",
+  "e": "🫛",
+  "s": [
+   "ital",
+   "oesterr"
+  ],
+  "t": 30,
+  "need": "H",
+  "i": {
+   "reis": 90,
+   "erbsen": 80,
+   "speck": 25,
+   "zwiebel": 0.5,
+   "bruehe": 2,
+   "parmesan": 15,
+   "butter": 10
+  },
+  "st": [
+   "Speck und Zwiebel in Butter anbraten, Reis kurz mitrösten.",
+   "Mit 300 ml Brühe pro Person aufgießen und 15 Minuten köcheln.",
+   "Erbsen dazugeben, 3 Minuten mitgaren und mit Parmesan servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r48",
+  "n": "Krautfleckerl",
+  "e": "🥬",
+  "s": [
+   "oesterr"
+  ],
+  "t": 35,
+  "need": "H",
+  "i": {
+   "nudeln": 110,
+   "weisskraut": 200,
+   "zwiebel": 0.5,
+   "oel": 1.5,
+   "kuemmel": 0.5
+  },
+  "st": [
+   "Kraut fein schneiden, Zwiebel in Öl anschwitzen.",
+   "Kraut dazugeben, mit Kümmel, Salz und Pfeffer würzen und 20 Minuten unter Rühren braun braten.",
+   "Gekochte Nudeln untermischen und kurz durchrösten."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r49",
+  "n": "Grenadiermarsch",
+  "e": "🥔",
+  "s": [
+   "oesterr"
+  ],
+  "t": 30,
+  "need": "H",
+  "i": {
+   "kartoffeln": 200,
+   "nudeln": 60,
+   "speck": 30,
+   "zwiebel": 1,
+   "oel": 1,
+   "kuemmel": 0.25,
+   "paprikap": 0.5,
+   "salat": 0.25
+  },
+  "st": [
+   "Erdäpfel kochen und in Scheiben schneiden, Nudeln kochen.",
+   "Speck und Zwiebel in Öl anbraten, Erdäpfel dazugeben und knusprig rösten.",
+   "Nudeln untermischen, mit Kümmel und Paprikapulver würzen, mit Salat servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r50",
+  "n": "Kaspressknödel mit Salat",
+  "e": "🧀",
+  "s": [
+   "oesterr"
+  ],
+  "t": 35,
+  "need": "H",
+  "i": {
+   "knoedelbrot": 80,
+   "reibkaese": 50,
+   "eier": 1,
+   "milch": 60,
+   "zwiebel": 0.25,
+   "kraeuter": 0.25,
+   "oel": 2,
+   "salat": 0.25
+  },
+  "st": [
+   "Knödelbrot mit Milch, Ei, Käse, gehackter Zwiebel und Petersilie verkneten, 10 Minuten ziehen lassen.",
+   "Flache Laibchen formen.",
+   "In Öl beidseitig goldbraun braten und mit Salat servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r51",
+  "n": "Semmelknödel mit Schwammerlsauce",
+  "e": "🍄",
+  "s": [
+   "oesterr",
+   "familie"
+  ],
+  "t": 45,
+  "need": "H",
+  "i": {
+   "knoedelbrot": 90,
+   "eier": 1,
+   "milch": 80,
+   "champignons": 150,
+   "obers": 50,
+   "zwiebel": 0.5,
+   "kraeuter": 0.25,
+   "butter": 15
+  },
+  "st": [
+   "Knödelbrot mit warmer Milch, Ei, Salz und Petersilie vermengen, Knödel formen und 15 Minuten in Salzwasser ziehen lassen.",
+   "Zwiebel und Champignons in Butter anbraten.",
+   "Mit Obers aufgießen, kurz einkochen und über die Knödel geben."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r52",
+  "n": "Würstel mit Püree & Erbsen",
+  "e": "🌭",
+  "s": [
+   "oesterr",
+   "familie"
+  ],
+  "t": 25,
+  "need": "H",
+  "i": {
+   "wuerstel": 2,
+   "kartoffeln": 250,
+   "milch": 60,
+   "butter": 10,
+   "erbsen": 80
+  },
+  "st": [
+   "Erdäpfel schälen, weich kochen und mit warmer Milch, Butter und Salz zu Püree stampfen.",
+   "Erbsen in wenig Wasser 4 Minuten kochen.",
+   "Würstel in heißem Wasser 5 Minuten ziehen lassen und alles servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r53",
+  "n": "Leberkäse mit Spiegelei & Erdäpfeln",
+  "e": "🍳",
+  "s": [
+   "oesterr",
+   "protein"
+  ],
+  "t": 30,
+  "need": "H",
+  "i": {
+   "leberkaese": 120,
+   "eier": 1,
+   "kartoffeln": 200,
+   "oel": 1,
+   "salat": 0.25
+  },
+  "st": [
+   "Erdäpfel kochen, in Scheiben schneiden und in Öl goldbraun braten.",
+   "Leberkäse in Scheiben beidseitig anbraten.",
+   "Spiegelei braten und alles mit Salat servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r54",
+  "n": "Cremige Polenta mit Tomatengemüse",
+  "e": "🌽",
+  "s": [
+   "ital"
+  ],
+  "t": 30,
+  "need": "H",
+  "i": {
+   "polenta": 70,
+   "tomdose": 150,
+   "zucchini": 0.5,
+   "zwiebel": 0.5,
+   "knoblauch": 1,
+   "parmesan": 15,
+   "olivenoel": 1,
+   "bruehe": 1
+  },
+  "st": [
+   "Zwiebel, Knoblauch und Zucchini in Olivenöl anbraten, Tomaten dazu und 15 Minuten köcheln.",
+   "Polenta in 300 ml Brühe pro Person einrühren und unter Rühren 5–10 Minuten köcheln.",
+   "Parmesan unter die Polenta rühren und mit dem Tomatengemüse servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r55",
+  "n": "Fischstäbchen mit Püree & Erbsen",
+  "e": "🐟",
+  "s": [
+   "familie"
+  ],
+  "t": 25,
+  "need": "BA H",
+  "i": {
+   "fischst": 5,
+   "kartoffeln": 250,
+   "milch": 60,
+   "butter": 10,
+   "erbsen": 80
+  },
+  "st": [
+   "Fischstäbchen im Backrohr oder Airfryer nach Packung knusprig backen.",
+   "Erdäpfel weich kochen und mit Milch, Butter und Salz zu Püree stampfen.",
+   "Erbsen 4 Minuten kochen und alles servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r56",
+  "n": "Bulgur-Gemüse-Pfanne mit Feta",
+  "e": "🥘",
+  "s": [
+   "orient"
+  ],
+  "t": 25,
+  "need": "H",
+  "i": {
+   "bulgur": 70,
+   "zucchini": 0.5,
+   "paprika": 0.5,
+   "tomdose": 100,
+   "feta": 50,
+   "zwiebel": 0.5,
+   "olivenoel": 1,
+   "kreuzk": 0.25
+  },
+  "st": [
+   "Zwiebel, Zucchini und Paprika in Olivenöl anbraten.",
+   "Bulgur, Tomaten, Kreuzkümmel und 150 ml Wasser pro Person dazugeben und 12 Minuten zugedeckt quellen lassen.",
+   "Mit Feta bestreut servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r57",
+  "n": "Linsen-Dal mit Reis",
+  "e": "🍛",
+  "s": [
+   "indisch",
+   "leicht"
+  ],
+  "t": 30,
+  "need": "H",
+  "i": {
+   "linsen": 70,
+   "tomdose": 100,
+   "kokos": 60,
+   "zwiebel": 0.5,
+   "knoblauch": 1,
+   "ingwer": 5,
+   "curry": 1,
+   "reis": 70,
+   "oel": 1
+  },
+  "st": [
+   "Reis kochen.",
+   "Zwiebel, Knoblauch und Ingwer in Öl anschwitzen, Curry kurz mitrösten.",
+   "Linsen, Tomaten, Kokosmilch und 250 ml Wasser pro Person dazugeben und 20 Minuten sämig köcheln."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r58",
+  "n": "Butter Chicken",
+  "e": "🍗",
+  "s": [
+   "indisch",
+   "protein"
+  ],
+  "t": 35,
+  "need": "H",
+  "i": {
+   "huhn": 140,
+   "tomdose": 150,
+   "joghurt": 60,
+   "obers": 30,
+   "curry": 1.5,
+   "zwiebel": 0.5,
+   "knoblauch": 1,
+   "ingwer": 5,
+   "reis": 70,
+   "butter": 10
+  },
+  "st": [
+   "Huhn in Joghurt mit der Hälfte des Currys marinieren, Reis kochen.",
+   "Zwiebel, Knoblauch und Ingwer in Butter anschwitzen, restliches Curry und Tomaten dazu, 10 Minuten köcheln.",
+   "Huhn dazugeben, 10 Minuten garen und mit Obers verfeinern."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r59",
+  "n": "Toskanischer Bohneneintopf",
+  "e": "🫘",
+  "s": [
+   "ital",
+   "medi",
+   "leicht"
+  ],
+  "t": 30,
+  "need": "H",
+  "i": {
+   "bohnenw": 120,
+   "tomdose": 150,
+   "karotten": 60,
+   "zwiebel": 0.5,
+   "knoblauch": 1,
+   "spinat": 60,
+   "bruehe": 1,
+   "olivenoel": 1,
+   "brot": 60
+  },
+  "st": [
+   "Zwiebel, Karotte und Knoblauch in Olivenöl anschwitzen.",
+   "Bohnen, Tomaten und 250 ml Brühe pro Person dazugeben und 15 Minuten köcheln.",
+   "Spinat einrühren, kurz mitziehen lassen und mit Brot servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r60",
+  "n": "Minestrone",
+  "e": "🥣",
+  "s": [
+   "ital",
+   "leicht"
+  ],
+  "t": 35,
+  "need": "H",
+  "i": {
+   "nudeln": 40,
+   "bohnenw": 60,
+   "karotten": 60,
+   "zucchini": 0.3,
+   "tomdose": 120,
+   "zwiebel": 0.5,
+   "bruehe": 1.5,
+   "olivenoel": 1,
+   "parmesan": 10
+  },
+  "st": [
+   "Zwiebel, Karotte und Zucchini würfeln und in Olivenöl anschwitzen.",
+   "Tomaten, Bohnen und 350 ml Brühe pro Person dazugeben und 15 Minuten köcheln.",
+   "Nudeln darin garen und mit Parmesan servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r61",
+  "n": "Hühnersuppe mit Nudeln",
+  "e": "🍜",
+  "s": [
+   "oesterr",
+   "leicht",
+   "protein"
+  ],
+  "t": 60,
+  "need": "H",
+  "i": {
+   "huhnkeule": 200,
+   "karotten": 80,
+   "lauch": 0.3,
+   "nudeln": 40,
+   "bruehe": 1,
+   "kraeuter": 0.25
+  },
+  "st": [
+   "Hühnerkeulen mit Karotte, Lauch und 500 ml Wasser pro Person aufsetzen und 40 Minuten leise köcheln.",
+   "Fleisch auslösen, Gemüse klein schneiden, mit Brühe würzen.",
+   "Nudeln in der Suppe garen, Fleisch zurückgeben und mit Petersilie servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r62",
+  "n": "Rote-Rüben-Salat mit Feta",
+  "e": "🥗",
+  "s": [
+   "medi",
+   "leicht"
+  ],
+  "t": 10,
+  "need": "",
+  "i": {
+   "rotebete": 150,
+   "feta": 50,
+   "nuesse": 15,
+   "salat": 0.25,
+   "olivenoel": 1,
+   "brot": 60
+  },
+  "st": [
+   "Rote Rüben in Scheiben schneiden, Salat zupfen.",
+   "Mit Olivenöl, Salz und Pfeffer marinieren.",
+   "Feta und Walnüsse darüberstreuen und mit Brot servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r63",
+  "n": "Taco-Bowl",
+  "e": "🌮",
+  "s": [
+   "mex",
+   "protein"
+  ],
+  "t": 25,
+  "need": "H",
+  "i": {
+   "rindfasch": 110,
+   "reis": 60,
+   "kidney": 60,
+   "mais": 50,
+   "tomaten": 80,
+   "salat": 0.25,
+   "sauerrahm": 30,
+   "kreuzk": 0.5,
+   "paprikap": 0.5
+  },
+  "st": [
+   "Reis kochen.",
+   "Faschiertes mit Kreuzkümmel und Paprikapulver krümelig anbraten, Bohnen kurz mitwärmen.",
+   "Mit Reis, Mais, Tomaten, Salat und Sauerrahm in Schüsseln anrichten."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r64",
+  "n": "Bohnen-Burrito",
+  "e": "🌯",
+  "s": [
+   "mex"
+  ],
+  "t": 25,
+  "need": "H",
+  "i": {
+   "tortilla": 2,
+   "reis": 50,
+   "kidney": 100,
+   "mais": 50,
+   "paprika": 0.3,
+   "tomaten": 60,
+   "avocado": 0.3,
+   "kreuzk": 0.5
+  },
+  "st": [
+   "Reis kochen.",
+   "Bohnen mit Paprika und Kreuzkümmel in der Pfanne erwärmen und leicht zerdrücken.",
+   "Wraps mit Reis, Bohnen, Mais, Tomaten und Avocado füllen und fest einrollen."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r65",
+  "n": "Überbackene Enchiladas",
+  "e": "🌯",
+  "s": [
+   "mex",
+   "familie",
+   "protein"
+  ],
+  "t": 40,
+  "need": "B H",
+  "i": {
+   "tortilla": 2,
+   "huhn": 100,
+   "kidney": 60,
+   "passata": 120,
+   "reibkaese": 40,
+   "zwiebel": 0.3,
+   "kreuzk": 0.5
+  },
+  "st": [
+   "Huhn klein schneiden und mit Zwiebel und Kreuzkümmel anbraten, Bohnen dazugeben.",
+   "Wraps füllen, einrollen und in eine Form mit etwas Passata legen.",
+   "Restliche Passata und Käse darauf verteilen und bei 200 °C 20 Minuten backen."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r66",
+  "n": "Soja-Ingwer-Huhn mit Brokkoli",
+  "e": "🥦",
+  "s": [
+   "asia",
+   "protein",
+   "leicht"
+  ],
+  "t": 25,
+  "need": "H",
+  "i": {
+   "huhn": 140,
+   "reis": 70,
+   "brokkoli": 0.4,
+   "soja": 2,
+   "knoblauch": 1,
+   "ingwer": 5,
+   "oel": 1
+  },
+  "st": [
+   "Reis kochen.",
+   "Huhn in Streifen in Öl scharf anbraten, Brokkoli dazugeben und mit einem Schuss Wasser zugedeckt 4 Minuten garen.",
+   "Knoblauch, Ingwer und Sojasauce einrühren und mit Reis servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r67",
+  "n": "Asiatische Nudelsuppe mit Huhn",
+  "e": "🍜",
+  "s": [
+   "asia",
+   "leicht",
+   "protein"
+  ],
+  "t": 25,
+  "need": "H",
+  "i": {
+   "reisnudeln": 50,
+   "huhn": 100,
+   "bruehe": 2,
+   "karotten": 40,
+   "fzwiebel": 0.5,
+   "soja": 1,
+   "ingwer": 5,
+   "spinat": 50
+  },
+  "st": [
+   "500 ml Brühe pro Person mit Ingwer und Sojasauce aufkochen.",
+   "Huhn in dünnen Streifen und Karotten 6 Minuten darin garen.",
+   "Reisnudeln und Spinat dazugeben, kurz ziehen lassen und mit Frühlingszwiebeln servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r68",
+  "n": "Kokos-Gemüse-Curry mit Tofu",
+  "e": "🍛",
+  "s": [
+   "asia",
+   "indisch"
+  ],
+  "t": 30,
+  "need": "H",
+  "i": {
+   "tofu": 100,
+   "kokos": 100,
+   "karfiol": 0.2,
+   "paprika": 0.5,
+   "curry": 1,
+   "reis": 70,
+   "zwiebel": 0.5,
+   "oel": 1
+  },
+  "st": [
+   "Reis kochen, Tofu würfeln und knusprig braten.",
+   "Zwiebel, Karfiol und Paprika anbraten, Curry einrühren.",
+   "Mit Kokosmilch aufgießen, 10 Minuten köcheln und Tofu unterheben."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r69",
+  "n": "Kraut-Huhn-Pfanne",
+  "e": "🥬",
+  "s": [
+   "asia",
+   "leicht",
+   "protein"
+  ],
+  "t": 20,
+  "need": "H",
+  "i": {
+   "weisskraut": 200,
+   "huhn": 120,
+   "karotten": 50,
+   "soja": 2,
+   "ingwer": 5,
+   "knoblauch": 1,
+   "oel": 1
+  },
+  "st": [
+   "Huhn in Streifen in Öl scharf anbraten und herausnehmen.",
+   "Kraut und Karotten in feinen Streifen 8 Minuten braten.",
+   "Huhn, Knoblauch, Ingwer und Sojasauce dazugeben und durchschwenken."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r70",
+  "n": "Airfryer-Lachs mit Süßkartoffel",
+  "e": "🐟",
+  "s": [
+   "protein",
+   "leicht"
+  ],
+  "t": 25,
+  "need": "AB",
+  "i": {
+   "lachs": 125,
+   "suesskart": 200,
+   "salat": 0.25,
+   "zitrone": 0.25,
+   "olivenoel": 1
+  },
+  "st": [
+   "Süßkartoffel würfeln, mit Öl und Salz 12 Minuten bei 200 °C garen.",
+   "Lachs salzen, dazulegen und 8–10 Minuten mitgaren.",
+   "Mit Salat und Zitronenspalten servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r71",
+  "n": "Falafel-Wraps",
+  "e": "🧆",
+  "s": [
+   "orient"
+  ],
+  "t": 35,
+  "need": "AB X",
+  "i": {
+   "kichererbsen": 120,
+   "mehl": 15,
+   "zwiebel": 0.25,
+   "knoblauch": 1,
+   "kreuzk": 0.5,
+   "kraeuter": 0.25,
+   "oel": 1,
+   "tortilla": 2,
+   "joghurt": 50,
+   "salat": 0.2,
+   "tomaten": 60
+  },
+  "st": [
+   "Kichererbsen mit Zwiebel, Knoblauch, Petersilie, Kreuzkümmel, Mehl und Salz grob pürieren.",
+   "Bällchen formen, mit Öl bepinseln und im Airfryer 12 Minuten bei 200 °C backen (Backrohr: 20 Minuten).",
+   "In Wraps mit Joghurt, Salat und Tomaten servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r72",
+  "n": "Spinat-Feta-Omelett",
+  "e": "🍳",
+  "s": [
+   "protein",
+   "leicht"
+  ],
+  "t": 15,
+  "need": "H",
+  "i": {
+   "eier": 3,
+   "spinat": 80,
+   "feta": 40,
+   "brot": 50,
+   "oel": 0.5
+  },
+  "st": [
+   "Spinat in Öl kurz andünsten.",
+   "Verquirlte, gesalzene Eier darübergießen und Feta darüberbröseln.",
+   "Zugedeckt stocken lassen und mit Brot servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r73",
+  "n": "Kaiserschmarrn mit Apfelkompott",
+  "e": "🥞",
+  "s": [
+   "oesterr",
+   "familie"
+  ],
+  "t": 25,
+  "need": "H",
+  "i": {
+   "mehl": 80,
+   "eier": 2,
+   "milch": 150,
+   "butter": 15,
+   "apfel": 1
+  },
+  "st": [
+   "Mehl, Milch, Eigelb und eine Prise Salz glatt rühren, Eiklar steif schlagen und unterheben.",
+   "In Butter anbacken, wenden und mit zwei Gabeln in Stücke reißen.",
+   "Apfel würfeln und mit etwas Wasser 5 Minuten weich dünsten, dazu servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r74",
+  "n": "Gemüse-Frittata",
+  "e": "🍳",
+  "s": [
+   "ital",
+   "protein",
+   "leicht"
+  ],
+  "t": 30,
+  "need": "BA",
+  "i": {
+   "eier": 3,
+   "zucchini": 0.3,
+   "paprika": 0.3,
+   "kartoffeln": 100,
+   "reibkaese": 20,
+   "oel": 0.5
+  },
+  "st": [
+   "Erdäpfel in dünne Scheiben, Gemüse in Würfel schneiden.",
+   "In eine geölte Form geben, mit verquirlten, gesalzenen Eiern übergießen und Käse darüberstreuen.",
+   "Bei 180 °C 25 Minuten backen (Airfryer: 15 Minuten bei 170 °C)."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r75",
+  "n": "Schinken-Käse-Toast mit Salat",
+  "e": "🥪",
+  "s": [
+   "familie"
+  ],
+  "t": 10,
+  "need": "TBA",
+  "i": {
+   "toast": 100,
+   "schinken": 50,
+   "kaesesch": 40,
+   "salat": 0.25,
+   "tomaten": 80
+  },
+  "st": [
+   "Toastscheiben mit Schinken und Käse belegen.",
+   "Im Toaster, Backrohr oder Airfryer goldbraun toasten.",
+   "Mit Salat und Tomaten servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r76",
+  "n": "Garnelen-Kokos-Curry",
+  "e": "🦐",
+  "s": [
+   "asia",
+   "indisch",
+   "protein"
+  ],
+  "t": 25,
+  "need": "H",
+  "i": {
+   "garnelen": 100,
+   "kokos": 100,
+   "paprika": 0.5,
+   "reis": 70,
+   "curry": 1,
+   "zwiebel": 0.5,
+   "oel": 1,
+   "zitrone": 0.25
+  },
+  "st": [
+   "Reis kochen.",
+   "Zwiebel und Paprika in Öl anbraten, Curry einrühren und mit Kokosmilch ablöschen.",
+   "Garnelen 4 Minuten darin garen und mit Zitronensaft abschmecken."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r77",
+  "n": "Thunfisch-Bohnen-Salat",
+  "e": "🥗",
+  "s": [
+   "medi",
+   "leicht",
+   "protein"
+  ],
+  "t": 15,
+  "need": "H",
+  "i": {
+   "thunfisch": 75,
+   "bohnenw": 80,
+   "eier": 1,
+   "tomaten": 100,
+   "gurke": 0.3,
+   "zwiebel": 0.25,
+   "olivenoel": 1,
+   "brot": 50
+  },
+  "st": [
+   "Ei 9 Minuten hart kochen.",
+   "Tomaten und Gurke würfeln, Zwiebel fein schneiden, mit Bohnen und Thunfisch mischen.",
+   "Mit Olivenöl, Salz und Pfeffer marinieren, Ei vierteln und mit Brot servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r78",
+  "n": "Ofenkartoffel mit Bohnen & Käse",
+  "e": "🥔",
+  "s": [
+   "mex"
+  ],
+  "t": 15,
+  "need": "MBA",
+  "i": {
+   "kartoffeln": 300,
+   "kidney": 80,
+   "reibkaese": 30,
+   "sauerrahm": 30
+  },
+  "st": [
+   "Erdäpfel einstechen und in der Mikrowelle 8–10 Minuten garen (Backrohr: 45 Minuten bei 200 °C).",
+   "Aufschneiden, Bohnen und Käse darauf verteilen und 1–2 Minuten weitergaren, bis der Käse schmilzt.",
+   "Mit Sauerrahm servieren."
+  ],
+  "type": "m"
+ },
+ {
+  "id": "r79",
+  "n": "Overnight Oats mit Beeren",
+  "e": "🫐",
+  "s": [
+   "leicht"
+  ],
+  "t": 5,
+  "need": "",
+  "i": {
+   "hafer": 50,
+   "joghurt": 100,
+   "beeren": 60
+  },
+  "st": [
+   "Haferflocken mit Joghurt und 50 ml Wasser oder Milch verrühren.",
+   "Über Nacht im Kühlschrank quellen lassen.",
+   "Mit aufgetauten Beeren toppen."
+  ],
+  "type": "f"
+ },
+ {
+  "id": "r80",
+  "n": "Vegane Overnight Oats",
+  "e": "🫐",
+  "s": [
+   "leicht"
+  ],
+  "t": 5,
+  "need": "",
+  "i": {
+   "hafer": 50,
+   "hafermilch": 200,
+   "beeren": 60
+  },
+  "st": [
+   "Haferflocken mit Haferdrink verrühren.",
+   "Über Nacht im Kühlschrank quellen lassen.",
+   "Mit Beeren toppen."
+  ],
+  "type": "f"
+ },
+ {
+  "id": "r81",
+  "n": "Rührei mit Brot",
+  "e": "🍳",
+  "s": [
+   "protein"
+  ],
+  "t": 10,
+  "need": "H",
+  "i": {
+   "eier": 2,
+   "brot": 70,
+   "butter": 10,
+   "fzwiebel": 0.25
+  },
+  "st": [
+   "Eier mit Salz verquirlen.",
+   "In Butter bei mittlerer Hitze cremig stocken lassen.",
+   "Mit Frühlingszwiebeln bestreuen und mit Brot servieren."
+  ],
+  "type": "f"
+ },
+ {
+  "id": "r82",
+  "n": "Porridge mit Banane",
+  "e": "🥣",
+  "s": [],
+  "t": 10,
+  "need": "HM",
+  "i": {
+   "hafer": 50,
+   "milch": 200,
+   "banane": 1
+  },
+  "st": [
+   "Haferflocken mit Milch und einer Prise Salz aufkochen (oder 2 Minuten in die Mikrowelle).",
+   "Unter Rühren 3 Minuten quellen lassen.",
+   "Banane in Scheiben darauf verteilen."
+  ],
+  "type": "f"
+ },
+ {
+  "id": "r83",
+  "n": "Joghurt mit Apfel & Walnüssen",
+  "e": "🍎",
+  "s": [
+   "leicht"
+  ],
+  "t": 5,
+  "need": "",
+  "i": {
+   "joghurt": 150,
+   "apfel": 1,
+   "nuesse": 15
+  },
+  "st": [
+   "Apfel würfeln.",
+   "Joghurt in eine Schüssel geben.",
+   "Apfel und grob gehackte Walnüsse darüberstreuen."
+  ],
+  "type": "f"
+ },
+ {
+  "id": "r84",
+  "n": "Avocado-Brot",
+  "e": "🥑",
+  "s": [
+   "leicht"
+  ],
+  "t": 5,
+  "need": "",
+  "i": {
+   "brot": 80,
+   "avocado": 0.5,
+   "zitrone": 0.15,
+   "tomaten": 50
+  },
+  "st": [
+   "Brot toasten oder frisch verwenden.",
+   "Avocado mit Zitronensaft, Salz und Pfeffer zerdrücken.",
+   "Aufs Brot streichen und mit Tomatenscheiben belegen."
+  ],
+  "type": "f"
+ },
+ {
+  "id": "r85",
+  "n": "Bananen-Hafer-Pancakes",
+  "e": "🥞",
+  "s": [],
+  "t": 15,
+  "need": "H",
+  "i": {
+   "hafer": 50,
+   "banane": 1,
+   "eier": 1,
+   "milch": 50,
+   "oel": 0.5
+  },
+  "st": [
+   "Banane zerdrücken und mit Haferflocken, Ei und Milch verrühren.",
+   "5 Minuten quellen lassen.",
+   "Kleine Pancakes in wenig Öl je Seite 2 Minuten braten."
+  ],
+  "type": "f"
+ },
+ {
+  "id": "r86",
+  "n": "Erdnuss-Bananen-Smoothie",
+  "e": "🥤",
+  "s": [
+   "protein"
+  ],
+  "t": 5,
+  "need": "X",
+  "i": {
+   "hafermilch": 250,
+   "banane": 1,
+   "hafer": 30,
+   "erdnussb": 15
+  },
+  "st": [
+   "Alle Zutaten in den Mixer geben.",
+   "30 Sekunden fein mixen.",
+   "Sofort trinken."
+  ],
+  "type": "f"
+ },
+ {
+  "id": "r87",
+  "n": "Tofu-Rührei mit Brot",
+  "e": "🍳",
+  "s": [
+   "protein"
+  ],
+  "t": 10,
+  "need": "H",
+  "i": {
+   "tofu": 100,
+   "brot": 70,
+   "curry": 0.25,
+   "fzwiebel": 0.25,
+   "oel": 0.5
+  },
+  "st": [
+   "Tofu mit einer Gabel zerbröseln.",
+   "In Öl anbraten, mit Curry und Salz würzen.",
+   "Mit Frühlingszwiebeln bestreuen und mit Brot servieren."
+  ],
+  "type": "f"
+ },
+ {
+  "id": "r88",
+  "n": "Topfen mit Beeren",
+  "e": "🍓",
+  "s": [
+   "protein",
+   "leicht"
+  ],
+  "t": 5,
+  "need": "",
+  "i": {
+   "topfen": 125,
+   "beeren": 80,
+   "hafer": 20
+  },
+  "st": [
+   "Topfen mit einem Schuss Wasser cremig rühren.",
+   "Aufgetaute Beeren daraufgeben.",
+   "Mit Haferflocken bestreuen."
+  ],
+  "type": "f"
+ },
+ {
+  "id": "r89",
+  "n": "Skyr-Bowl mit Banane",
+  "e": "🥣",
+  "s": [
+   "protein",
+   "leicht"
+  ],
+  "t": 5,
+  "need": "",
+  "i": {
+   "skyr": 200,
+   "banane": 0.5,
+   "nuesse": 10
+  },
+  "st": [
+   "Skyr in eine Schüssel geben.",
+   "Banane in Scheiben darauf verteilen.",
+   "Mit gehackten Walnüssen bestreuen."
+  ],
+  "type": "f"
+ },
+ {
+  "id": "r90",
+  "n": "Käsetoast mit Tomate",
+  "e": "🥪",
+  "s": [],
+  "t": 5,
+  "need": "TBA",
+  "i": {
+   "toast": 60,
+   "kaesesch": 30,
+   "tomaten": 50
+  },
+  "st": [
+   "Toast mit Käse belegen.",
+   "Im Toaster, Backrohr oder Airfryer toasten, bis der Käse schmilzt.",
+   "Mit Tomatenscheiben servieren."
+  ],
+  "type": "f"
+ },
+ {
+  "id": "r91",
+  "n": "Spiegelei auf Vollkornbrot",
+  "e": "🍳",
+  "s": [
+   "protein"
+  ],
+  "t": 10,
+  "need": "H",
+  "i": {
+   "eier": 2,
+   "brot": 70,
+   "oel": 0.5,
+   "tomaten": 50
+  },
+  "st": [
+   "Eier in wenig Öl braten, salzen.",
+   "Brot in Scheiben schneiden.",
+   "Spiegeleier auf das Brot legen und mit Tomaten servieren."
+  ],
+  "type": "f"
+ },
+ {
+  "id": "r92",
+  "n": "Bircher-Müsli",
+  "e": "🍏",
+  "s": [
+   "leicht"
+  ],
+  "t": 10,
+  "need": "",
+  "i": {
+   "hafer": 50,
+   "milch": 150,
+   "apfel": 0.5,
+   "nuesse": 10
+  },
+  "st": [
+   "Haferflocken mit Milch verrühren und mindestens 10 Minuten (oder über Nacht) quellen lassen.",
+   "Apfel grob reiben und unterrühren.",
+   "Mit gehackten Walnüssen bestreuen."
+  ],
+  "type": "f"
+ },
+ {
+  "id": "r93",
+  "n": "Beeren-Smoothie",
+  "e": "🥤",
+  "s": [
+   "leicht"
+  ],
+  "t": 5,
+  "need": "X",
+  "i": {
+   "joghurt": 150,
+   "beeren": 100,
+   "banane": 0.5
+  },
+  "st": [
+   "Alle Zutaten mit einem Schuss Wasser in den Mixer geben.",
+   "Fein mixen.",
+   "Sofort trinken."
+  ],
+  "type": "f"
+ }
+]
