@@ -1,0 +1,11 @@
+{
+  "name": "Wochenteller",
+  "short_name": "Wochenteller",
+  "description": "Rezepte, Wochenplan und Einkaufsliste",
+  "start_url": "/#/heute",
+  "display": "standalone",
+  "background_color": "#F2F5F0",
+  "theme_color": "#1F4D36",
+  "lang": "de",
+  "icons": [{"src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable"}]
+}
