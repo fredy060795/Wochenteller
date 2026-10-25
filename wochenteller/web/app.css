@@ -51,7 +51,7 @@ h3{font-size:1rem;margin:18px 0 8px}
 .brand{display:flex;align-items:center;gap:8px;font-family:'Bricolage Grotesque',system-ui,sans-serif;font-weight:800;font-size:1.25rem;letter-spacing:-.02em;color:var(--green);text-decoration:none;background:none;border:0;padding:0;cursor:pointer}
 .brand svg{width:26px;height:26px}
 .top .spacer{flex:1}
-.who{display:flex;align-items:center;gap:7px;min-width:0;max-width:170px;background:var(--surface);border:1.5px solid var(--line);border-radius:999px;padding:3px 12px 3px 3px;font-size:.9rem;font-weight:600;cursor:pointer}
+.who{text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:7px;min-width:0;max-width:170px;background:var(--surface);border:1.5px solid var(--line);border-radius:999px;padding:3px 12px 3px 3px;font-size:.9rem;font-weight:600;cursor:pointer}
 .av{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:#fff;background:var(--green);font-family:'Bricolage Grotesque',system-ui,sans-serif;font-weight:700;font-size:.85rem;flex:none}
 .who .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
@@ -69,7 +69,9 @@ h3{font-size:1rem;margin:18px 0 8px}
   .nav a svg{width:19px;height:19px}
   .nav .badge{position:static;margin-left:-2px}
   .wrap{padding-bottom:60px}
+  .top-in{max-width:1180px}
 }
+@media (min-width:900px) and (max-width:1060px){.brand{font-size:0}.brand svg{width:30px;height:30px}}
 
 /* Grundbausteine */
 .card{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius);padding:16px 18px;margin:0 0 12px}
@@ -204,7 +206,7 @@ input[type=range]{width:100%;accent-color:var(--green);height:32px}
 .steps li{counter-increment:st;position:relative;padding:0 0 12px 40px;max-width:66ch}
 .steps li::before{content:counter(st);position:absolute;left:0;top:-1px;width:28px;height:28px;border-radius:50%;background:var(--green-soft);color:var(--green);font-weight:700;display:grid;place-items:center;font-size:.88rem}
 .steps b{font-weight:650}
-.tbtn{display:inline-flex;align-items:center;gap:5px;margin-left:6px;padding:2px 9px;border-radius:999px;border:1.5px solid var(--green);background:transparent;color:var(--green);font-size:.8rem;font-weight:600;cursor:pointer;vertical-align:middle}
+.tbtn{white-space:nowrap;display:inline-flex;align-items:center;gap:5px;margin-left:6px;padding:2px 9px;border-radius:999px;border:1.5px solid var(--green);background:transparent;color:var(--green);font-size:.8rem;font-weight:600;cursor:pointer;vertical-align:middle}
 .note{font-size:.9rem;color:var(--muted);margin:10px 0}
 .tip{background:var(--amber-soft);border-radius:12px;padding:10px 14px;margin:10px 0;font-size:.93rem}
 .hero{display:flex;gap:16px;align-items:center;margin:8px 0 14px}
@@ -302,6 +304,7 @@ input[type=range]{width:100%;accent-color:var(--green);height:32px}
 
 table.users{width:100%;border-collapse:collapse;font-size:.92rem}
 table.users td,table.users th{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+table.users select{max-width:150px}
 table.users th{color:var(--muted);font-weight:600;font-size:.82rem}
 .pw-show{font-family:'Courier Prime',ui-monospace,monospace;font-size:1.2rem;background:var(--amber-soft);padding:10px 14px;border-radius:10px;letter-spacing:1px;user-select:all;word-break:break-all}
 .foot{font-size:.82rem;color:var(--muted);margin:24px 0 10px;max-width:62ch}

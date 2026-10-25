@@ -323,7 +323,7 @@ class _Planner:
             return 1.0
         # innerhalb der Sperrfrist praktisch ausgeschlossen – außer es gibt nichts anderes,
         # dann gewinnt das Gericht, das am längsten her ist
-        return 1e-4 * (0.05 + best / cooldown) ** 2
+        return 1e-8 * (0.05 + best / cooldown) ** 2
 
     def pick(self, pool, weights, rng):
         tot = sum(weights)
@@ -336,7 +336,7 @@ class _Planner:
                 return r
         return pool[-1]
 
-    def plan_week(self, units, bf_slots, week_rows_fixed, first_week, trials):
+    def plan_week(self, units, bf_slots, week_rows_fixed, stock, prefer_fridge, trials):
         """units: Liste von Slot-Listen [(date, slot), ...]; liefert die beste Variante."""
         S, rng = self.S, self.rng
         if not units and not bf_slots:
@@ -349,7 +349,8 @@ class _Planner:
             if not row.get("cooked") and row["cook_portions"] and row["recipe_id"] in self.buy:
                 for iid, q, _p, _c in self.buy[row["recipe_id"]]:
                     fixed_need[iid] = fixed_need.get(iid, 0) + q * row["cook_portions"]
-        fridge = S["fridge"] if first_week else {}
+        fridge = stock                                   # was schon da ist (Vorrat + Reste aus Vorwochen)
+        pref = S["fridge"] if prefer_fridge else {}       # echter Kühlschrank: bevorzugt verbrauchen
         p = S["persons"]
         best, best_score = None, -1e18
         for _ in range(trials):
@@ -365,14 +366,17 @@ class _Planner:
                     if b <= 0:
                         ws.append(0)
                         continue
-                    w = b * self.gap_factor(r["id"], o, local, self.cooldown)
-                    w /= 1 + 0.8 * self.uses.get(r["id"], 0)
+                    gf = self.gap_factor(r["id"], o, local, self.cooldown)
+                    if gf < 1:
+                        ws.append(b * gf)  # in der Sperrfrist – Kosten muss man nicht mehr ausrechnen
+                        continue
+                    w = b / (1 + 0.8 * self.uses.get(r["id"], 0))
                     w *= self.cost_factor(r["id"], need, fridge, servings, per)
                     ms = self.main_sets[r["id"]]
                     if wset:
                         w *= 1 + 0.15 * len(ms & wset)
-                    if fridge:
-                        w *= 1 + 0.6 * sum(1 for i in ms if fridge.get(i, 0) > 0)
+                    if pref:
+                        w *= 1 + 0.6 * sum(1 for i in ms if pref.get(i, 0) > 0)
                     if prev is not None:
                         if main_cuisine(r) and main_cuisine(r) == main_cuisine(prev):
                             w *= 0.55
@@ -408,7 +412,7 @@ class _Planner:
                     for iid, q, _p, _c in self.buy[pk["id"]]:
                         need[iid] = need.get(iid, 0) + q * p * len(bf_slots) / want
                 bf_choice = [(sl, picks[i % len(picks)]) for i, sl in enumerate(bf_slots)]
-            sc = self.score(chosen, bf_choice, week_rows_fixed, fridge)
+            sc = self.score(chosen, bf_choice, week_rows_fixed, stock)
             if sc > best_score:
                 best_score, best = sc, (chosen, bf_choice)
         return best
@@ -498,6 +502,7 @@ def generate(S, existing_rows, start, weeks, today=None, seed=None, days=None):
         return [], dict(info, error="Mit diesen Einstellungen passt leider kein Gericht. Wähle mehr Küchengeräte "
                                     "oder Proteinquellen aus oder entferne ein paar blockierte Zutaten.")
     fixed_keys = {(r["date"], r["slot"]) for r in fixed}
+    stock = dict(S["fridge"]) if start < today + timedelta(days=7) else {}
     trials = max(8, min(60, 240 // weeks))
     p = S["persons"]
     rows = []
@@ -509,8 +514,18 @@ def generate(S, existing_rows, start, weeks, today=None, seed=None, days=None):
         units = build_units(mains, mealprep)
         wk_fixed = [r for r in fixed if d2s(ws) <= r["date"] < d2s(ws + timedelta(days=7))]
         first = monday(ws) <= this_monday < monday(ws) + timedelta(days=7) or (w == 0 and ws >= today)
-        chosen, bf_choice = P.plan_week(units, bfs, wk_fixed, first, trials)
+        chosen, bf_choice = P.plan_week(units, bfs, wk_fixed, stock, first, trials)
         P.commit(chosen, bf_choice)
+        wk_needs = {}
+        for u, r in chosen:
+            for iid, q in eff_ings(r, S):
+                wk_needs[iid] = wk_needs.get(iid, 0) + q * p * len(u)
+        for _sl, r in bf_choice:
+            for iid, q in eff_ings(r, S):
+                wk_needs[iid] = wk_needs.get(iid, 0) + q * p
+        for iid, q in needs_for(S, wk_fixed).items():
+            wk_needs[iid] = wk_needs.get(iid, 0) + q
+        stock = carry_stock(S, stock, wk_needs)
         for u, r in chosen:
             for k, (d, slot) in enumerate(u):
                 rows.append({"date": d2s(d), "slot": slot, "recipe_id": r["id"], "portions": p,
@@ -544,7 +559,7 @@ def alternatives(S, all_rows, date_s, slot, exclude=None, limit=None, seed=None)
         if not row.get("cooked") and row["cook_portions"] and row["recipe_id"] in P.buy:
             for iid, q, _p, _c in P.buy[row["recipe_id"]]:
                 need[iid] = need.get(iid, 0) + q * row["cook_portions"]
-    fridge = S["fridge"] if monday(d) == monday(date.today()) else {}
+    fridge = stock_at(S, others, monday(d), date.today()) if monday(d) >= monday(date.today()) else {}
     if slot == "frueh":
         per *= 0.45
     scored = []
@@ -609,9 +624,38 @@ def week_rows(rows, week_monday):
     return [r for r in rows if a <= r["date"] < b]
 
 
+SHELF_STABLE = {"Trockenware", "Konserven", "Gewürze & Öle", "Tiefkühl"}
+
+
+def carry_stock(S, stock, needs):
+    """Vorrat nach einer Woche: fehlende Mengen werden in ganzen Packungen gekauft, verbraucht wird der Bedarf.
+    Haltbares bleibt für die nächste Woche übrig, Frisches verfällt."""
+    new = dict(stock)
+    for iid, q in needs.items():
+        if iid in S["pantry"]:
+            continue
+        have = new.get(iid, 0)
+        if have >= q:
+            new[iid] = have - q
+        else:
+            pack = INGS[iid]["pack"]
+            new[iid] = have + math.ceil((q - have) / pack - 1e-6) * pack - q
+    return {k: v for k, v in new.items() if v > 1e-6 and INGS[k]["cat"] in SHELF_STABLE}
+
+
+def stock_at(S, rows, week_monday, today):
+    """Erwarteter Vorrat zu Beginn einer künftigen Woche (heutiger Vorrat + Reste der Wochen davor)."""
+    stock, w, t = dict(S["fridge"]), monday(today), d2s(today)
+    while w < week_monday:
+        stock = carry_stock(S, stock, needs_for(S, week_rows(rows, w), t))
+        w += timedelta(days=7)
+    return stock
+
+
 def shopping_for_week(S, rows, week_monday, today=None, store=None):
-    """Einkaufsliste einer Woche. Der Vorrat wird chronologisch ab heute verteilt:
-    zuerst auf die laufende Woche, dann auf die folgenden – so wird nichts doppelt gezählt."""
+    """Einkaufsliste einer Woche. Der Vorrat wird chronologisch ab heute fortgeschrieben:
+    zuerst für die laufende Woche, dann für die folgenden – so wird nichts doppelt gezählt,
+    und eine angebrochene Packung Reis muss nächste Woche nicht neu gekauft werden."""
     today = today or date.today()
     store = store or current_store(S)
     mult = STORE_MULT[store]
@@ -619,35 +663,19 @@ def shopping_for_week(S, rows, week_monday, today=None, store=None):
     t = d2s(today)
     if week_monday < this_monday:
         needs = needs_for(S, week_rows(rows, week_monday))
-        res = shopping_items(S, needs, mult, {})
-        res["mode"] = "past"
+        stock = {}
+        mode = "past"
     else:
-        fridge = dict(S["fridge"])
-        w = this_monday
-        while w < week_monday:
-            for iid, q in needs_for(S, week_rows(rows, w), t).items():
-                if iid in fridge:
-                    fridge[iid] = max(0, fridge[iid] - q)
-            w += timedelta(days=7)
+        stock = stock_at(S, rows, week_monday, today)
         needs = needs_for(S, week_rows(rows, week_monday), t)
-        res = shopping_items(S, needs, mult, fridge)
-        res["mode"] = "current" if week_monday == this_monday else "future"
+        mode = "current" if week_monday == this_monday else "future"
+    res = shopping_items(S, needs, mult, stock)
+    res["mode"] = mode
     res["needs"] = needs
     res["store"] = store
-    res["compare"] = sorted(([s, shopping_items(S, needs, STORE_MULT[s], {} if res["mode"] == "past" else fridge_for_compare(S, rows, week_monday, today))["total"]]
-                             for s in S["stores"]), key=lambda x: x[1])
+    res["compare"] = sorted(([s, shopping_items(S, needs, STORE_MULT[s], stock)["total"]] for s in S["stores"]),
+                            key=lambda x: x[1])
     return res
-
-
-def fridge_for_compare(S, rows, week_monday, today):
-    fridge = dict(S["fridge"])
-    w, t = monday(today), d2s(today)
-    while w < week_monday:
-        for iid, q in needs_for(S, week_rows(rows, w), t).items():
-            if iid in fridge:
-                fridge[iid] = max(0, fridge[iid] - q)
-        w += timedelta(days=7)
-    return fridge
 
 
 def grouped_items(items):

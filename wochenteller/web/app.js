@@ -362,7 +362,11 @@ function setShop(s) { SHOP = s; SHOP.open = s.items.filter(it => !s.checked[it.i
 /* ---------- Plan ---------- */
 VIEWS.plan = {
   async load() {
-    if (!ui.planWeek) ui.planWeek = iso(mondayOf(today()));
+    if (!ui.planWeek) {
+      await ensurePlan(todayS(), iso(addDays(today(), 14)));
+      const next = PLAN.rows.find(r => r.date >= todayS());   // auf der Woche mit der nächsten Mahlzeit öffnen
+      ui.planWeek = iso(mondayOf(next ? parseD(next.date) : today()));
+    }
     if (ui.planMode === 'monat') {
       const m = ui.planMonth ? parseD(ui.planMonth) : new Date(today().getFullYear(), today().getMonth(), 1);
       ui.planMonth = iso(m);
@@ -1003,7 +1007,7 @@ A['pd-go'] = async b => {
   const w = +(document.querySelector('#pd-weeks [aria-pressed="true"]') || {dataset: {v: 4}}).dataset.v;
   if (!s) return;
   b.disabled = true; b.textContent = 'Plane …';
-  try { await generate(s, w); closeDialog(); ui.wizard = null; ui.planMode = 'woche'; ui.planWeek = iso(mondayOf(parseD(s))); if (route.name !== 'plan') location.hash = '#/plan?day=' + s; else { route.q = {day: s}; render(); } }
+  try { await generate(s, w); closeDialog(); ui.wizard = null; ui.planMode = 'woche'; ui.planWeek = iso(mondayOf(parseD(s))); if (route.name !== 'plan') { route = {name: 'plan', arg: null, q: {day: s}}; location.hash = '#/plan?day=' + s; } else { route.q = {day: s}; render(); } }
   catch (e) { b.disabled = false; b.textContent = 'Plan erstellen'; }
 };
 A['plan-generate-week'] = async b => {
@@ -1137,7 +1141,9 @@ A['w-finish'] = async b => {
   if (!s) return;
   b.disabled = true; b.textContent = 'Plane …';
   try { await generate(s, ui.wizard.weeks); } catch (e) { b.disabled = false; b.textContent = 'Plan erstellen'; return; }
-  ui.wizard = null; ui.planWeek = iso(mondayOf(parseD(s))); location.hash = '#/heute'; render();
+  ui.wizard = null; ui.planWeek = iso(mondayOf(parseD(s)));
+  route = {name: 'heute', arg: null, q: {}};
+  if (location.hash === '#/heute') render(); else location.hash = '#/heute';
 };
 
 /* ---------- Eingaben & Formulare ---------- */
